@@ -9,6 +9,10 @@ import axios from "axios";
 export class TestConnComponent implements OnInit {
 
   testStr = ""
+  pizzas = [{
+    pizzaId: null,
+    name: ""
+  }]
 
   constructor() { }
 
@@ -16,8 +20,8 @@ export class TestConnComponent implements OnInit {
   ngOnInit(): void {
     axios.get('http://localhost:1234/testconn')
       .then((res) => {
-        this.testStr = res.data;
-        console.log(this.testStr);
+        this.pizzas = res.data;
+        console.log(this.pizzas);
       })
       .catch((err: any) => {
         console.log(err);

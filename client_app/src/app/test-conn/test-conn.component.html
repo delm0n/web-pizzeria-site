@@ -1,2 +1,9 @@
 <p>test-conn works!</p>
 <p>{{testStr}}</p>
+
+<div *ngFor="let pizza of pizzas">
+    <div class="row">
+        <div>{{pizza.pizzaId}}</div>
+        <div>{{pizza.name}}</div>
+    </div>
+</div>
