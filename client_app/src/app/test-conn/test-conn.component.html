@@ -1,9 +1,12 @@
 <p>test-conn works!</p>
 <p>{{testStr}}</p>
 
-<div *ngFor="let pizza of pizzas">
-    <div class="row">
-        <div>{{pizza.pizzaId}}</div>
-        <div>{{pizza.name}}</div>
+<div *ngFor="let pizza of pizzas; index as i;">
+
+    <div *ngIf="i % 3 === 0" class="row">
+        <div> Пицца: {{pizza.name}}</div>
+        <div> От {{pizza.price}} руб.</div>
+        <button (click)="inParents(i)">click</button>
     </div>
+
 </div>

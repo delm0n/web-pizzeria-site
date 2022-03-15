@@ -1,4 +1,5 @@
 ﻿using Nancy.Hosting.Self;
+using serverPart.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace serverPart
 
             HostConfiguration hostConfiguration = new HostConfiguration();
             hostConfiguration.UrlReservations.CreateAutomatically = true;
+
 
             using (var host = new NancyHost(hostConfiguration, uri))
             {

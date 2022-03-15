@@ -1,4 +1,10 @@
 .row {
     display: flex;
-    
+    width: 50%;
+    margin: 0 auto;
+
+}
+
+.row > div {
+    margin-left: 10px;
 }
