@@ -13,7 +13,7 @@ namespace serverPart
     {
         public Test_conn()
         {
-            Get["/testconn"] = x => {
+            Get["/test"] = x => {
                 List<Pizza> pizzas = new List<Pizza>();
 
                  using (var dbContext = new ApplicationContext())

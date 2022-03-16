@@ -8,6 +8,7 @@ import { TestConnComponent } from './test-conn/test-conn.component';
 import { ModalComponentComponent } from './modal-component/modal-component.component';
 
 import { ModalPizzaService } from './modal-pizza.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { ModalPizzaService } from './modal-pizza.service';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgbModule
   ],
   providers: [ModalPizzaService],
   bootstrap: [AppComponent]

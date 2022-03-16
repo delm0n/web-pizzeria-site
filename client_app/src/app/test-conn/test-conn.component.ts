@@ -18,23 +18,28 @@ export class TestConnComponent implements OnInit {
     mass: null
   }]
 
+  pizzasCard = [{
+    pizzaId: null,
+    name: "",
+    price: null,
+  }]
+
   constructor(private pizzaService: ModalPizzaService) { }
 
   inParents(i: any) {
-    this.pizzaService.pizzas[0] = this.pizzas[i]
-    this.pizzaService.pizzas[1] = this.pizzas[i+1]
-    this.pizzaService.pizzas[2] = this.pizzas[i+2]
+    this.pizzaService.pizzas = this.pizzas.filter(p => p.pizzaId === i || p.pizzaId === i+1 || p.pizzaId === i+2)
 
-    
     this.pizzaService.modalPizzaFlug = true
-    
-    
   }
+  
   //chrome.exe --disable-web-security --disable-gpu --allow-file-access-from-files --user-data-dir=C:\temp\
   ngOnInit(): void {
-    axios.get('http://localhost:1234/testconn')
+    axios.get('http://localhost:1234/test')
       .then((res) => {
         this.pizzas = res.data;
+        this.pizzasCard = this.pizzas.filter(p => p.size === 0)
+        console.log(this.pizzasCard);
+        
       })
       .catch((err: any) => {
         console.log(err);
