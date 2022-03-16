@@ -10,7 +10,6 @@ import { ModalPizzaService } from '../modal-pizza.service';
 })
 export class TestConnComponent implements OnInit {
 
-  testStr = ""
   pizzas = [{
     pizzaId: null,
     size: null,
@@ -25,6 +24,9 @@ export class TestConnComponent implements OnInit {
     this.pizzaService.pizzas[0] = this.pizzas[i]
     this.pizzaService.pizzas[1] = this.pizzas[i+1]
     this.pizzaService.pizzas[2] = this.pizzas[i+2]
+
+    
+    this.pizzaService.modalPizzaFlug = true
     
     
   }

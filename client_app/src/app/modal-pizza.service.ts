@@ -18,5 +18,7 @@ export class ModalPizzaService {
     console.log(this.pizzas);  
   }
 
+  modalPizzaFlug = false
+
   constructor() { }
 }

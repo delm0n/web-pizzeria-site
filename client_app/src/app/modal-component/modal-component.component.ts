@@ -29,4 +29,8 @@ export class ModalComponentComponent implements OnInit, AfterViewChecked {
     this.pizzas = this.pizzaService.pizzas
 
   }
+
+  closeModal() {
+    this.pizzaService.modalPizzaFlug = false
+  }
 }

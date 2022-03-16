@@ -1,5 +1,5 @@
 <div>Родительский компонент</div>
-<app-modal-component></app-modal-component>
+<app-modal-component *ngIf="flug"></app-modal-component>
 <a routerLink="/test">Перейти к тестированию</a>
 
 <router-outlet></router-outlet>
