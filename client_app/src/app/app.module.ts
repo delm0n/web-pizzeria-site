@@ -9,12 +9,16 @@ import { ModalComponentComponent } from './modal-component/modal-component.compo
 
 import { ModalPizzaService } from './modal-pizza.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { TestTailwComponent } from './test-tailw/test-tailw.component';
+import { AppNavComponent } from './myapp/app-nav/app-nav.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TestConnComponent,
-    ModalComponentComponent
+    ModalComponentComponent,
+    TestTailwComponent,
+    AppNavComponent
   ],
   imports: [
     BrowserModule,

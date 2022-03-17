@@ -9,14 +9,23 @@ import { ModalPizzaService } from '../modal-pizza.service';
   providers: []
 })
 export class TestConnComponent implements OnInit {
-
+  
+  //НАЧИНАТЬ С МАЛЕНЬКОЙ БУКВЫ
   pizzas = [{
-    pizzaId: null,
-    size: null,
-    name: "",
-    price: null,
-    mass: null
-  }]
+      pizzaId: null,
+      pizzaName: "",
+      minPrice: null,
+
+    }]
+  // pizzas = [{
+  //   pizzaId: null,
+  //   size: null,
+  //   name: "",
+  //   price: null,
+  //   mass: null
+  // }]
+
+  
 
   pizzasCard = [{
     pizzaId: null,
@@ -27,8 +36,9 @@ export class TestConnComponent implements OnInit {
   constructor(private pizzaService: ModalPizzaService) { }
 
   inParents(i: any) {
-    this.pizzaService.pizzas = this.pizzas.filter(p => p.pizzaId === i || p.pizzaId === i+1 || p.pizzaId === i+2)
-
+    //this.pizzaService.pizzas = this.pizzas.filter(p => p.pizzaId === i || p.pizzaId === i+1 || p.pizzaId === i+2)
+    console.log(i);
+    this.pizzaService.getSizes(i)
     this.pizzaService.modalPizzaFlug = true
   }
   
@@ -37,13 +47,13 @@ export class TestConnComponent implements OnInit {
     axios.get('http://localhost:1234/test')
       .then((res) => {
         this.pizzas = res.data;
-        this.pizzasCard = this.pizzas.filter(p => p.size === 0)
-        console.log(this.pizzasCard);
+        //console.log( res.data);
+        console.log(this.pizzas);
         
+        //this.pizzasCard = this.pizzas.filter(p => p.size === 0)
       })
       .catch((err: any) => {
         console.log(err);
       });
   }
-
 }

@@ -18,6 +18,14 @@ export class ModalComponentComponent implements OnInit, AfterViewChecked {
     mass: null
   }]
 
+  pizzaSize = [{
+    pizzaSizeId: null,
+    pizzaId: null,
+    name: "",
+    price: null,
+    mass: null
+  }]
+
   constructor(private pizzaService: ModalPizzaService) { }
   
   
@@ -27,7 +35,7 @@ export class ModalComponentComponent implements OnInit, AfterViewChecked {
   ngAfterViewChecked(): void {
 
     this.pizzas = this.pizzaService.pizzas
-
+    this.pizzaSize = this.pizzaService.pizzaSize
   }
 
   closeModal() {

@@ -18,32 +18,70 @@ namespace serverPart
 
                  using (var dbContext = new ApplicationContext())
                  {
-                    /*
-                     dbContext.Pizzas.Add(new Pizza
+                    /*dbContext.Pizzas.Add(new Pizza
                     {
-                        Name = "Ананасовая",
-                        Mass = 500,
+                        PizzaName = "Ананасовая",
+                        MinPrice = 390.35M 
+                    });
+                    dbContext.Pizzas.Add(new Pizza
+                    {
+                        PizzaName = "Охотничья",
+                        MinPrice = 340.85M
+                    });
+                    dbContext.SaveChanges(); 
+
+                    dbContext.PizzaSizes.Add(new PizzaSize
+                    {
+                        Name = "Маленькая",
+                        Mass = 400,
                         Price = 390.35M,
-                        Size = Sizes.Small
+                        Pizza = dbContext.Pizzas.Where(p => p.PizzaName == "Ананасовая").FirstOrDefault(),
                     });
-
-                    dbContext.Pizzas.Add(new Pizza
+                    dbContext.PizzaSizes.Add(new PizzaSize
                     {
-                        Name = "Ананасовая",
-                        Mass = 750,
-                        Price = 590.35M,
-                        Size = Sizes.Middle
+                        Name = "Средняя",
+                        Mass = 550,
+                        Price = 460.35M,
+                        Pizza = dbContext.Pizzas.Where(p => p.PizzaName == "Ананасовая").FirstOrDefault(),
                     });
-
-                    dbContext.Pizzas.Add(new Pizza
+                    dbContext.PizzaSizes.Add(new PizzaSize
                     {
-                        Name = "Ананасовая",
-                        Mass = 1100,
-                        Price = 890.35M,
-                        Size = Sizes.Big
+                        Name = "Большая",
+                        Mass = 800,
+                        Price = 680.35M,
+                        Pizza = dbContext.Pizzas.Where(p => p.PizzaName == "Ананасовая").FirstOrDefault(),
                     });
 
+
+                    dbContext.PizzaSizes.Add(new PizzaSize
+                    {
+                        Name = "Маленькая",
+                        Mass = 400,
+                        Price = 340.85M,
+                        Pizza = dbContext.Pizzas.Where(p => p.PizzaName == "Охотничья").FirstOrDefault(),
+                    });
+                    dbContext.PizzaSizes.Add(new PizzaSize
+                    {
+                        Name = "Средняя",
+                        Mass = 550,
+                        Price = 460.85M,
+                        Pizza = dbContext.Pizzas.Where(p => p.PizzaName == "Охотничья").FirstOrDefault(),
+                    });
+                    dbContext.PizzaSizes.Add(new PizzaSize
+                    {
+                        Name = "Большая",
+                        Mass = 800,
+                        Price = 780.85M,
+                        Pizza = dbContext.Pizzas.Where(p => p.PizzaName == "Охотничья").FirstOrDefault(),
+                    });
                     dbContext.SaveChanges();
+
+
+
+                    
+                     
+
+                                        dbContext.SaveChanges();
                     
                                         dbContext.Ingredients.Add(new Ingredient
                                         {
@@ -81,6 +119,23 @@ namespace serverPart
 
                 //return Response.AsJson("testing axios in angular");
                 return Response.AsJson(pizzas);
+
+
+                //return string.Concat("testing axios in angular");
+            };
+
+            Get["/testsize"] = x => {
+                List<PizzaSize> pizzaSize = new List<PizzaSize>();
+
+                using (var dbContext = new ApplicationContext())
+                {
+                    pizzaSize = dbContext.PizzaSizes.ToList();
+
+                }
+
+
+                //return Response.AsJson("testing axios in angular");
+                return Response.AsJson(pizzaSize);
 
 
                 //return string.Concat("testing axios in angular");

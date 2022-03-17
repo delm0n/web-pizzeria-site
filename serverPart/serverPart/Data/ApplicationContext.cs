@@ -12,6 +12,7 @@ namespace serverPart.Data
     {
         public DbSet<Pizza> Pizzas { get; set; }
         public DbSet<Ingredient> Ingredients { get; set; }
+        public DbSet<PizzaSize> PizzaSizes { get; set; }
 
         /*
         public DbSet<Order> Orders { get; set; }
@@ -21,6 +22,7 @@ namespace serverPart.Data
         public DbSet<Salad> Salads { get; set; }
         public DbSet<Snack> Snacks { get; set; }
         */
+
         public ApplicationContext() : base(nameOrConnectionString: "PGConnectionString") { }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

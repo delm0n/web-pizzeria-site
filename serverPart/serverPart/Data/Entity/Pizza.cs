@@ -10,24 +10,18 @@ using System.Threading.Tasks;
 
 namespace serverPart.Data.Entity
 {
-    public enum Sizes
-    {
-        //[Description("Маленькая")]
-        Small,
-
-        //[Description("Средняя")]
-        Middle,
-
-        //[Description("Большая")]
-        Big
-    }
-    public class Pizza : Dish
+    public class Pizza
     {
         public int PizzaId { get; set; }
-        
-        public Sizes Size { get; set; }
 
+        public string PizzaName { get; set; }
+        
         //состав
+        //public string Decription { get; set; }
+
+        public decimal MinPrice { get; set;}
+
+        public ICollection<PizzaSize> PizzaSizes { get; set; }
         
     }
 }

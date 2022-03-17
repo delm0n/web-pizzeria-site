@@ -1,23 +1,10 @@
-<!-- <div class="row">
-  <div *ngFor="let pizza of pizzas; index as i;" class="card" style="width: 18rem;">
-     <img class="card-img-top" src="..." alt="Card image cap"> 
-    <div *ngIf="pizza.size === 0" class="card-body">
-      <h5 class="card-title">{{pizza.name}}</h5>
-      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-      <div>
-        <div> От {{pizza.price}} руб.</div>
-        <a href="#" class="btn btn-primary">Выбрать</a>
-      </div>
-      
-    </div>
-</div>
-</div> -->
 
-<div
+<!-- <img src="..." class="card-img-top" alt="..."> -->
+<!-- <div
 class="my-2 row row-cols-1 row-cols-md-3 g-4">
   <div *ngFor="let pizza of pizzasCard; index as i;"   class="col">
     <div class="card h-100">
-      <!-- <img src="..." class="card-img-top" alt="..."> -->
+      
       <div class="card-body">
         <h5 class="card-title">{{pizza.name}}</h5>
         <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
@@ -27,4 +14,24 @@ class="my-2 row row-cols-1 row-cols-md-3 g-4">
     </div>
   </div>
   
+</div> -->
+
+
+<!-- ------------------------ -->
+
+<div
+class="my-2 row row-cols-1 row-cols-md-3 g-4">
+  <div *ngFor="let pizza of pizzas; index as i;" class="col">
+    <div class="card h-100">
+      <!-- <img src="..." class="card-img-top" alt="..."> -->
+      <div class="card-body">
+        <h5 class="card-title">{{pizza.pizzaName}}</h5>
+        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+        <div> От {{pizza.minPrice}} руб.</div>
+        <a (click)="inParents(pizza.pizzaId)" class="btn btn-primary">Выбрать</a>
+      </div>
+    </div>
+  </div>
+  
 </div>
+

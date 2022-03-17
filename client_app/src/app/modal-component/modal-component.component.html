@@ -1,9 +1,22 @@
-<div id="overlay" (click)="closeModal()"></div>
+<!-- <div id="overlay" (click)="closeModal()"></div>
 <div id="modal-window">
     <div *ngFor="let pizza of pizzas;">
 
         <div class="row">
             <div> Пицца: {{pizza.name}}</div>
+            <div> От {{pizza.price}} руб.</div>
+        </div>
+
+    </div>
+</div> -->
+
+<div id="overlay" (click)="closeModal()"></div>
+<div id="modal-window">
+    <div *ngFor="let pizza of pizzaSize;">
+
+        <div class="row">
+            <div> Пицца: {{pizza.name}}</div>
+            <div>{{pizza.mass}} грамм</div>
             <div> От {{pizza.price}} руб.</div>
         </div>
 

@@ -103,6 +103,7 @@
     <Compile Include="Data\Entity\Ingredient.cs" />
     <Compile Include="Data\Entity\Order.cs" />
     <Compile Include="Data\Entity\Pizza.cs" />
+    <Compile Include="Data\Entity\PizzaSize.cs" />
     <Compile Include="Data\Entity\Salad.cs" />
     <Compile Include="Data\Entity\Snack.cs" />
     <Compile Include="Migrations\202203131536448_test-conn.cs" />
@@ -116,6 +117,14 @@
     <Compile Include="Migrations\202203151737338_addIngredientEntity.cs" />
     <Compile Include="Migrations\202203151737338_addIngredientEntity.designer.cs">
       <DependentUpon>202203151737338_addIngredientEntity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202203170649107_addPizzaAndSizes.cs" />
+    <Compile Include="Migrations\202203170649107_addPizzaAndSizes.designer.cs">
+      <DependentUpon>202203170649107_addPizzaAndSizes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202203170753042_addPlaceForSizeInt.cs" />
+    <Compile Include="Migrations\202203170753042_addPlaceForSizeInt.designer.cs">
+      <DependentUpon>202203170753042_addPlaceForSizeInt.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
@@ -135,6 +144,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202203151737338_addIngredientEntity.resx">
       <DependentUpon>202203151737338_addIngredientEntity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202203170649107_addPizzaAndSizes.resx">
+      <DependentUpon>202203170649107_addPizzaAndSizes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202203170753042_addPlaceForSizeInt.resx">
+      <DependentUpon>202203170753042_addPlaceForSizeInt.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
