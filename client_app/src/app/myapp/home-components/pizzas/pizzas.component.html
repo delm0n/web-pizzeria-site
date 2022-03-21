@@ -34,9 +34,9 @@
     
   
   <!-- модальное окно -->
-  <div [ngClass]="'z-50 fixed w-full flex justify-center inset-0 ' + (modal ? 'hidden' : 'block')">
+  <div [ngClass]="'z-50 fixed w-full flex justify-center inset-0 ' + (modal ? 'hidden' : 'block')"  >
     <div  (click)="modalBtn()" class="w-full h-full  opacity-40 bg-gray-900 z-0 absolute inset-0"></div>
-    <div class="mx-auto container">
+    <div class="mx-auto container" [@openClose]="modal ? 'hidden' : 'block'">
         <div class="flex items-center justify-center h-full w-full">
             <div class="bg-white rounded-md shadow fixed overflow-y-auto sm:h-auto w-10/12 md:w-10/12 lg:w-11/12 2xl:w-4/5">
                 <div class="bg-gray-100 rounded-tl-md rounded-tr-md px-4 py-3 md:px-8 md:py-4 md:py-7 flex items-center justify-between">
@@ -49,7 +49,14 @@
                     </button>
                 </div>
                 <div class="px-4 md:px-10 pt-6 md:pt-12 md:pb-4 pb-7">
-
+                  <div class="flex flex-col sm:flex-row">
+                    <div class="h-max-62 my-auto">
+                      <img [src]="modalPizzas.urlImg" alt="" class="object-fill w-full h-full rounded opacity-95">
+                    </div>
+                    <div>
+                      <p>The box is now {{ modal ? 'block' : 'hidden' }}!</p>
+                    </div>
+                  </div>
                     <!-- <div class="flex items-center justify-center">
                         <div tabindex="0" aria-label="img" role="img" class="focus:outline-none w-40 h-40 p-16 bg-gray-100 rounded-md flex items-center justify-center">
                             <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -8,6 +8,7 @@ import { TestConnComponent } from './test-conn/test-conn.component';
 
 import { ModalPizzaService } from './modal-pizza.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppNavComponent } from './myapp/app-nav/app-nav.component';
 import { HomePageComponent } from './myapp/home-page/home-page.component';
@@ -23,6 +24,7 @@ import { PizzasComponent } from './myapp/home-components/pizzas/pizzas.component
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     NgbModule
   ],

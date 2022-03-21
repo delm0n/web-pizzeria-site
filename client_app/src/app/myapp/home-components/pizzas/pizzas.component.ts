@@ -1,13 +1,39 @@
 import { Component, OnInit } from '@angular/core';
 import axios from "axios";
 import { ModalPizzaService } from '../../../modal-pizza.service';
+import { HostBinding } from '@angular/core';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition
+} from '@angular/animations';
 
 @Component({
   selector: 'app-pizzas',
   templateUrl: './pizzas.component.html',
-  styleUrls: ['./pizzas.component.css']
+  styleUrls: ['./pizzas.component.css'],
+  animations: [
+    trigger('openClose', [
+      // ...
+      state('block', style({
+        opacity: 1,
+      })),
+      state('hidden', style({
+        opacity: 0,
+      })),
+      transition('block => hidden', [
+        animate('0s')
+      ]),
+      transition('hidden => block', [
+        animate('0.4s')
+      ]),
+    ]),
+  ],
 })
 export class PizzasComponent implements OnInit {
+
 
   pizzas = [{
     pizzaId: null,
@@ -27,8 +53,6 @@ export class PizzasComponent implements OnInit {
       mass: null
     }]
   }
-
-
 
   modal: boolean = true;
   modalBtn(){
