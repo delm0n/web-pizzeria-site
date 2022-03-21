@@ -9,24 +9,13 @@ import { ModalPizzaService } from './modal-pizza.service';
 })
 export class AppComponent implements AfterContentChecked  {
   title = 'client_app';
-  flug = false
 
   constructor(private pizzaService: ModalPizzaService, private cdref: ChangeDetectorRef ) {}
 
   ngAfterContentChecked() {
-    this.flug = this.pizzaService.modalPizzaFlug
     this.cdref.detectChanges();
   }
 
   //chrome.exe --disable-web-security --disable-gpu --allow-file-access-from-files --user-data-dir=C:\temp\
-  
-
-
-  // ngOnChanges(changes: SimpleChanges): void {
-  //   this.flug = this.pizzaService.modalPizzaFlug
-  //   console.log(1);
-    
-  // }
-
   
 }

@@ -3,6 +3,7 @@ using serverPart.Data;
 using serverPart.Data.Entity;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace serverPart
     {
         public Test_conn()
         {
-            Get["/test"] = _ =>  {
+            Get["/pizza"] = _ =>  {
                 List<Pizza> pizzas = new List<Pizza>();
 
                  using (var dbContext = new ApplicationContext())
@@ -28,7 +29,7 @@ namespace serverPart
                 return Response.AsJson(pizzas);
             };
 
-            Get["/testsize"] = x => {
+            Get["/sizeofpizza"] = _ => {
                 List<PizzaSize> pizzaSize = new List<PizzaSize>();
 
                 using (var dbContext = new ApplicationContext())
@@ -36,6 +37,30 @@ namespace serverPart
                     pizzaSize = dbContext.PizzaSizes.ToList();
 
                 }
+                return Response.AsJson(pizzaSize);
+            };
+
+            Get["/sizeofasync/{id}", runAsync: true] = async (x, token) =>
+            {
+                List<PizzaSize> pizzaSize = new List<PizzaSize>();
+                int param = x.id;
+                using (var dbContext = new ApplicationContext())
+                {
+                    pizzaSize = await dbContext.PizzaSizes.Where(p => p.PizzaId == param).ToListAsync();
+                }
+
+                return Response.AsJson(pizzaSize);
+            };
+
+            Get["/sizeof/{id}"] = parameters =>
+            {
+                List<PizzaSize> pizzaSize = new List<PizzaSize>();
+                int param = parameters.id;
+                using (var dbContext = new ApplicationContext())
+                {
+                    pizzaSize = dbContext.PizzaSizes.Where(p => p.PizzaId == param).ToList();
+                }
+
                 return Response.AsJson(pizzaSize);
             };
         }
