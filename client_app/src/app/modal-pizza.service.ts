@@ -27,11 +27,9 @@ export class ModalPizzaService {
     axios.get('http://localhost:1234/testsize')
       .then((res) => {
         this.pizzaSize = res.data.filter(((p: { pizzaId: any; }) => p.pizzaId === i));
-        console.log(res.data);
-        console.log(this.pizzaSize );
-        
-        
-        
+        //console.log(res.data);
+        //console.log(this.pizzaSize );
+
         //this.pizzasCard = this.pizzas.filter(p => p.size === 0)
       })
       .catch((err: any) => {
@@ -39,10 +37,7 @@ export class ModalPizzaService {
       });
   }
 
-  consoler() {
-    console.log(this.pizzas);  
-  }
-
+  //убрать
   modalPizzaFlug = false
 
   constructor() { }

@@ -14,24 +14,14 @@ export class TestConnComponent implements OnInit {
   pizzas = [{
       pizzaId: null,
       pizzaName: "",
+      urlImg: "",
       minPrice: null,
-
     }]
-  // pizzas = [{
-  //   pizzaId: null,
-  //   size: null,
-  //   name: "",
-  //   price: null,
-  //   mass: null
-  // }]
 
-  
-
-  pizzasCard = [{
-    pizzaId: null,
-    name: "",
-    price: null,
-  }]
+  modal: boolean = true;
+  modalBtn(){
+    this.modal=!this.modal
+  }
 
   constructor(private pizzaService: ModalPizzaService) { }
 
@@ -47,10 +37,7 @@ export class TestConnComponent implements OnInit {
     axios.get('http://localhost:1234/test')
       .then((res) => {
         this.pizzas = res.data;
-        //console.log( res.data);
         console.log(this.pizzas);
-        
-        //this.pizzasCard = this.pizzas.filter(p => p.size === 0)
       })
       .catch((err: any) => {
         console.log(err);

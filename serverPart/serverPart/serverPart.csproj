@@ -126,6 +126,10 @@
     <Compile Include="Migrations\202203170753042_addPlaceForSizeInt.designer.cs">
       <DependentUpon>202203170753042_addPlaceForSizeInt.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202203201943566_addurlImg.cs" />
+    <Compile Include="Migrations\202203201943566_addurlImg.designer.cs">
+      <DependentUpon>202203201943566_addurlImg.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -151,6 +155,12 @@
     <EmbeddedResource Include="Migrations\202203170753042_addPlaceForSizeInt.resx">
       <DependentUpon>202203170753042_addPlaceForSizeInt.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202203201943566_addurlImg.resx">
+      <DependentUpon>202203201943566_addurlImg.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="RouterModule\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

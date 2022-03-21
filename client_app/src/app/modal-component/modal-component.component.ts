@@ -9,7 +9,6 @@ import { ModalPizzaService } from '../modal-pizza.service';
 })
 export class ModalComponentComponent implements OnInit, AfterViewChecked {
 
-
   pizzas = [{
     pizzaId: null,
     size: null,
@@ -33,12 +32,8 @@ export class ModalComponentComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked(): void {
-
     this.pizzas = this.pizzaService.pizzas
     this.pizzaSize = this.pizzaService.pizzaSize
   }
 
-  closeModal() {
-    this.pizzaService.modalPizzaFlug = false
-  }
 }

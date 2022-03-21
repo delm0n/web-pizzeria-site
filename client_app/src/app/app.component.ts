@@ -18,6 +18,7 @@ export class AppComponent implements AfterContentChecked  {
     this.cdref.detectChanges();
   }
 
+  //chrome.exe --disable-web-security --disable-gpu --allow-file-access-from-files --user-data-dir=C:\temp\
   
 
 

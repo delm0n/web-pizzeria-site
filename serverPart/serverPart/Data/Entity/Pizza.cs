@@ -14,6 +14,8 @@ namespace serverPart.Data.Entity
     {
         public int PizzaId { get; set; }
 
+        public string UrlImg { get; set; }
+
         public string PizzaName { get; set; }
         
         //состав
