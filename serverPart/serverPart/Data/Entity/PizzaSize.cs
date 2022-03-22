@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 
 namespace serverPart.Data.Entity
 {
-    public class PizzaSize : Dish
+    public class PizzaSize
     {
         public int PizzaSizeId { get; set;}
+        public string NameSize { get; set; }
+        public decimal Price { get; set; }
+        public int Mass { get; set; }
 
         public int PizzaId { get; set;}
         public Pizza Pizza { get; set; }

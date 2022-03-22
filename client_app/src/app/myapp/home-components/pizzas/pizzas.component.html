@@ -16,13 +16,13 @@
             </div>
             <div class="flex flex-wrap ">
               <div class="flex items-center justify-between w-full min-w-0 text-gray-400 pt-2 pb-4 font-light">
-                <p>описание описание описание описание </p>
+                <p>{{pizza.structure}}</p>
               </div>          
             </div>
             <div class="flex items-center justify-between w-full min-w-0 ">
               <div class="text-lg font-normal">От {{pizza.minPrice}} ₽</div>
               
-              <button (click)="modalBtn(); openPizzaModal(pizza.pizzaId, pizza.pizzaName, pizza.urlImg)" class="mx-2 my-2 bg-green-600 transition
+              <button (click)="modalBtn(); openPizzaModal(pizza.pizzaId, pizza.pizzaName, pizza.urlImg, pizza.structure)" class="mx-2 my-2 bg-green-600 transition
                duration-150 ease-in-out hover:bg-green-700 rounded 
                text-white text-base px-6 py-2 ">Выбрать</button>
             </div> 
@@ -35,13 +35,13 @@
   
   <!-- модальное окно -->
   <div [ngClass]="'z-50 fixed w-full flex justify-center inset-0 ' + (modal ? 'hidden' : 'block')"  >
-    <div  (click)="modalBtn()" class="w-full h-full  opacity-40 bg-gray-900 z-0 absolute inset-0"></div>
+    <div  (click)="modalBtn()" class="w-full h-full opacity-40 bg-gray-900 z-0 absolute inset-0"></div>
     <div class="mx-auto container" [@openClose]="modal ? 'hidden' : 'block'">
-        <div class="flex items-center justify-center h-full w-full">
-            <div class="bg-white rounded-md shadow fixed overflow-y-auto sm:h-auto w-10/12 md:w-10/12 lg:w-11/12 2xl:w-4/5">
+        <div class="flex items-center justify-center h-full w-full" >
+            <div class="bg-white rounded-md shadow fixed overflow-y-auto sm:h-auto w-10/12 md:w-10/12 lg:max-w-4xl ">
                 <div class="bg-gray-100 rounded-tl-md rounded-tr-md px-4 py-3 md:px-8 md:py-4 md:py-7 flex items-center justify-between">
                     <p class="text-base font-semibold text-gray-900">{{modalPizzas.pizzaName}} пицца</p>
-                    <button role="button" aria-label="close label"  (click)="modalBtn()" class="focus:ring-2 focus:ring-offset-2 focus:ring-gray-600 focus:outline-none">
+                    <button role="button" aria-label="close label" (click)="modalBtn()" class="">
                         <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M21 7L7 21" stroke="#A1A1AA" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"></path>
                             <path d="M7 7L21 21" stroke="#A1A1AA" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -50,11 +50,58 @@
                 </div>
                 <div class="px-4 md:px-10 pt-6 md:pt-12 md:pb-4 pb-7">
                   <div class="flex flex-col sm:flex-row">
-                    <div class="h-max-62 my-auto">
+                    <div class="h-max-62 my-auto" >
                       <img [src]="modalPizzas.urlImg" alt="" class="object-fill w-full h-full rounded opacity-95">
                     </div>
-                    <div>
-                      <p>The box is now {{ modal ? 'block' : 'hidden' }}!</p>
+                    <div class="flex-1 ml-0 md: ml-4">
+                      <div class="w-full min-w-0 text-gray-400 pt-2 pb-4 font-light">
+                        <p>Состав: {{modalPizzas.structure}}</p>
+                      </div> 
+                      <div class="flex-col">
+                        <h3>Размер:</h3>
+                        
+                      <div class="xl:w-full xl:mx-0 h-12 hidden sm:block bg-white rounded ">
+                        <div class="justify-between flex-wrap sm:block bg-white rounded">
+                          <div class="xl:w-full xl:mx-0 h-12">
+                              <ul class="flex items-center h-full text-center">
+                                  <li (click)="active_status = 0" [ngClass]="active_status == 0 ? 'flex-1 text-sm text-green-700 py-2 px-3 bg-white rounded font-medium shadow'
+                                   : 'flex-1 bg-gray-100 text-sm text-gray-600 py-2 px-3 font-normal hover:text-green-700 cursor-pointer'">
+                                   {{modalPizzas.sizes[0].name}}</li>
+                                  <li (click)="active_status = 1" [ngClass]="active_status == 1 ? 'flex-1 text-sm text-green-700 py-2 px-3 bg-white rounded font-medium shadow' 
+                                  : 'flex-1 bg-gray-100 text-sm text-gray-600 py-2 px-3 font-normal hover:text-green-700 cursor-pointer'">
+                                  {{modalPizzas.sizes[1].name}}</li>
+                                  <li (click)="active_status = 2" [ngClass]="active_status == 2 ? 'flex-1 text-sm text-green-700 py-2 px-3 bg-white rounded  font-medium shadow' 
+                                  : 'flex-1 bg-gray-100 text-sm text-gray-600 py-2 px-3 font-normal hover:text-green-700 cursor-pointer'">
+                                  {{modalPizzas.sizes[2].name}}</li>
+                                  
+                              </ul>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="h-12 sm:hidden bg-white rounded ">
+                        <div class="justify-between flex-wrap sm:block bg-white rounded">
+                          <div class="xl:w-full xl:mx-0 h-12">
+                              <ul class="flex items-center h-full text-center">
+                                  <li (click)="active_status = 0" [ngClass]="active_status == 0 ? 'flex-1 text-sm text-green-700 font-medium py-2 px-3 bg-white rounded shadow' 
+                                  : 'flex-1 bg-gray-100 text-sm text-gray-600 py-2 px-3 font-normal hover:text-green-700 cursor-pointer'">
+                                  25 см.</li>
+                                  <li (click)="active_status = 1" [ngClass]="active_status == 1 ? 'flex-1 text-sm text-green-700 font-medium py-2 px-3 bg-white rounded shadow' 
+                                  : 'flex-1 bg-gray-100 text-sm text-gray-600 py-2 px-3 font-normal hover:text-green-700 cursor-pointer'">
+                                  35 см.</li>
+                                  <li (click)="active_status = 2" [ngClass]="active_status == 2 ? 'flex-1 text-sm text-green-700 font-medium py-2 px-3 bg-white rounded shadow' 
+                                  : 'flex-1 bg-gray-100 text-sm text-gray-600 py-2 px-3 font-normal hover:text-green-700 cursor-pointer'">
+                                  41 см.</li>
+                                  
+                              </ul>
+                          </div>
+                        </div>
+                      </div>
+                      </div>
+
+                      <div>
+                        <h1></h1>
+                      </div>
+
                     </div>
                   </div>
                     <!-- <div class="flex items-center justify-center">

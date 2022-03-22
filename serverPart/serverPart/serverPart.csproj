@@ -130,6 +130,10 @@
     <Compile Include="Migrations\202203201943566_addurlImg.designer.cs">
       <DependentUpon>202203201943566_addurlImg.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202203221404091_updpizzaandpizzasize.cs" />
+    <Compile Include="Migrations\202203221404091_updpizzaandpizzasize.designer.cs">
+      <DependentUpon>202203221404091_updpizzaandpizzasize.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -157,6 +161,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202203201943566_addurlImg.resx">
       <DependentUpon>202203201943566_addurlImg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202203221404091_updpizzaandpizzasize.resx">
+      <DependentUpon>202203221404091_updpizzaandpizzasize.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

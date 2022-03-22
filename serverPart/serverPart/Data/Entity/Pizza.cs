@@ -19,7 +19,7 @@ namespace serverPart.Data.Entity
         public string PizzaName { get; set; }
         
         //состав
-        //public string Decription { get; set; }
+        public string Structure { get; set; }
 
         public decimal MinPrice { get; set;}
 
