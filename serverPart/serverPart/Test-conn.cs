@@ -19,6 +19,7 @@ namespace serverPart
 
                  using (var dbContext = new ApplicationContext())
                  {
+                    
                     pizzas = dbContext.Pizzas.ToList();
 
                  } 

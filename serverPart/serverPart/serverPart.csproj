@@ -134,6 +134,10 @@
     <Compile Include="Migrations\202203221404091_updpizzaandpizzasize.designer.cs">
       <DependentUpon>202203221404091_updpizzaandpizzasize.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202203221745146_addarrays.cs" />
+    <Compile Include="Migrations\202203221745146_addarrays.designer.cs">
+      <DependentUpon>202203221745146_addarrays.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -164,6 +168,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202203221404091_updpizzaandpizzasize.resx">
       <DependentUpon>202203221404091_updpizzaandpizzasize.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202203221745146_addarrays.resx">
+      <DependentUpon>202203221745146_addarrays.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

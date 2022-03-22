@@ -60,43 +60,58 @@ export class PizzasComponent implements OnInit {
     structure: "",
     sizes: [{
       pizzaSizeId: null,
-      name : "", //имя размера
+      nameSize : "", //имя размера
       price: null,
       mass: null
     },
     {
       pizzaSizeId: null,
-      name : "", //имя размера
+      nameSize : "", //имя размера
       price: null,
       mass: null
     },
     {
       pizzaSizeId: null,
-      name : "", //имя размера
+      nameSize : "", //имя размера
       price: null,
       mass: null
     }
   ]}
   
   active_status = 0
-
+  countModal = 1
   modal: boolean = true;
+  calculationPrice: number = 0
+
   modalBtn(){
 
     this.modal=!this.modal;
-
+    this.countModal = 1
+    this.active_status = 0;
+    
     this.modalPizzas = {pizzaId: null,
       pizzaName: "",
       urlImg: "",
       structure: "",
       sizes: [{
         pizzaSizeId: null,
-        name : "", //имя размера
+        nameSize : "", //имя размера
         price: null,
         mass: null
-      }]};
-
-      this.active_status = 0;
+      },
+      {
+        pizzaSizeId: null,
+        nameSize : "", //имя размера
+        price: null,
+        mass: null
+      },
+      {
+        pizzaSizeId: null,
+        nameSize : "", //имя размера
+        price: null,
+        mass: null
+      }
+    ]};
   }
   
   openPizzaModal(i: any, i_name: string, i_url: string, i_struct: string) {
@@ -107,7 +122,7 @@ export class PizzasComponent implements OnInit {
         this.modalPizzas.pizzaName = i_name;
         this.modalPizzas.urlImg = i_url;
         this.modalPizzas.structure = i_struct;
-
+        // this.calculationPrice = this.active_status * this.countModal;
         this.modalPizzas.sizes = res.data;     
         console.log(this.modalPizzas);
       })
@@ -118,8 +133,23 @@ export class PizzasComponent implements OnInit {
 
   constructor(private pizzaService: ModalPizzaService) { }
   //this.pizzaService.getSizes(i) - обращаемся к сервису
-
   
+  decrement(active: number) {
+    if (this.countModal > 1) {
+      this.countModal--;    
+      // let number: any = this.modalPizzas.sizes[active].price
+      // this.calculationPrice = number * this.countModal;
+    } 
+  }
+        
+
+  increment(active: number) {
+    this.countModal++;
+    // let number: any = this.modalPizzas.sizes[active].price
+    // this.calculationPrice = number * this.countModal;
+  }
+
+
   
   //chrome.exe --disable-web-security --disable-gpu --allow-file-access-from-files --user-data-dir=C:\temp\
   ngOnInit(): void {
