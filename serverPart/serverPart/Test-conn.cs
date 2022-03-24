@@ -14,44 +14,7 @@ namespace serverPart
     {
         public Test_conn()
         {
-            Get["/pizza"] = _ =>  {
-                List<Pizza> pizzas = new List<Pizza>();
-
-                 using (var dbContext = new ApplicationContext())
-                 {
-                    
-                    pizzas = dbContext.Pizzas.ToList();
-
-                 } 
-
-
-                //return Response.AsJson("testing axios in angular");
-
-                return Response.AsJson(pizzas);
-            };
-
-            Get["/sizeofpizza"] = _ => {
-                List<PizzaSize> pizzaSize = new List<PizzaSize>();
-
-                using (var dbContext = new ApplicationContext())
-                {
-                    pizzaSize = dbContext.PizzaSizes.ToList();
-
-                }
-                return Response.AsJson(pizzaSize);
-            };
-
-            Get["/sizeofasync/{id}", runAsync: true] = async (x, token) =>
-            {
-                List<PizzaSize> pizzaSize = new List<PizzaSize>();
-                int param = x.id;
-                using (var dbContext = new ApplicationContext())
-                {
-                    pizzaSize = await dbContext.PizzaSizes.Where(p => p.PizzaId == param).ToListAsync();
-                }
-
-                return Response.AsJson(pizzaSize);
-            };
+            
 
             Get["/sizeof/{id}"] = parameters =>
             {

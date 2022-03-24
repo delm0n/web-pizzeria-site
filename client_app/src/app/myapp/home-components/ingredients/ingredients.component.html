@@ -1,0 +1,18 @@
+<h2 class="text-sm font-semibold py-2">Добавить ингредиенты</h2>
+<div id="ingredients_block" class="grid gap-2 sm:gap-x-1 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 select-none">
+    <div *ngFor="let ing of ingreds; index as i;" class="w-full p-1 lg:px-0 rounded-lg border-2 border-gray-200 cursor-pointer"
+    [ngClass]="this.boolArrayView[i] == true ? 'w-full p-1 lg:px-0 rounded-lg border-2 border-green-600 cursor-pointer' 
+    : 'w-full p-1 lg:px-0 rounded-lg border-2 border-gray-200 cursor-pointer'"
+    (click)="addIngred(ing.ingredientId, i)" style="min-width: 90px;">
+        <div class="bg-white rounded flex flex-col">
+            <div
+        class="mb-1 h-14 w-full lg:mb-0 max-w-xs mx-auto">
+           <img [src]="ing.urlImg" 
+          alt="Just a flower" class="object-fill w-auto h-full rounded mx-auto">
+        </div>
+        <div class="text-gray-400 text-center text-sm font-light leading-tight" style="min-height: 50px;">{{ing.name}} {{ing.mass}}г</div>
+        <div class="text-center text-base font-medium">+ {{ing.price}} ₽</div>
+
+        </div>
+    </div>
+</div>

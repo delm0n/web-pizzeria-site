@@ -13,6 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppNavComponent } from './myapp/app-nav/app-nav.component';
 import { HomePageComponent } from './myapp/home-page/home-page.component';
 import { PizzasComponent } from './myapp/home-components/pizzas/pizzas.component';
+import { IngredientsComponent } from './myapp/home-components/ingredients/ingredients.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { PizzasComponent } from './myapp/home-components/pizzas/pizzas.component
     TestConnComponent,
     AppNavComponent,
     HomePageComponent,
-    PizzasComponent
+    PizzasComponent,
+    IngredientsComponent
   ],
   imports: [
     BrowserModule,

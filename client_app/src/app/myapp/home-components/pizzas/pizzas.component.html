@@ -2,8 +2,10 @@
   <div *ngFor="let pizza of pizzas; index as i;" class="w-full p-2 lg:px-0">
     <div class="p-3 bg-white rounded  ">
       <div class="">
-        <div class="relative w-full mb-3 h-62 lg:mb-0 max-w-xs mx-auto">
-          <img [src]="pizza.urlImg" alt="Just a flower" class="object-fill w-full h-full rounded opacity-95">
+        <div
+        class="relative max-w-full mb-3 h-62 lg:mb-0 max-w-xs mx-auto flex-initial">
+          <img [src]="pizza.urlImg" (click)="modalBtn(); openPizzaModal(pizza.pizzaId, pizza.pizzaName, pizza.urlImg, pizza.structure)" 
+          alt="Just a flower" class="object-fill w-full h-full rounded opacity-95 cursor-pointer">
         </div>
         <div class="flex-auto p-2 justify-evenly">
           <div class="flex flex-wrap ">
@@ -14,7 +16,7 @@
             </div>
           </div>
           <div class="flex flex-wrap ">
-            <div class="flex items-center justify-between w-full min-w-0 text-gray-400 pt-2 pb-4 font-light">
+            <div class="flex items-center justify-between w-full min-w-0 text-gray-400 pt-2 pb-4 font-light " style="height: 120px;">
               <p>{{pizza.structure}}</p>
             </div>
           </div>
@@ -34,11 +36,11 @@
 
 
 <!-- модальное окно -->
-<div [ngClass]="'z-50 fixed w-full flex justify-center inset-0 ' + (modal ? 'hidden' : 'block')">
+<div id="modalWindow" [ngClass]="'z-50 fixed w-full flex justify-center inset-0 ' + (modal ? 'hidden' : 'block')">
   <div (click)="modalBtn()" class="w-full h-full opacity-40 bg-gray-900 z-0 absolute inset-0"></div>
   <div class="mx-auto container" [@openClose]="modal ? 'hidden' : 'block'">
     <div class="flex items-center justify-center h-full w-full">
-      <div class="bg-white rounded-md shadow fixed overflow-y-auto sm:h-auto w-10/12 md:w-10/12 lg:max-w-4xl ">
+      <div id="modalMobile" class="bg-white rounded-md shadow fixed overflow-y-auto sm:h-auto w-10/12 md:w-10/12 lg:max-w-4xl ">
         <div
           class="bg-gray-100 rounded-tl-md rounded-tr-md px-4 py-3 md:px-8 md:py-4 md:py-7 flex items-center justify-between">
           <p class="text-base font-semibold text-gray-900">{{modalPizzas.pizzaName}} пицца</p>
@@ -51,12 +53,13 @@
             </svg>
           </button>
         </div>
-        <div class="px-4 md:px-10 pt-6 md:pt-12 md:pb-4 pb-7">
+        <div class="px-4 md:px-10 py-5 md:py-6">
           <div class="flex flex-col sm:flex-row">
-            <div class="h-max-62 my-auto">
+            <div class="sm:h-max-31  my-auto flex-initial">
               <img [src]="modalPizzas.urlImg" alt="" class="object-fill w-full h-full rounded opacity-95">
             </div>
-            <div class="flex-1 ml-0 md: ml-4">
+
+            <div id="modalNotMobile" class=" ml-0 sm:ml-2 pr-2">
               <div class="w-full min-w-0 text-gray-400 py-2 font-light">
                 <p>Состав: {{modalPizzas.structure}}</p>
               </div>
@@ -91,22 +94,26 @@
                     <div class="xl:w-full xl:mx-0 h-12">
                       <ul class="flex items-center h-full text-center">
                         <li (click)="active_status = 0"
-                          [ngClass]="active_status == 0 ? 'flex-1 text-sm text-green-700 font-medium py-2 px-3 bg-white rounded shadow' 
-                                  : 'flex-1 bg-gray-100 text-sm text-gray-600 py-2 px-3 font-normal hover:text-green-700 cursor-pointer'">
+                          [ngClass]="active_status == 0 ? 'flex-1 text-sm text-green-700 font-medium py-2 px-2 bg-white rounded shadow' 
+                                  : 'flex-1 bg-gray-100 text-sm text-gray-600 py-2 px-2 font-normal hover:text-green-700 cursor-pointer'">
                           25 см.</li>
                         <li (click)="active_status = 1"
-                          [ngClass]="active_status == 1 ? 'flex-1 text-sm text-green-700 font-medium py-2 px-3 bg-white rounded shadow' 
-                                  : 'flex-1 bg-gray-100 text-sm text-gray-600 py-2 px-3 font-normal hover:text-green-700 cursor-pointer'">
+                          [ngClass]="active_status == 1 ? 'flex-1 text-sm text-green-700 font-medium py-2 px-2 bg-white rounded shadow' 
+                                  : 'flex-1 bg-gray-100 text-sm text-gray-600 py-2 px-2 font-normal hover:text-green-700 cursor-pointer'">
                           35 см.</li>
                         <li (click)="active_status = 2"
-                          [ngClass]="active_status == 2 ? 'flex-1 text-sm text-green-700 font-medium py-2 px-3 bg-white rounded shadow' 
-                                  : 'flex-1 bg-gray-100 text-sm text-gray-600 py-2 px-3 font-normal hover:text-green-700 cursor-pointer'">
+                          [ngClass]="active_status == 2 ? 'flex-1 text-sm text-green-700 font-medium py-2 px-2 bg-white rounded shadow' 
+                                  : 'flex-1 bg-gray-100 text-sm text-gray-600 py-2 px-2 font-normal hover:text-green-700 cursor-pointer'">
                           41 см.</li>
 
                       </ul>
                     </div>
                   </div>
                 </div>
+              </div>
+
+              <div (click)="checkIngredients()" class="py-2">
+                <app-ingredients></app-ingredients>
               </div>
 
 
@@ -119,10 +126,10 @@
                 </div>
                 
                 <div>
-                  <div *ngIf="active_status == 0">{{modalPizzas.sizes[0].price}} ₽</div>
-                  <div *ngIf="active_status == 1">{{modalPizzas.sizes[1].price}} ₽</div>
-                  <div *ngIf="active_status == 2">{{modalPizzas.sizes[2].price}} ₽</div> 
-                  <div>{{calculationPrice}}</div>
+                  <div *ngIf="active_status == 0">{{plusIngrPrice + modalPizzas.sizes[0].price * countModal | number: '.0-2' }} ₽</div>
+                  <div *ngIf="active_status == 1">{{plusIngrPrice + modalPizzas.sizes[1].price * countModal | number: '.0-2'}} ₽</div>
+                  <div *ngIf="active_status == 2">{{plusIngrPrice + modalPizzas.sizes[2].price * countModal | number: '.0-2'}} ₽</div> 
+                 
                 </div>
 
               </div>

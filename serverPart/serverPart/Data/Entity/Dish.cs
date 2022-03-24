@@ -10,7 +10,7 @@ namespace serverPart.Data.Entity
     {
         public string Name { get; set; }
 
-        //public string Urlimп { get; set; }
+        public string UrlImg { get; set; }
 
         public decimal Price { get; set; }
         

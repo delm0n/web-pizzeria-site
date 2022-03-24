@@ -138,9 +138,14 @@
     <Compile Include="Migrations\202203221745146_addarrays.designer.cs">
       <DependentUpon>202203221745146_addarrays.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202203241058398_addUrl.cs" />
+    <Compile Include="Migrations\202203241058398_addUrl.designer.cs">
+      <DependentUpon>202203241058398_addUrl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RouterModule\HomePage.cs" />
     <Compile Include="Test-conn.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -172,10 +177,11 @@
     <EmbeddedResource Include="Migrations\202203221745146_addarrays.resx">
       <DependentUpon>202203221745146_addarrays.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202203241058398_addUrl.resx">
+      <DependentUpon>202203241058398_addUrl.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="RouterModule\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

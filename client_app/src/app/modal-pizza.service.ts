@@ -7,33 +7,37 @@ import axios from "axios";
 
 export class ModalPizzaService {
 
-  // pizzas = [{
-  //   pizzaId: null,
-  //   size: null,
-  //   name: "",
-  //   price: null,
-  //   mass: null
-  // }]
+  priceOfIngreds = 0
 
-  // pizzaSize = [{
-  //   pizzaSizeId: null,
-  //   pizzaId: null,
-  //   name: "",
-  //   price: null,
-  //   mass: null
-  // }]
+  plusPrice(price: number) {
+    this.priceOfIngreds += price;
+  }
 
-  // getSizes(i: any) {
-  //   axios.get('http://localhost:1234/testsize')
-  //     .then((res) => {
-  //       this.pizzaSize = res.data.filter(((p: { pizzaId: any; }) => p.pizzaId === i));
-  //       console.log(this.pizzaSize);
-        
-  //     })
-  //     .catch((err: any) => {
-  //       console.log(err);
-  //     });
-  // }
+  minusPrice(price: number) {
+    this.priceOfIngreds -= price;
+  }
+
+  clearPrice() {
+    this.priceOfIngreds = 0;
+  }
+
+  boolArrayServ: boolean[] = [];
+
+  setBooler(index: number) { 
+    for(let i = 0; i < index; i++) {
+      this.boolArrayServ[i] = false;
+      this.step = index
+    }   
+  }
+
+  step :number = 0
+  setBooler_step() { //если мы уже открывали модальное окно - чтобы лишний раз не обращаться к серверу
+    for(let i = 0; i < this.step; i++) {
+      this.boolArrayServ[i] = false;
+    }   
+  }
+
+
 
   constructor() { }
 }
