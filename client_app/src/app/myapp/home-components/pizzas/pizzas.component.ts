@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import axios from "axios";
-import { ModalPizzaService } from '../../../modal-pizza.service';
+//import { ModalPizzaService } from '../../../modal-pizza.service';
+import { ModalPizzaService } from '../../../myservices/modal-pizza/modal-pizza.service';
+
 import { HostBinding } from '@angular/core';
 import {
   trigger,
@@ -89,17 +91,25 @@ export class PizzasComponent implements OnInit {
 
     //махинации с прокруткой
     if ( document.body.style.overflow == 'hidden') { 
+
       document.body.style.overflow = 'visible';
-      document.getElementById('modalNotMobile')!.style.overflow = 'visible';
-      document.getElementById('modalMobile')!.style.overflow = 'visible';
+    //   if(document.body.clientWidth < 639) {
+    //   document.getElementById('modalNotMobile')!.style.overflow = 'visible';
+    //   document.getElementById('modalMobile')!.style.overflow = 'visible';
+    //   }
+    //   else {
+    //     document.getElementById('modalNotMobile')!.style.overflow = 'visible';
+    //     document.getElementById('modalMobile')!.style.overflow = 'auto';
+    //   }
+
     } else {
-      document.body.style.overflow = 'hidden';   
-      if(document.body.clientWidth > 639) {
-        document.getElementById('modalNotMobile')!.style.overflow = 'auto';
-      }
-      else {
-        document.getElementById('modalMobile')!.style.overflow = 'auto';
-      }
+       document.body.style.overflow = 'hidden';   
+    //   if(document.body.clientWidth > 639) {
+    //     document.getElementById('modalNotMobile')!.style.overflow = 'auto';
+    //   }
+    //   else {
+    //     document.getElementById('modalMobile')!.style.overflow = 'auto';
+    //   }
     }
     
     //размечаем пустой класс
@@ -163,10 +173,14 @@ export class PizzasComponent implements OnInit {
         
 
   increment(active: number) {
+    if (this.countModal < 11) {
     this.countModal++;
+    }
   }
 
-
+  addToCart() {
+    console.log('hello');  
+  }
   
   //chrome.exe --disable-web-security --disable-gpu --allow-file-access-from-files --user-data-dir=C:\temp\
   ngOnInit(): void {

@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { TestConnComponent } from './test-conn/test-conn.component';
 import { HomePageComponent } from './myapp/home-page/home-page.component';
+import { LogInComponent } from './myapp/account/log-in/log-in.component';
+import { RegistrationComponent } from './myapp/account/registration/registration.component';
 
 const routes: Routes = [
   {
@@ -16,8 +18,13 @@ const routes: Routes = [
   },
 
   {
-    path: 'tailw',
-    component: TestConnComponent
+    path: 'log-in',
+    component: LogInComponent
+  },
+
+  {
+    path: 'register',
+    component: RegistrationComponent
   },
 ];
 

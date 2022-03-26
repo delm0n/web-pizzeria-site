@@ -1,6 +1,6 @@
-<div class="fixed z-30 w-screen shadow-sm">
+<div class="fixed z-30 w-screen shadow">
     <nav class="bg-white text-green-600">
-      <div class="flex px-4 py-2">
+      <div class="flex px-4 py-3">
 
         <div class="flex-shrink-0">
           <h1
@@ -12,41 +12,30 @@
         </div>
 
         <div class="hidden md:inline flex-grow mt-2 ml-8">
-          <ul class="flex text-lg md:text-xl">
+          <ul class="flex text-lg md:text-xl justify-end">
             <li class="mx-4">
               <a
-                [routerLink]="['/']"
+                [routerLink]="['/log-in']"
                 class="
-                  px-3 py-1 rounded-md text-shadow text-center cursor-pointer
-                  hover:text-green-700 font-medium
+                  px-3 pb-1 rounded-md text-shadow text-center cursor-pointer
+                  hover:text-green-700 font-medium text-base
                   "
                 >
-                Home
-              </a>
-            </li>
-            <li class="mx-4 px-2">
-              <a
-                [routerLink]="['/test']"
-                class="
-                  px-3 py-1 rounded-md text-shadow text-center cursor-pointer
-                  hover:text-green-700 font-medium  
-                  "
-                >
-                test
+                Войти в аккаунт
               </a>
             </li>
             <li class="mx-4 px-2">
                 <a
-                  [routerLink]="['/tailw']"
+                  [routerLink]="['/test']"
                   class="
                     px-3 py-1 rounded-md text-shadow text-center cursor-pointer
                     hover:text-green-700 font-medium  
                     "
                   >
-                  tailw
+                  test
                 </a>
               </li>
-          </ul>
+          </ul> 
         </div>
 
         <div class="flex flex-grow justify-end md:hidden">
@@ -54,17 +43,18 @@
             (click)="toggleHamburger()"
             class="
               inline-flex items-center justify-center p-2 rounded-md text-green-600
-              hover:text-white hover:bg-green-700 focus:outline-none focus:bg-green-700
-              focus:text-white 
+               
               "
+              type="button" data-bs-toggle="collapse" data-bs-target="#collapse-nav" 
+              aria-expanded="false" aria-controls="collapse-nav"
             >
             <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-              <path [ngClass]="{'hidden': hamburgerOpen, 'inline-flex': !hamburgerOpen }"
-                class="inline-flex" stroke-linecap="round" stroke-linejoin="round"
+              <path 
+              [ngClass]="{'hidden': hamburgerOpen, 'inline-flex': !hamburgerOpen}" stroke-linecap="round" stroke-linejoin="round"
                 stroke-width="2" d="M4 6h16M4 12h16M4 18h16"
                 />
-              <path [ngClass]="{'hidden': !hamburgerOpen, 'inline-flex': hamburgerOpen }"
-                class="hidden" stroke-linecap="round" stroke-linejoin="round"
+              <path 
+                [ngClass]="{'hidden': !hamburgerOpen, 'inline-flex': hamburgerOpen}" stroke-linecap="round" stroke-linejoin="round"
                 stroke-width="2" d="M6 18L18 6M6 6l12 12"
                 />
             </svg>
@@ -74,30 +64,34 @@
         <div class="flex items-center ">
           <button class="
           inline-flex items-center justify-center p-2 rounded-md 
-          hover:text-white hover:bg-green-700 focus:outline-none focus:bg-green-700
-          focus:text-white active:text-white active:bg-green-700
+         
+          
           "
           [routerLink]="['/tailw']">
             <svg width="1.4em" height="1.4em" viewBox="0 0 16 16" class="bi bi-cart4" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd" d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l.5 2H5V5H3.14zM6 5v2h2V5H6zm3 0v2h2V5H9zm3 0v2h1.36l.5-2H12zm1.11 3H12v2h.61l.5-2zM11 8H9v2h2V8zM8 8H6v2h2V8zM5 8H3.89l.5 2H5V8zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"/>
             </svg>
+            <!-- <span class="flex h-3 w-3 mb-3 -ml-1"> 
+              <span class="relative inline-flex rounded-full h-3 w-3 bg-red-600 text-white text-center font-bold" 
+              style="font-size: 7px;"></span>
+            </span> -->
             <div class="hidden md:block ml-2 font-medium">Корзина</div>
           </button>
           
         </div>
 
       </div>
-      <div [hidden]="!hamburgerOpen" class="pb-2">
+      <div class="collapse pb-2" id="collapse-nav">
         <ul class="text-lg md:text-xl">
           <li class="mx-4">
             <a
-              [routerLink]="['/']"
+              [routerLink]="['/log-in']"
               class="
                 px-3 py-1 rounded-md text-shadow text-center cursor-pointer
                 hover:text-green-700 font-medium 
                 "
               >
-              Home
+              Войти в аккаунт
             </a>
           </li>
           <li class="mx-4">
@@ -111,7 +105,7 @@
               test
             </a>
           </li>
-          <li class="mx-4">
+          <!-- <li class="mx-4">
             <a
               [routerLink]="['/tailw']"
               class="
@@ -121,7 +115,7 @@
               >
               tailw
             </a>
-          </li>
+          </li> -->
         </ul>
       </div>
     </nav>

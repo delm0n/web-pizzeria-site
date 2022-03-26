@@ -1,0 +1,118 @@
+<div class="flex items-center min-h-screen bg-slate-50/50">
+    <div class="container mx-auto">
+        <div class="max-w-lg mx-auto my-10 p-1 sm:p-4 ">
+            <div class="text-center">
+                <h1 class="my-3 text-3xl font-semibold text-gray-700 text-grey-900">Регистрация</h1>
+
+            </div>
+            <div class="sm:m-7">
+                <form action="">
+
+                    <div class="mb-6">
+                        <div class="flex flex-row items-center justify-between">
+                            <label for="firstName"
+                                class="block mb-2 text-sm font-semibold text-gray-600 dark:text-gray-400">Имя</label>
+                            <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)">
+                                <div *ngIf="firstName.errors?.['required']"
+                                    class="block mb-2 text-sm font-semibold text-red-600">
+                                    Это поле обязательно!
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <input [(ngModel)]="person.firstName" type="tel" name="firstName" #firstName="ngModel"
+                            placeholder="Ваше имя" required
+                            [ngClass]="firstName.invalid && (firstName.dirty || firstName.touched) && firstName.errors?.['required'] ? 'w-full px-3 py-2 placeholder-gray-300 rounded-md focus:outline-none focus:ring focus:ring-green-200 focus:border-green-300 border-red-500 ' 
+                                  : 'w-full px-3 py-2 placeholder-gray-300 border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-green-200 focus:border-green-300'" />
+                    </div>
+
+                    <div class="mb-6">
+                        <div class="flex flex-row items-center justify-between">
+                            <label for="telephone"
+                                class="block mb-2 text-sm font-semibold text-gray-600 dark:text-gray-400">Телефон</label>
+                            <div *ngIf="telephone.invalid && (telephone.dirty || telephone.touched)">
+                                <div *ngIf="telephone.errors?.['required']"
+                                    class="block mb-2 text-sm font-semibold text-red-600">
+                                    Это поле обязательно!
+                                </div>
+                                <div *ngIf="telephone.errors?.['pattern'] && telephone.errors?.['maxlength']"
+                                    class="block mb-2 text-sm font-semibold text-red-600">
+                                    Введите номер!
+                                </div>
+                            </div>
+                        </div>
+                        <input [(ngModel)]="person.telephone" type="tel" name="telephone" #telephone="ngModel"
+                            placeholder="+7 (922)-900-14-77" required mask="(000) 000-00-00" prefix="+7"
+                            [showMaskTyped]="true"
+                            [ngClass]="telephone.invalid && (telephone.dirty || telephone.touched) && telephone.errors?.['required'] ? 'w-full px-3 py-2 placeholder-gray-300 rounded-md focus:outline-none focus:ring focus:ring-green-200 focus:border-green-300 border-red-500 ' 
+                                  : 'w-full px-3 py-2 placeholder-gray-300 border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-green-200 focus:border-green-300'" />
+                    </div>
+
+                    <div class="mb-6">
+                        <div class="flex flex-row items-center justify-between">
+                            <label for="password"
+                                class="block mb-2 text-sm font-semibold text-gray-600 dark:text-gray-400">Пароль</label>
+                            <div *ngIf="password.invalid && (password.dirty || password.touched)">
+                                <div *ngIf="password.errors?.['required']"
+                                    class="block mb-2 text-sm font-semibold text-red-500">
+                                    Это поле обязательно!
+                                </div>
+                            </div>
+                        </div>
+                        <input [(ngModel)]="person.password" type="password" name="password" #password="ngModel"
+                            placeholder="Введите пароль" required
+                            [ngClass]="password.invalid && (password.dirty || password.touched) && password.errors?.['required'] ? 'w-full px-3 py-2 placeholder-gray-300 rounded-md focus:outline-none focus:ring focus:ring-green-200 focus:border-green-300 border-red-500 ' 
+                                  : 'w-full px-3 py-2 placeholder-gray-300 border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-green-200 focus:border-green-300'" />
+                        <!-- <a href="#!" class="mb-2 text-sm text-green-400 focus:outline-none focus:text-green-500 hover:text-green-500 dark:hover:text-green-300">Забыли пароль?</a> -->
+                    </div>
+
+                    <div class="mb-6">
+                        <div class="flex flex-row items-center justify-between">
+                            <label for="password_confirm"
+                                class="block mb-2 text-sm font-semibold text-gray-600 dark:text-gray-400">Пароль</label>
+                            <div *ngIf="password_confirm.invalid && (password_confirm.dirty || password_confirm.touched)">
+                                <div *ngIf="password_confirm.errors?.['required']"
+                                    class="block mb-2 text-sm font-semibold text-red-500">
+                                    Это поле обязательно!
+                                </div>
+                            </div>
+                        </div>
+                        <input [(ngModel)]="person.password_confirm" type="password" name="password_confirm" #password_confirm="ngModel"
+                            placeholder="Повторите пароль" required
+                            [ngClass]="password_confirm.invalid && (password_confirm.dirty || password_confirm.touched) && password_confirm.errors?.['required'] ? 'w-full px-3 py-2 placeholder-gray-300 rounded-md focus:outline-none focus:ring focus:ring-green-200 focus:border-green-300 border-red-500 ' 
+                                  : 'w-full px-3 py-2 placeholder-gray-300 border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-green-200 focus:border-green-300'" />
+                        <!-- <a href="#!" class="mb-2 text-sm text-green-400 focus:outline-none focus:text-green-500 hover:text-green-500 dark:hover:text-green-300">Забыли пароль?</a> -->
+                    </div>
+
+                    <div *ngIf="password.valid && password_confirm.valid && person.password_confirm != person.password" 
+                    class="bg-red-100 rounded-lg py-2 px-6 mb-4 text-base text-red-700 mb-3">
+                        Пароли не совпадают
+                    </div>
+
+                    <div class="flex flex-row items-center mb-6">
+                        <div>
+                            <input type="checkbox" [value]="checkedPolicy" (change)="changeCheckedPolicy()"
+                                class="form-checkbox h-5 w-5 text-green-600">
+                        </div>
+                        <div class="text-sm ml-3 text-gray-500">Настоящим вы соглашаетесь <span class="text-green-600 cursor-pointer">с
+                                политикой конфиденциальности</span> и даете согласие на
+                            обработку своих персональных данных.</div>
+                    </div>
+
+                    <div class="mb-6 justify-center text-center">
+                        <!-- *ngIf="password.valid && telephone.valid && checkedPolicy" -->
+                        <button (click)="logIn()" type="button"
+                            [disabled]="!(password.valid && telephone.valid && checkedPolicy && firstName.valid && password_confirm.valid && person.password_confirm == person.password)"
+                            [ngClass]="password_confirm.valid && password.valid && telephone.valid && checkedPolicy && person.password_confirm == person.password ? 'text-center px-8 py-2 text-white bg-green-600 rounded-md focus:bg-green-700 focus:outline-none cursor-pointer' 
+                                  : 'text-center px-8 py-2 text-gray-600 text-base disabled:bg-gray-300 rounded-md'" class="">Зарегистрироваться</button>
+                    </div>
+
+                    <p class="text-sm text-center text-gray-500">У вас уже есть аккаунт? <a [routerLink]="['/log-in']"
+                            class="text-sm text-green-400 focus:outline-none focus:text-green-500 hover:text-green-500 dark:hover:text-green-600">Войти</a>.
+                    </p>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

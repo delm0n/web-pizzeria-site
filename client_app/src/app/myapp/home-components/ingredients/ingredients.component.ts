@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import axios from 'axios';
-import { ModalPizzaService } from '../../../modal-pizza.service';
+//import { ModalPizzaService } from '../../../modal-pizza.service';
+import { ModalPizzaService } from '../../../myservices/modal-pizza/modal-pizza.service';
 
 @Component({
   selector: 'app-ingredients',
