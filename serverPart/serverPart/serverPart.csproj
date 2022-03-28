@@ -142,9 +142,14 @@
     <Compile Include="Migrations\202203241058398_addUrl.designer.cs">
       <DependentUpon>202203241058398_addUrl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202203280945094_addClient.cs" />
+    <Compile Include="Migrations\202203280945094_addClient.designer.cs">
+      <DependentUpon>202203280945094_addClient.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RouterModule\Account.cs" />
     <Compile Include="RouterModule\HomePage.cs" />
     <Compile Include="Test-conn.cs" />
   </ItemGroup>
@@ -179,6 +184,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202203241058398_addUrl.resx">
       <DependentUpon>202203241058398_addUrl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202203280945094_addClient.resx">
+      <DependentUpon>202203280945094_addClient.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

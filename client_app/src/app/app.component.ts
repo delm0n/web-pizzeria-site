@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef, AfterContentChecked, AfterContentInit } from '@angular/core';
+import { Component, ChangeDetectorRef, AfterContentChecked } from '@angular/core';
 
 //import { ModalPizzaService } from './modal-pizza.service';
 
@@ -10,7 +10,7 @@ import { Component, ChangeDetectorRef, AfterContentChecked, AfterContentInit } f
 export class AppComponent implements AfterContentChecked  {
   title = 'client_app';
 
-  constructor(private cdref: ChangeDetectorRef ) {}
+  constructor(private cdref: ChangeDetectorRef) {}
 
   ngAfterContentChecked() {
     this.cdref.detectChanges();

@@ -10,17 +10,14 @@ namespace serverPart.Data.Entity
     {
         public int ClientId { get; set; }
 
-        public string Middlename { get; set; } = null;//отчество
+        public string FirstName { get; set; } //имя   
 
-        public string FirstName { get; set; } //имя
-
-        public string Surname { get; set; } //фамилия
-
-        public string Login { get; set; }
+        public string Telephone { get; set; }
 
         public string Password { get; set; }
 
-        public ICollection<Order> Orders { get; set; }
+        //public ICollection<Order> Orders { get; set; }
+        
         
     }
 }
