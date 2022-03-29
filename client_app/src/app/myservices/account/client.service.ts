@@ -19,5 +19,15 @@ export class ClientService {
     this.autorizationFlug = true;
   }
 
+  exitClient() {
+    this.client = {
+      clientId : 0,
+      firstName : "",
+      telephone : "",
+      password : "",
+    }
+    this.autorizationFlug = false;
+  }
+
   constructor() { }
 }

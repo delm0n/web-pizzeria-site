@@ -19,7 +19,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   invalidPersonServer: boolean = false
-  existTelUser() {
+  existTelClient() {
     this.invalidPersonServer = true;
     setTimeout(() =>{
       this.invalidPersonServer = false;;
@@ -38,7 +38,7 @@ export class RegistrationComponent implements OnInit {
       .then((res) => {
         if(res.data == "Not ok") {
           //если такой номер телефона уже есть
-          this.existTelUser();
+          this.existTelClient();
         }
 
         else { 

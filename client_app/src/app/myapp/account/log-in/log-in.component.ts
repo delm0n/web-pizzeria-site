@@ -18,7 +18,7 @@ export class LogInComponent implements OnInit {
 
   invalidPersonServer: boolean = false
   
-  notExistUser() {
+  notExistClient() {
     this.invalidPersonServer = true;
     setTimeout(() =>{
       this.invalidPersonServer = false;
@@ -43,7 +43,7 @@ export class LogInComponent implements OnInit {
       .then((res) => {
         if(res.data == "Not ok") {
           //если такого пользователя нет
-          this.notExistUser();
+          this.notExistClient();
         }
 
         else { 
