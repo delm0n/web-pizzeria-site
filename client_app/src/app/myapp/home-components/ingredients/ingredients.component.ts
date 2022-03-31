@@ -23,7 +23,6 @@ export class IngredientsComponent implements OnInit {
   constructor(private pizzaService: ModalPizzaService) { }
 
   addIngred(id: number, index: number) {
-    console.log(id);
 
     this.pizzaService.boolArrayServ[index] = !this.pizzaService.boolArrayServ[index]
 
@@ -40,6 +39,7 @@ export class IngredientsComponent implements OnInit {
     axios.get('http://localhost:1234/ingreds')
       .then((res) => {
         this.ingreds = res.data;
+        this.pizzaService.ingredientArray = res.data;
         if (this.pizzaService.step == 0) {
           this.pizzaService.setBooler(this.ingreds.filter(function (v) { return v.hasOwnProperty('ingredientId'); }).length);
         }

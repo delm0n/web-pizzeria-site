@@ -34,7 +34,13 @@ export class RegistrationComponent implements OnInit {
   constructor(private clientService: ClientService, private router: Router) { }
 
   registration() {
-    axios.post('http://localhost:1234/regist/'+ this.person.firstName + '&' + this.person.telephone + '&' + this.person.password)
+    let token = this.person.telephone + ':' +this.person.password
+    axios.get('http://localhost:1234/regist/'+ this.person.firstName + '&' + this.person.telephone + '&' + this.person.password,
+    //axios.post('http://localhost:1234/regist', { firstName this.person.firstName  }  ,
+      {
+        headers: {'Authorization': token}
+      },
+    )
       .then((res) => {
         if(res.data == "Not ok") {
           //если такой номер телефона уже есть
@@ -43,8 +49,14 @@ export class RegistrationComponent implements OnInit {
 
         else { 
 
-            this.clientService.enterClient(res.data);
-            this.router.navigate(['/']);
+          if (res.headers['authorization'] == token) {
+            this.clientService.enterClient(JSON.parse(res.headers['data']));
+            this.router.navigate(['/'])
+          }
+          else {
+            this.router.navigate(['/404'])
+          } 
+
         }
       })
       .catch((err: any) => {

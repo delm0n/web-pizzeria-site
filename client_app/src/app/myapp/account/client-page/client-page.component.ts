@@ -32,10 +32,17 @@ export class ClientPageComponent implements OnInit {
     this.router.navigate(['/log-in'])
   }
 
+  doneChange() {
+    this.successDone = true;;
+    setTimeout(() =>{
+      this.successDone = false;
+    }, 5000);
+  }
+
   constructor(private clientService: ClientService, private router: Router) { }
 
   updateClient(firstname: String, password: String) {  
-
+    let token = this.client.telephone + ':' +this.client.password
     if(firstname == "" || password == "") {
       this.emptyError = true;
     }
@@ -43,10 +50,19 @@ export class ClientPageComponent implements OnInit {
     else {
 
       if(this.client.firstName != firstname) {
-        axios.put('http://localhost:1234/client-rename/' + this.client.clientId + '&' + firstname)
+        axios.get('http://localhost:1234/client-rename/' + this.client.clientId + '&' + firstname,
+        {
+          headers: {Authorization: token}
+        },
+      )
         .then((res) => {
-          this.clientService.enterClient(res.data);
-          this.successDone = true;
+          if (res.headers['authorization'] == token) {
+            this.clientService.enterClient(JSON.parse(res.headers['data']));
+            this.doneChange()
+          }
+          else {
+            this.router.navigate(['/404'])
+          } 
         })
         .catch((err: any) => {
           console.log(err);
@@ -54,10 +70,20 @@ export class ClientPageComponent implements OnInit {
       }
 
       if(this.client.password != password) {
-        axios.put('http://localhost:1234/client-repassword/' + this.client.clientId + '&' + password)
+        axios.get('http://localhost:1234/client-repassword/' + this.client.clientId + '&' + password,
+        {
+          headers: {Authorization: token}
+        },
+      )
         .then((res) => {
-          this.clientService.enterClient(res.data);
-          this.successDone = true;
+
+          if (res.headers['authorization'] == token) {
+            this.clientService.enterClient(JSON.parse(res.headers['data']));
+            this.doneChange()
+          }
+          else {
+            this.router.navigate(['/404'])
+          } 
         })
         .catch((err: any) => {
           console.log(err);

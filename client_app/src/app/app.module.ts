@@ -26,6 +26,7 @@ import { IngredientsComponent } from './myapp/home-components/ingredients/ingred
 import { LogInComponent } from './myapp/account/log-in/log-in.component';
 import { RegistrationComponent } from './myapp/account/registration/registration.component';
 import { ClientPageComponent } from './myapp/account/client-page/client-page.component';
+import { NotFoundPageComponent } from './myapp/not-found-page/not-found-page.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { ClientPageComponent } from './myapp/account/client-page/client-page.com
     IngredientsComponent,
     LogInComponent,
     RegistrationComponent,
-    ClientPageComponent
+    ClientPageComponent,
+    NotFoundPageComponent
   ],
   imports: [
     BrowserModule,

@@ -22,9 +22,7 @@ export class LogInComponent implements OnInit {
     this.invalidPersonServer = true;
     setTimeout(() =>{
       this.invalidPersonServer = false;
-      // this.person.telephone = "",
-      // this.person.password = ""
-    }, 6000);
+    }, 5000);
   }
 
   checkedPolicy: boolean = false
@@ -33,22 +31,34 @@ export class LogInComponent implements OnInit {
   }
 
 
-
-  // unvalidTelephone: boolean = false
-
   constructor(private clientService: ClientService, private router: Router) { }
 
   logIn() {
-    axios.get('http://localhost:1234/log-in/' + this.person.telephone + '&' + this.person.password)
+    let token = this.person.telephone + ':' +this.person.password
+    axios.get('http://localhost:1234/log-in/' + this.person.telephone + '&' + this.person.password,
+      {
+        headers: {Authorization: token}
+      },
+    )
       .then((res) => {
+        // console.log(res);
+
+        // console.log(JSON.parse(res.headers['data']));
+        // console.log(res.headers['authorization']);
+        
         if(res.data == "Not ok") {
           //если такого пользователя нет
           this.notExistClient();
         }
 
         else { 
-          this.clientService.enterClient(res.data);
-          this.router.navigate(['/'])
+          if (res.headers['authorization'] == token) {
+            this.clientService.enterClient(JSON.parse(res.headers['data']));
+            this.router.navigate(['/'])
+          }
+          else {
+            this.router.navigate(['/404'])
+          } 
         }
       })
       .catch((err: any) => {

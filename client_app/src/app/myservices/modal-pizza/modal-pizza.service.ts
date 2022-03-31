@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import axios from "axios";
+import { IngredientClass } from '../../models/IngredientClass' 
 
 @Injectable({
   providedIn: 'root'
@@ -7,6 +8,8 @@ import axios from "axios";
 
 export class ModalPizzaService {
 
+  ingredientArray: IngredientClass[] = [];
+  
   priceOfIngreds = 0
 
   plusPrice(price: number) {

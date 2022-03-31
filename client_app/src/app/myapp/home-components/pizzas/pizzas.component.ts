@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import axios from "axios";
-//import { ModalPizzaService } from '../../../modal-pizza.service';
-import { ModalPizzaService } from '../../../myservices/modal-pizza/modal-pizza.service';
 
-import { HostBinding } from '@angular/core';
+import { IngredientClass } from '../../../models/IngredientClass' 
+import { ModalPizzaService } from '../../../myservices/modal-pizza/modal-pizza.service';
+import { CartService } from '../../../myservices/cart/cart.service';
+import { ClientService } from '../../../myservices/account/client.service';
+
+import { PizzaClass } from 'src/app/models/PizzaClass';
+
 import {
   trigger,
   state,
@@ -44,33 +48,38 @@ import {
 })
 export class PizzasComponent implements OnInit {
 
-  pizzas = [{
-    pizzaId: null,
-    pizzaName: "",
-    structure: "",
-    urlImg: "",
-    minPrice: 0,
-  }]
+  
+  pizzas: PizzaClass[] = [];
+
+  // pizzas = [{
+  //   pizzaId: null,
+  //   pizzaName: "",
+  //   structure: "",
+  //   urlImg: "",
+  //   minPrice: 0,
+  // }]
+
+  
 
   modalPizzas = {
-    pizzaId: null,
+    pizzaId: 0,
     pizzaName: "",
     urlImg: "",
     structure: "",
     sizes: [{
-      pizzaSizeId: null,
+      pizzaSizeId: 0,
       nameSize : "", //имя размера
       price: 0,
       mass: 0
     },
     {
-      pizzaSizeId: null,
+      pizzaSizeId: 0,
       nameSize : "", //имя размера
       price: 0,
       mass: 0
     },
     {
-      pizzaSizeId: null,
+      pizzaSizeId: 0,
       nameSize : "", //имя размера
       price: 0,
       mass: 0
@@ -113,24 +122,24 @@ export class PizzasComponent implements OnInit {
     }
     
     //размечаем пустой класс
-    this.modalPizzas = {pizzaId: null, 
+    this.modalPizzas = {pizzaId: 0, 
       pizzaName: "",
       urlImg: "",
       structure: "",
       sizes: [{
-        pizzaSizeId: null,
+        pizzaSizeId: 0,
         nameSize : "", //имя размера
         price: 0,
         mass: 0
       },
       {
-        pizzaSizeId: null,
+        pizzaSizeId: 0,
         nameSize : "", //имя размера
         price: 0,
         mass: 0
       },
       {
-        pizzaSizeId: null,
+        pizzaSizeId: 0,
         nameSize : "", //имя размера
         price: 0,
         mass: 0
@@ -157,7 +166,7 @@ export class PizzasComponent implements OnInit {
   }
 
   plusIngrPrice: number = 0
-  constructor(private pizzaService: ModalPizzaService) { }
+  constructor(private pizzaService: ModalPizzaService, private cartService: CartService, private clientService: ClientService) { }
 
   checkIngredients() { //в переменную, отвечающую за демонстрацию, 
     //присваиваем актуальное значение цены за дополнительные ингредиенты
@@ -178,8 +187,45 @@ export class PizzasComponent implements OnInit {
     }
   }
 
+
   addToCart() {
-    console.log('hello');  
+
+    //создадим массив с выбранными ингредиентами
+    let ingredientArray: IngredientClass[] = [];
+    for(let i = 0; i<this.pizzaService.ingredientArray.length; i++){
+      if (this.pizzaService.boolArrayServ[i] == true) {
+        ingredientArray.push(this.pizzaService.ingredientArray[i])
+      } 
+    }
+    
+    this.cartService.pizzasInCart.push({
+      pizzaId: this.modalPizzas.pizzaId,
+      pizzaName: this.modalPizzas.pizzaName,
+      urlImg: this.modalPizzas.urlImg,
+      structure: this.modalPizzas.structure,
+      sizes: this.modalPizzas.sizes[this.active_status],
+      ingredients: ingredientArray,
+      count: this.countModal
+    })
+
+    //отправлять только id 
+
+
+
+    console.log(this.cartService.pizzasInCart);
+
+
+    // if(this.clientService.autorizationFlug == true) {
+    //   axios.put('http://localhost:1234/add-pizza-in-cart/' + this.clientService.client.clientId + '&&' + JSON.stringify(this.cartService.pizzasInCart))
+    //   .then((res) => {
+    //     this.pizzas = res.data;
+    //   })
+    //   .catch((err: any) => {
+    //     console.log(err);
+    //   });
+    // }
+    
+    
   }
   
   //chrome.exe --disable-web-security --disable-gpu --allow-file-access-from-files --user-data-dir=C:\temp\

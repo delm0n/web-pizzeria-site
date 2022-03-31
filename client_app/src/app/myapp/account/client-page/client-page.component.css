@@ -1,5 +1,8 @@
-.bi-eye, .bi-eye-slash {
+.eye-box {
     position: absolute;
-    right: 15px;
-    top: 13px
+    /* right: 15px;
+    top: 13px */
+    right: 0;
+    top: 0;
+    
 }
