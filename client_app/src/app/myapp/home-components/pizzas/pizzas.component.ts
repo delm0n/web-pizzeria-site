@@ -35,7 +35,7 @@ import {
       ]),
       transition('hidden => block', [
         animate(
-          '1s',
+          '1.9s',
           keyframes([
             style({ visibility: 'hidden', offset: 0 }),
             style({ visibility: 'visible', offset: 0.4 }),
@@ -49,17 +49,7 @@ import {
 export class PizzasComponent implements OnInit {
 
   
-  pizzas: PizzaClass[] = [];
-
-  // pizzas = [{
-  //   pizzaId: null,
-  //   pizzaName: "",
-  //   structure: "",
-  //   urlImg: "",
-  //   minPrice: 0,
-  // }]
-
-  
+  pizzas: PizzaClass[] = []; 
 
   modalPizzas = {
     pizzaId: 0,
@@ -67,22 +57,22 @@ export class PizzasComponent implements OnInit {
     urlImg: "",
     structure: "",
     sizes: [{
-      pizzaSizeId: 0,
-      nameSize : "", //имя размера
-      price: 0,
-      mass: 0
+      PizzaSizeId: 0,
+      NameSize : "", //имя размера
+      Price: 0,
+      Mass: 0
     },
     {
-      pizzaSizeId: 0,
-      nameSize : "", //имя размера
-      price: 0,
-      mass: 0
+      PizzaSizeId: 0,
+      NameSize : "", //имя размера
+      Price: 0,
+      Mass: 0
     },
     {
-      pizzaSizeId: 0,
-      nameSize : "", //имя размера
-      price: 0,
-      mass: 0
+      PizzaSizeId: 0,
+      NameSize : "", //имя размера
+      Price: 0,
+      Mass: 0
     }
   ]}
   
@@ -100,25 +90,10 @@ export class PizzasComponent implements OnInit {
 
     //махинации с прокруткой
     if ( document.body.style.overflow == 'hidden') { 
-
       document.body.style.overflow = 'visible';
-    //   if(document.body.clientWidth < 639) {
-    //   document.getElementById('modalNotMobile')!.style.overflow = 'visible';
-    //   document.getElementById('modalMobile')!.style.overflow = 'visible';
-    //   }
-    //   else {
-    //     document.getElementById('modalNotMobile')!.style.overflow = 'visible';
-    //     document.getElementById('modalMobile')!.style.overflow = 'auto';
-    //   }
 
     } else {
        document.body.style.overflow = 'hidden';   
-    //   if(document.body.clientWidth > 639) {
-    //     document.getElementById('modalNotMobile')!.style.overflow = 'auto';
-    //   }
-    //   else {
-    //     document.getElementById('modalMobile')!.style.overflow = 'auto';
-    //   }
     }
     
     //размечаем пустой класс
@@ -127,22 +102,22 @@ export class PizzasComponent implements OnInit {
       urlImg: "",
       structure: "",
       sizes: [{
-        pizzaSizeId: 0,
-        nameSize : "", //имя размера
-        price: 0,
-        mass: 0
+        PizzaSizeId: 0,
+        NameSize : "", //имя размера
+        Price: 0,
+        Mass: 0
       },
       {
-        pizzaSizeId: 0,
-        nameSize : "", //имя размера
-        price: 0,
-        mass: 0
+        PizzaSizeId: 0,
+        NameSize : "", //имя размера
+        Price: 0,
+        Mass: 0
       },
       {
-        pizzaSizeId: 0,
-        nameSize : "", //имя размера
-        price: 0,
-        mass: 0
+        PizzaSizeId: 0,
+        NameSize : "", //имя размера
+        Price: 0,
+        Mass: 0
       }
     ]};
   }
@@ -151,14 +126,14 @@ export class PizzasComponent implements OnInit {
     axios.get('http://localhost:1234//sizeofasync/'+i)
       .then((res) => {
 
-        this.pizzaService.setBooler_step();
+        //this.pizzaService.setBooler_step();
         this.plusIngrPrice = this.pizzaService.priceOfIngreds
 
         this.modalPizzas.pizzaId = i;
         this.modalPizzas.pizzaName = i_name;
         this.modalPizzas.urlImg = i_url;
         this.modalPizzas.structure = i_struct;
-        this.modalPizzas.sizes = res.data;     
+        this.modalPizzas.sizes = JSON.parse(res.headers['pizza']);     
       })
       .catch((err: any) => {
         console.log(err);
@@ -198,15 +173,15 @@ export class PizzasComponent implements OnInit {
       } 
     }
     
-    this.cartService.pizzasInCart.push({
-      pizzaId: this.modalPizzas.pizzaId,
-      pizzaName: this.modalPizzas.pizzaName,
-      urlImg: this.modalPizzas.urlImg,
-      structure: this.modalPizzas.structure,
-      sizes: this.modalPizzas.sizes[this.active_status],
-      ingredients: ingredientArray,
-      count: this.countModal
-    })
+    // this.cartService.pizzasInCart.push({
+    //   pizzaId: this.modalPizzas.pizzaId,
+    //   pizzaName: this.modalPizzas.pizzaName,
+    //   urlImg: this.modalPizzas.urlImg,
+    //   structure: this.modalPizzas.structure,
+    //   sizes: this.modalPizzas.sizes[this.active_status],
+    //   ingredients: ingredientArray,
+    //   count: this.countModal
+    // })
 
     //отправлять только id 
 
@@ -232,7 +207,7 @@ export class PizzasComponent implements OnInit {
   ngOnInit(): void {
     axios.get('http://localhost:1234/pizza')
       .then((res) => {
-        this.pizzas = res.data;
+        this.pizzas = JSON.parse(res.headers['pizzas']);
       })
       .catch((err: any) => {
         console.log(err);

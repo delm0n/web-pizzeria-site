@@ -1,3 +1,28 @@
-<p>Пусто</p><p>Пусто</p><p>Пусто</p><p>Пусто</p>
+<p>Пусто</p><p>Пусто</p><p>Пусто</p>
+
+
+<p>Форма:</p>
+<div class="flex flex-column max-w-lg mx-auto">
+    <input [(ngModel)]="form.telephone" type="tel" name="telephone" #telephone="ngModel"
+    placeholder="+7 (922)-900-14-77" required mask="(000) 000 00 00" prefix="+7" class="mb-4"
+    [showMaskTyped]="true"/>
+
+    <input [(ngModel)]="form.password" type="tel" name="password" #password="ngModel" class="mb-4"/>
+
+    <button (click)="btnClick()" class="border" >click</button>   
+</div>
+
+
+<div class="flex flex-column max-w-lg mx-auto mt-6">
+    <p>Вывод данных:</p>
+    <div>id: {{client.clientId}}</div>
+    <div>firstName: {{client.firstName}}</div>
+    <div>telephone: {{client.telephone}}</div>
+    <div>password: {{client.password}}</div> 
+</div>
+
+
+
+                    
 
 

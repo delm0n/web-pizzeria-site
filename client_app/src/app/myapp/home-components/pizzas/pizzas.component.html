@@ -3,28 +3,28 @@
     <div class="p-3 bg-white rounded  ">
       <div class="">
         <div class="relative max-w-full mb-3 h-62 lg:mb-0 max-w-xs mx-auto flex-initial">
-          <img [src]="pizza.urlImg"
-            (click)="modalBtn(); openPizzaModal(pizza.pizzaId, pizza.pizzaName, pizza.urlImg, pizza.structure)"
+          <img [src]="pizza.UrlImg"
+            (click)="modalBtn(); openPizzaModal(pizza.PizzaId, pizza.PizzaName, pizza.UrlImg, pizza.Structure)"
             alt="Just a flower" class="object-fill w-full h-full rounded opacity-95 cursor-pointer">
         </div>
         <div class="flex-auto p-2 justify-evenly">
           <div class="flex flex-wrap ">
             <div class="flex items-center justify-between w-full min-w-0 ">
               <h2 class="font-semibold mr-auto text-lg text-gray-900">
-                {{pizza.pizzaName}}
+                {{pizza.PizzaName}}
               </h2>
             </div>
           </div>
           <div class="flex flex-wrap ">
             <div class="flex items-center justify-between w-full min-w-0 text-gray-400 pt-2 pb-4 font-light"
               style="height: 120px;">
-              <p>{{pizza.structure}}</p>
+              <p>{{pizza.Structure}}</p>
             </div>
           </div>
           <div class="flex items-center justify-between w-full min-w-0 ">
-            <div class="text-lg font-normal">От {{pizza.minPrice}} ₽</div>
+            <div class="text-lg font-normal">От {{pizza.MinPrice}} ₽</div>
 
-            <button (click)="modalBtn(); openPizzaModal(pizza.pizzaId, pizza.pizzaName, pizza.urlImg, pizza.structure)"
+            <button (click)="modalBtn(); openPizzaModal(pizza.PizzaId, pizza.PizzaName, pizza.UrlImg, pizza.Structure)"
               class="mx-2 my-2 bg-green-600 transition
                duration-150 ease-in-out hover:bg-green-700 rounded 
                text-white text-base px-6 py-2 ">Выбрать</button>
@@ -34,7 +34,6 @@
     </div>
   </div>
 </div>
-
 
 <!-- модальное окно -->
 <div [ngClass]="'z-50 fixed w-full flex justify-center inset-0 ' + (modal ? 'hidden' : 'block')">
@@ -77,15 +76,15 @@
                         <li (click)="active_status = 0"
                           [ngClass]="active_status == 0 ? 'flex-1 text-sm text-green-700 py-2 px-3 bg-white rounded font-medium shadow'
                                    : 'flex-1 bg-gray-100 text-sm text-gray-600 py-2 px-3 font-medium hover:text-green-700 cursor-pointer'">
-                          {{modalPizzas.sizes[0].nameSize}}</li>
+                          {{modalPizzas.sizes[0].NameSize}}</li>
                         <li (click)="active_status = 1"
                           [ngClass]="active_status == 1 ? 'flex-1 text-sm text-green-700 py-2 px-3 bg-white rounded font-medium shadow' 
                                   : 'flex-1 bg-gray-100 text-sm text-gray-600 py-2 px-3 font-medium hover:text-green-700 cursor-pointer'">
-                          {{modalPizzas.sizes[1].nameSize}}</li>
+                          {{modalPizzas.sizes[1].NameSize}}</li>
                         <li (click)="active_status = 2"
                           [ngClass]="active_status == 2 ? 'flex-1 text-sm text-green-700 py-2 px-3 bg-white rounded font-medium shadow' 
                                   : 'flex-1 bg-gray-100 text-sm text-gray-600 py-2 px-3 font-medium hover:text-green-700 cursor-pointer'">
-                          {{modalPizzas.sizes[2].nameSize}}</li>
+                          {{modalPizzas.sizes[2].NameSize}}</li>
 
                       </ul>
                     </div>
@@ -146,14 +145,14 @@
                   <button (click)="addToCart()" class="mx-0 my-2 bg-green-600 transition
                    duration-150 ease-in-out hover:bg-green-700 rounded 
                    text-white text-base px-2 py-2 w-56">В корзину за {{plusIngrPrice +
-                    modalPizzas.sizes[active_status].price * countModal | number: '.0-2' }} ₽</button>
+                    modalPizzas.sizes[active_status].Price * countModal | number: '.0-2' }} ₽</button>
                 </div>
 
                 <div class="hidden md:block">
                   <button (click)="addToCart()" class="mx-2 my-2 bg-green-600 transition
                    duration-150 ease-in-out hover:bg-green-700 rounded 
                    text-white text-base px-6 py-2 w-56">В корзину за {{plusIngrPrice +
-                    modalPizzas.sizes[active_status].price * countModal | number: '.0-2' }} ₽</button>
+                    modalPizzas.sizes[active_status].Price * countModal | number: '.0-2' }} ₽</button>
                 </div>
 
               </div>

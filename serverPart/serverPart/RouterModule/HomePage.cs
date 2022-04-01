@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace serverPart.RouterModule
@@ -16,15 +17,25 @@ namespace serverPart.RouterModule
         {
             Get["/pizza", runAsync: true] = async (x, token) =>
             {
-                List <Pizza> pizzas = new List<Pizza>();
+                List<Pizza> pizzas = new List<Pizza>();
 
                 using (var dbContext = new ApplicationContext())
                 {
                     pizzas = await dbContext.Pizzas.ToListAsync();
                 }
 
-                return Response.AsJson(pizzas);
+                var response = new Response();
+
+                response.Headers["Access-Control-Allow-Origin"] = "*";
+                response.Headers["Access-Control-Allow-Methods"] = "GET";
+                response.Headers["Content-Type"] = "application/json";
+                response.Headers["Pizzas"] = JsonSerializer.Serialize(pizzas);
+                response.Headers["Access-Control-Expose-Headers"] = "Pizzas";
+
+                return response;
             };
+
+
 
             Get["/sizeofasync/{id}", runAsync: true] = async (x, token) =>
             {
@@ -35,10 +46,18 @@ namespace serverPart.RouterModule
                     pizzaSize = await dbContext.PizzaSizes.Where(p => p.PizzaId == param).ToListAsync();
                 }
 
-                return Response.AsJson(pizzaSize);
+                var response = new Response();
+
+                response.Headers["Access-Control-Allow-Origin"] = "*";
+                response.Headers["Access-Control-Allow-Methods"] = "GET";
+                response.Headers["Content-Type"] = "application/json";
+                response.Headers["Pizza"] = JsonSerializer.Serialize(pizzaSize);
+                response.Headers["Access-Control-Expose-Headers"] = "Pizza";
+
+                return response;
             };
 
-            Get["/ingreds", runAsync: true] = async (x, token) =>
+            Get["/ingredients", runAsync: true] = async (x, token) =>
             {
                 List<Ingredient> ingredients = new List<Ingredient>();
 
@@ -47,7 +66,14 @@ namespace serverPart.RouterModule
                     ingredients = await dbContext.Ingredients.ToListAsync();
                 }
 
-                return Response.AsJson(ingredients);
+                var response = new Response();
+                response.Headers["Access-Control-Allow-Origin"] = "*";
+                response.Headers["Access-Control-Allow-Methods"] = "GET";
+                response.Headers["Content-Type"] = "application/json";
+                response.Headers["Ingredients"] = JsonSerializer.Serialize(ingredients);
+                response.Headers["Access-Control-Expose-Headers"] = "Ingredients";
+
+                return response;
             };
         }
     }

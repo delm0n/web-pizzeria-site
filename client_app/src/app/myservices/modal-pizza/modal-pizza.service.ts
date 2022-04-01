@@ -9,7 +9,7 @@ import { IngredientClass } from '../../models/IngredientClass'
 export class ModalPizzaService {
 
   ingredientArray: IngredientClass[] = [];
-  
+  boolArrayServ: boolean[] = [];
   priceOfIngreds = 0
 
   plusPrice(price: number) {
@@ -22,23 +22,24 @@ export class ModalPizzaService {
 
   clearPrice() {
     this.priceOfIngreds = 0;
-  }
-
-  boolArrayServ: boolean[] = [];
-
-  setBooler(index: number) { 
-    for(let i = 0; i < index; i++) {
+    for(let i = 0; i < this.boolArrayServ.length; i++) {
       this.boolArrayServ[i] = false;
-      this.step = index
-    }   
+    } 
   }
 
-  step :number = 0
-  setBooler_step() { //если мы уже открывали модальное окно - чтобы лишний раз не обращаться к серверу
-    for(let i = 0; i < this.step; i++) {
-      this.boolArrayServ[i] = false;
-    }   
-  }
+  // setBooler(index: number) { 
+  //   for(let i = 0; i < index; i++) {
+  //     this.boolArrayServ[i] = false;
+  //     this.step = index
+  //   }   
+  // }
+
+  // step :number = 0
+  // setBooler_step() { //если мы уже открывали модальное окно - чтобы лишний раз не обращаться к серверу
+  //   for(let i = 0; i < this.step; i++) {
+  //     this.boolArrayServ[i] = false;
+  //   }   
+  // }
 
 
 

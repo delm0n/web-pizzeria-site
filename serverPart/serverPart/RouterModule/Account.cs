@@ -1,4 +1,5 @@
 ﻿using Nancy;
+using Nancy.ModelBinding;
 using serverPart.Data;
 using serverPart.Data.Entity;
 using System;
@@ -16,144 +17,155 @@ namespace serverPart.RouterModule
     {
         public Account()
         {
-            Get["/log-in/{tel}&{passw}", runAsync: true] = async (x, token) =>
+
+            Get["/client-re", runAsync: true] = async (x, token) =>
             {
                 string token_headers = Request.Headers["Authorization"].FirstOrDefault();
-
-                Client client = new Client();
+                x = this.Bind<Client>();
+                int clientId = x.ClientId;
 
                 if (!string.IsNullOrEmpty(token_headers))
                 {
-                    string tel = x.tel;
-                    string passw = x.passw;
+                    using (var dbContext = new ApplicationContext())
+                    {
+
+                        Client client = await dbContext.Clients.Where(c => c.ClientId == clientId).FirstOrDefaultAsync();
+
+                        if (client != null)
+                        {   //если клиент существует
+
+                            client.FirstName = x.FirstName;
+                            client.Password = x.Password;
+                            await dbContext.SaveChangesAsync();
+
+
+                            var response = new Response();
+
+                            response.StatusCode = (Nancy.HttpStatusCode)200;
+                            response.Headers["Access-Control-Allow-Origin"] = "*";
+                            response.Headers["Access-Control-Allow-Method"] = "GET";
+
+                            response.Headers["Authorization"] = token_headers;
+                            response.Headers["Access-Control-Expose-Headers"] = "Authorization, Client"; //для прочтения заголовков клиентом
+                            response.Headers["Content-Type"] = "application/json";
+
+                            response.Headers["Client"] = JsonSerializer.Serialize(client); //данные о клиенте
+
+                            return response;
+                        }
+
+                        else
+                        {
+                            //return new Response { StatusCode = HttpStatusCode.Forbidden};
+                            return "Not";
+                        }
+                    }
+                }
+
+                else return new Response() { StatusCode = Nancy.HttpStatusCode.NotFound };
+            };
+
+
+            Get["/enter", runAsync: true] = async (x, token) =>
+            {
+
+                //var req = Request.Query; //получаю все параметры
+                x = this.Bind<Client>(); //Получаю параметры + null в модели
+                string token_headers = Request.Headers["Authorization"].FirstOrDefault(); //получаю токен
+
+                Client client = new Client();
+
+                //если токен есть
+                if (!string.IsNullOrEmpty(token_headers))
+                {
+                    string tel = x.Telephone; string passw = x.Password;
 
                     using (var dbContext = new ApplicationContext())
                     {
                         client = await dbContext.Clients.FirstOrDefaultAsync(c => c.Telephone == tel && c.Password == passw);
                     }
 
-                }
-
-                if (client == null)
-                {
-                    //return new Response { StatusCode = HttpStatusCode.InternalServerError};
-                    return "Not ok";
-                }
-                else
-                {
-                    var response = new Response();
-                    response.Headers["Authorization"] = token_headers;
-                    response.Headers["data"] = JsonSerializer.Serialize(client);
-
-                    //var header = new Dictionary<string, string>() { { "Authorization", token_headers }, { "data", JsonSerializer.Serialize(client) } };
-                    //var content = JsonSerializer.Serialize(client);
-                    //WebResponse response = request.GetResponse();
-                    
-                    return response;
-                }
-
-            };
-
-            Get["/regist/{firstn}&{tel}&{passw}", runAsync: true] = async (x, token) =>
-            {
-                string token_headers = Request.Headers["Authorization"].FirstOrDefault();
-
-                string tel = x.tel;
-                string passw = x.passw;
-                string firstn = x.firstn;
-
-                using (var dbContext = new ApplicationContext())
-                {
-                    if (await dbContext.Clients.Where(c => c.Telephone == tel).FirstOrDefaultAsync() == null && !string.IsNullOrEmpty(token_headers))
-                    {   //если клиент с таким номером телефона не зарегистрирован
-
-                        Client client = new Client() { Telephone = x.tel, FirstName = x.firstn, Password = x.passw, PizzaCartJson="" };
-                        dbContext.Clients.Add(client);
-                        await dbContext.SaveChangesAsync();
-
-                        //return Response.AsJson(client);
-
-                        var response = new Response();
-                        response.Headers["Authorization"] = token_headers;
-                        response.Headers["data"] = JsonSerializer.Serialize(client);
-                        return response;
-                    }
+                    if (client == null) //если клиент не зарегистрирован
+                        return "Not";
 
                     else
                     {
-                        //return new Response { StatusCode = HttpStatusCode.Forbidden};
-                        return "Not ok";
-                    }
-                }
-            };
-
-            Get["/client-rename/{id}&{firstn}", runAsync: true] = async (x, token) =>
-            {
-                string token_headers = Request.Headers["Authorization"].FirstOrDefault();
-                int clientId = x.id;
-
-                using (var dbContext = new ApplicationContext())
-                {
-                    
-                    Client client = await dbContext.Clients.Where(c => c.ClientId == clientId).FirstOrDefaultAsync();
-
-                    if (client != null && !string.IsNullOrEmpty(token_headers))
-                    {   //если клиент существует
-                        
-                        client.FirstName = x.firstn;
-                        await dbContext.SaveChangesAsync();
-
-                        //возвращаем обновлённого клиента
-                        //return Response.AsJson(client);
 
                         var response = new Response();
+
+                        //Для запросов с «непростым» методом или особыми заголовками браузер делает предзапрос OPTIONS
+                        //response.Headers["Access-Control-Request-Method"] = "GET";
+                        //response.Headers["Access-Control-Request-Headers"] = "Authorization";
+
+                        response.StatusCode = (Nancy.HttpStatusCode)200;
+                        response.Headers["Access-Control-Allow-Origin"] = "*";
+                        response.Headers["Access-Control-Allow-Method"] = "GET";
+
+
                         response.Headers["Authorization"] = token_headers;
-                        response.Headers["data"] = JsonSerializer.Serialize(client);
+                        response.Headers["Access-Control-Expose-Headers"] = "Authorization, Client"; //для прочтения заголовков клиентом
+                        response.Headers["Content-Type"] = "application/json";
+
+
+                        response.Headers["Client"] = JsonSerializer.Serialize(client); //данные о клиенте
+
                         return response;
                     }
-
-                    else
-                    {
-                        //return new Response { StatusCode = HttpStatusCode.Forbidden};
-                        return "Not ok";
-                    }
                 }
+
+                else return new Response() { StatusCode = Nancy.HttpStatusCode.NotFound };
+
             };
 
 
-            Get["/client-repassword/{id}&{passw}", runAsync: true] = async (x, token) =>
+            Post["/registration", runAsync: true] = async (x, token) =>
             {
                 string token_headers = Request.Headers["Authorization"].FirstOrDefault();
-                int clientId = x.id;
 
-                using (var dbContext = new ApplicationContext())
+
+                //если токен есть
+                if (!string.IsNullOrEmpty(token_headers))
                 {
+                    x = this.Bind<Client>();
 
-                    Client client = await dbContext.Clients.Where(c => c.ClientId == clientId).FirstOrDefaultAsync();
+                    string tel = x.Telephone;
+                    string passw = x.Password;
+                    string firstn = x.FirstName;
 
-                    if (client != null && !string.IsNullOrEmpty(token_headers))
-                    {   //если клиент существует
-
-                        client.Password = x.passw;
-                        await dbContext.SaveChangesAsync();
-
-                        //возвращаем обновлённого клиента
-                        //return Response.AsJson(client);
-
-                        var response = new Response();
-                        response.Headers["Authorization"] = token_headers;
-                        response.Headers["data"] = JsonSerializer.Serialize(client);
-                        return response;
-                    }
-
-                    else
+                    using (var dbContext = new ApplicationContext())
                     {
-                        //return new Response { StatusCode = HttpStatusCode.Forbidden};
-                        return "Not ok";
+                        if (await dbContext.Clients.Where(c => c.Telephone == tel).FirstOrDefaultAsync() == null)
+                        {   //если клиент с таким номером телефона не зарегистрирован
+
+                            Client client = new Client() { Telephone = x.Telephone, FirstName = x.FirstName, Password = x.Password, PizzaCartJson = "" };
+                            dbContext.Clients.Add(client);
+                            await dbContext.SaveChangesAsync();
+
+                            var response = new Response();
+
+                            response.StatusCode = (Nancy.HttpStatusCode)200;
+                            response.Headers["Access-Control-Allow-Origin"] = "*";
+                            response.Headers["Access-Control-Allow-Method"] = "POST";
+
+                            response.Headers["Authorization"] = token_headers;
+                            response.Headers["Access-Control-Expose-Headers"] = "Authorization, Client"; //для прочтения заголовков клиентом
+                            response.Headers["Content-Type"] = "application/json";
+
+                            response.Headers["Client"] = JsonSerializer.Serialize(client); //данные о клиенте
+
+                            return response;
+                        }
+
+                        else
+                        {
+                            //return new Response { StatusCode = HttpStatusCode.Forbidden};
+                            return "Not";
+                        }
                     }
                 }
-            };
 
+                else return new Response() { StatusCode = Nancy.HttpStatusCode.NotFound };
+            };
 
         }
     }

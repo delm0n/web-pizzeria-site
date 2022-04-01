@@ -1,7 +1,7 @@
 export class PizzaClass {
-    pizzaId!: number;
-    pizzaName!: string;
-    urlImg!: string;
-    structure!: string;
-    minPrice!: number;
+    PizzaId!: number;
+    PizzaName!: string;
+    UrlImg!: string;
+    Structure!: string;
+    MinPrice!: number;
 }

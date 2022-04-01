@@ -3,7 +3,7 @@
     <div *ngFor="let ing of ingreds; index as i;" class="w-full p-1 lg:px-0 rounded-lg border-2 border-gray-200 cursor-pointer"
     [ngClass]="this.boolArrayView[i] == true ? 'w-full p-1 lg:px-0 rounded-lg border-2 border-green-600 cursor-pointer' 
     : 'w-full p-1 lg:px-0 rounded-lg border-2 border-gray-200 cursor-pointer'"
-    (click)="addIngred(ing.ingredientId, i)" style="min-width: 90px;">
+    (click)="addIngred(ing.IngredientId, i)" style="min-width: 90px;">
         <div class="bg-white rounded flex flex-col relative">
             <div *ngIf="this.boolArrayView[i] == true" class="absolute top-0 left-0">
                 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-check2-circle text-green-600" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -13,11 +13,11 @@
             </div>
             <div
         class="mb-1 h-14 w-full lg:mb-0 max-w-xs mx-auto">
-           <img [src]="ing.urlImg" 
+           <img [src]="ing.UrlImg" 
           alt="Just a flower" class="object-fill w-auto h-full rounded mx-auto">
         </div>
-        <div class="text-gray-400 text-center text-sm font-light leading-tight" style="min-height: 50px;">{{ing.name}} {{ing.mass}}г</div>
-        <div class="text-center text-base font-medium">+ {{ing.price}} ₽</div>
+        <div class="text-gray-400 text-center text-sm font-light leading-tight" style="min-height: 50px;">{{ing.Name}} {{ing.Mass}}г</div>
+        <div class="text-center text-base font-medium">+ {{ing.Price}} ₽</div>
 
         </div>
     </div>

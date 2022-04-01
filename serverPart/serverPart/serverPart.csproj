@@ -95,6 +95,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bootstrapper.cs" />
     <Compile Include="Data\ApplicationContext.cs" />
     <Compile Include="Data\Entity\Client.cs" />
     <Compile Include="Data\Entity\Dessert.cs" />

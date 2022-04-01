@@ -1,9 +1,9 @@
 export class IngredientClass {
     
-    ingredientId!: number;
-    name!: string;
-    urlImg!: string;
-    price!: number;
-    mass!: number
+    IngredientId!: number;
+    Name!: string;
+    UrlImg!: string;
+    Price!: number;
+    Mass!: number
 
 }

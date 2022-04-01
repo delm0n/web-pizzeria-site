@@ -7,9 +7,7 @@ import { ClientClass } from '../../models/ClientClass';
 export class ClientService {
 
   autorizationFlug = false;
-
   
-
   client:ClientClass  = {
     clientId : 0,
     firstName : "",

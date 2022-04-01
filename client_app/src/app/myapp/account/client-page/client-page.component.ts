@@ -3,20 +3,56 @@ import axios from 'axios';
 import { ClientService } from '../../../myservices/account/client.service';
 import {Router} from '@angular/router';
 
+import { ClientClass } from '../../../models/ClientClass'
+
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+  keyframes
+} from '@angular/animations';
+
 @Component({
   selector: 'app-client-page',
   templateUrl: './client-page.component.html',
-  styleUrls: ['./client-page.component.css']
+  styleUrls: ['./client-page.component.css'],
+  animations: [
+    trigger(
+    'alertsAnimation', [
+
+      transition(
+        ':enter', 
+        [
+          style({ height: 0, opacity: 0 }),
+          animate('0.4s ease-out', 
+                  style({ height: 40, opacity: 1 }))
+        ]
+      ),
+      transition(
+        ':leave', 
+        [
+          style({ height: 40, opacity: 1, display: 'none' }),
+          animate('0s ease-out', 
+                  style({ height: 0, opacity: 0 }))
+        ]
+      )
+
+    ]
+    )
+  ]
 })
 export class ClientPageComponent implements OnInit {
 
   active_status = 0;
 
-  client = {
+  client: ClientClass = {
     clientId : 0,
     firstName : "",
     telephone : "",
     password : "",
+    pizzaCartJson : ""
   }
 
   emptyError : boolean = false;
@@ -36,65 +72,66 @@ export class ClientPageComponent implements OnInit {
     this.successDone = true;;
     setTimeout(() =>{
       this.successDone = false;
-    }, 5000);
+    }, 6000);
   }
 
   constructor(private clientService: ClientService, private router: Router) { }
 
-  updateClient(firstname: String, password: String) {  
+  updateClient(firstname: String, password: String, id: number) {  
     let token = this.client.telephone + ':' +this.client.password
+
     if(firstname == "" || password == "") {
       this.emptyError = true;
     }
 
     else {
+      console.log(firstname, password, id);
+      let token = this.client.telephone + ':' + this.client.password + ':' + new Date().toLocaleDateString();
 
-      if(this.client.firstName != firstname) {
-        axios.get('http://localhost:1234/client-rename/' + this.client.clientId + '&' + firstname,
-        {
-          headers: {Authorization: token}
-        },
-      )
-        .then((res) => {
-          if (res.headers['authorization'] == token) {
-            this.clientService.enterClient(JSON.parse(res.headers['data']));
-            this.doneChange()
-          }
-          else {
+      axios.get('http://localhost:1234/client-re',
+      {
+        params: {
+          ClientId: id,
+          Firstname: firstname,
+          Password: password,
+        }, 
+        headers: {
+          'Authorization': token
+        }
+      })
+      .then((res) => {
+        if (res.status == 404) {
+          this.router.navigate(['/404'])
+        }
+        
+        else {
+          if(res.data == "Not") {
             this.router.navigate(['/404'])
-          } 
-        })
-        .catch((err: any) => {
-          console.log(err);
-        });
-      }
-
-      if(this.client.password != password) {
-        axios.get('http://localhost:1234/client-repassword/' + this.client.clientId + '&' + password,
-        {
-          headers: {Authorization: token}
-        },
-      )
-        .then((res) => {
-
-          if (res.headers['authorization'] == token) {
-            this.clientService.enterClient(JSON.parse(res.headers['data']));
-            this.doneChange()
           }
+  
           else {
-            this.router.navigate(['/404'])
-          } 
-        })
-        .catch((err: any) => {
-          console.log(err);
-        });
-      }
+              //проверяем на совпадение токенов
+            if(res.headers["authorization"] == token) {
+              console.log("Совпадение токенов");
+              
+              this.clientService.enterClient(JSON.parse(res.headers["client"]));
+            }
+            else { //если не совпадает
+              this.router.navigate(['/404'])
+            }
+          }
+        }
+        
+      })
+      .catch((err) => {
+        console.log(err);       
+      })
+
     }
-
   }
 
   ngOnInit(): void {
-    this.client = this.clientService.client;
+    this.client = this.clientService.client;   
   }
 
 }
