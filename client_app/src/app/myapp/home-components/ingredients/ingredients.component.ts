@@ -12,7 +12,6 @@ import { IngredientClass } from 'src/app/models/IngredientClass';
 export class IngredientsComponent implements OnInit {
 
   ingreds: IngredientClass[] = [];
-
   boolArrayView: boolean[] = []; //выделение выбранных допов - массив true/false
 
   constructor(private pizzaService: ModalPizzaService) { }
@@ -34,16 +33,14 @@ export class IngredientsComponent implements OnInit {
   ngOnInit(): void {
     axios.get('http://localhost:1234/ingredients')
       .then((res) => {
-
-      this.ingreds = JSON.parse(res.headers['ingredients']);
-      this.boolArrayView = this.pizzaService.boolArrayServ  
       
-        // if (this.pizzaService.step == 0) {
-        //   this.pizzaService.setBooler(this.ingreds.filter(function (v) { return v.hasOwnProperty('ingredientId'); }).length);
-        // }
-        // else {
-        //   //..
-        // }  
+      this.pizzaService.ingredientArray = JSON.parse(res.headers['ingredients']);
+      this.pizzaService.setBoolFalseStartup();
+
+      //заполняем представления
+      this.boolArrayView = this.pizzaService.boolArrayServ;
+      this.ingreds = this.pizzaService.ingredientArray;
+      
            
       })
       .catch((err: any) => {

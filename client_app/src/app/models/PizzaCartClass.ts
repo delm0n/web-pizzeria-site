@@ -1,16 +1,16 @@
 import { IngredientClass } from './IngredientClass' 
 
 export class PizzaCartClass {
-    pizzaId!: number;
-    pizzaName!: string;
-    urlImg!: string;
-    structure!: string;
-    sizes!: {
-      pizzaSizeId: number;
-      nameSize : string; //имя размера
-      price: number;
-      mass: number
+  PizzaId!: number;
+  PizzaName!: string;
+  UrlImg!: string;
+  Structure!: string;
+  Sizes!: {
+    PizzaSizeId: number;
+    NameSize : string; //имя размера
+    Price: number;
+    Mass: number
     };
-    ingredients!: IngredientClass[]; 
-    count!: number;
+  Ingredients!: IngredientClass[]; 
+  Count!: number;
 }

@@ -27,12 +27,12 @@ export class ModalPizzaService {
     } 
   }
 
-  // setBooler(index: number) { 
-  //   for(let i = 0; i < index; i++) {
-  //     this.boolArrayServ[i] = false;
-  //     this.step = index
-  //   }   
-  // }
+  //вызывается после присваивания в ingredientArray
+  setBoolFalseStartup() { 
+    for(let i = 0; i < this.ingredientArray.length; i++) {
+      this.boolArrayServ[i] = false;
+    }   
+  }
 
   // step :number = 0
   // setBooler_step() { //если мы уже открывали модальное окно - чтобы лишний раз не обращаться к серверу

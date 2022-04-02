@@ -7,6 +7,10 @@ export class CartService {
 
   pizzasInCart: PizzaCartClass[] = [];
 
+  postInCartAsync() {
+    console.log(this.pizzasInCart);
+    
+  }
   //вызвать axios получение id
 
   constructor() { }

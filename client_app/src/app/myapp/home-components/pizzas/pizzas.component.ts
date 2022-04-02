@@ -165,7 +165,7 @@ export class PizzasComponent implements OnInit {
 
   addToCart() {
 
-    //создадим массив с выбранными ингредиентами
+    // массив с выбранными ингредиентами
     let ingredientArray: IngredientClass[] = [];
     for(let i = 0; i<this.pizzaService.ingredientArray.length; i++){
       if (this.pizzaService.boolArrayServ[i] == true) {
@@ -173,33 +173,19 @@ export class PizzasComponent implements OnInit {
       } 
     }
     
-    // this.cartService.pizzasInCart.push({
-    //   pizzaId: this.modalPizzas.pizzaId,
-    //   pizzaName: this.modalPizzas.pizzaName,
-    //   urlImg: this.modalPizzas.urlImg,
-    //   structure: this.modalPizzas.structure,
-    //   sizes: this.modalPizzas.sizes[this.active_status],
-    //   ingredients: ingredientArray,
-    //   count: this.countModal
-    // })
+    //сначала визуализация данных
+    this.cartService.pizzasInCart.push({
+      PizzaId: this.modalPizzas.pizzaId,
+      PizzaName: this.modalPizzas.pizzaName,
+      UrlImg: this.modalPizzas.urlImg,
+      Structure: this.modalPizzas.structure,
+      Sizes: this.modalPizzas.sizes[this.active_status],
+      Ingredients: ingredientArray,
+      Count: this.countModal
+    })
 
-    //отправлять только id 
-
-
-
-    console.log(this.cartService.pizzasInCart);
-
-
-    // if(this.clientService.autorizationFlug == true) {
-    //   axios.put('http://localhost:1234/add-pizza-in-cart/' + this.clientService.client.clientId + '&&' + JSON.stringify(this.cartService.pizzasInCart))
-    //   .then((res) => {
-    //     this.pizzas = res.data;
-    //   })
-    //   .catch((err: any) => {
-    //     console.log(err);
-    //   });
-    // }
-    
+    //асинхронанная отправка на сервер данных
+    this.cartService.postInCartAsync()
     
   }
   
