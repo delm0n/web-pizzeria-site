@@ -26,20 +26,11 @@ export class TestConnComponent implements OnInit {
   }
 
   btnClick() {
-    let token = this.form.telephone + ':' +this.form.password + ':' + new Date().toLocaleDateString();
+    //let token = this.form.telephone + ':' +this.form.password + ':' + new Date().toLocaleDateString();
 
-    axios.get('http://localhost:1234/test',
-    {
-      //withCredentials: true,
-      params: {
-        telephone: this.form.telephone,
-        password: this.form.password
-      },
-
-      headers: {
-        'Authorization':  token,
-      }
-    })
+    console.log('click');
+    
+    axios.get('http://localhost:1234/start')
     .then((res) => {
       console.log(res);
       

@@ -11,7 +11,6 @@ namespace serverPart.Data.Entity
     public class Client
     {
 
-        
         public int ClientId { get; set; }
 
         public string FirstName { get; set; } //имя   

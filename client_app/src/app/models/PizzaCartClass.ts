@@ -13,4 +13,10 @@ export class PizzaCartClass {
     };
   Ingredients!: IngredientClass[]; 
   Count!: number;
+
 }
+
+// export function getPrice(): number {
+//     let lastPrice: number = 0;
+//     return lastPrice;
+//   }

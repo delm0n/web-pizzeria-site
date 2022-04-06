@@ -23,6 +23,8 @@ namespace serverPart.Data.Entity
 
         public decimal MinPrice { get; set;}
 
+        public double Rating { get; set; } = 5;
+
         public ICollection<PizzaSize> PizzaSizes { get; set; }
         
     }

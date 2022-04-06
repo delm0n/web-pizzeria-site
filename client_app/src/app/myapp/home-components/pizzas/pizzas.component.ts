@@ -7,6 +7,7 @@ import { CartService } from '../../../myservices/cart/cart.service';
 import { ClientService } from '../../../myservices/account/client.service';
 
 import { PizzaClass } from 'src/app/models/PizzaClass';
+import {NgbRatingConfig} from '@ng-bootstrap/ng-bootstrap';
 
 import {
   trigger,
@@ -21,6 +22,7 @@ import {
   selector: 'app-pizzas',
   templateUrl: './pizzas.component.html',
   styleUrls: ['./pizzas.component.css'],
+  providers: [NgbRatingConfig],
   animations: [
     trigger('openClose', [
       state('block', style({
@@ -32,6 +34,7 @@ import {
 
       transition('block => hidden', [
         animate('0s')
+
       ]),
       transition('hidden => block', [
         animate(
@@ -46,6 +49,10 @@ import {
     ]),
   ],
 })
+
+
+
+
 export class PizzasComponent implements OnInit {
 
   
@@ -141,7 +148,13 @@ export class PizzasComponent implements OnInit {
   }
 
   plusIngrPrice: number = 0
-  constructor(private pizzaService: ModalPizzaService, private cartService: CartService, private clientService: ClientService) { }
+  constructor(private pizzaService: ModalPizzaService,
+     private cartService: CartService, private clientService: ClientService, 
+     config: NgbRatingConfig) {
+    // customize default values of ratings used by this component tree
+    config.max = 5;
+    config.readonly = true; 
+    }
 
   checkIngredients() { //в переменную, отвечающую за демонстрацию, 
     //присваиваем актуальное значение цены за дополнительные ингредиенты
@@ -186,6 +199,9 @@ export class PizzasComponent implements OnInit {
 
     //асинхронанная отправка на сервер данных
     this.cartService.postInCartAsync()
+
+    //закрыть модальное окно
+    this.modalBtn();
     
   }
   

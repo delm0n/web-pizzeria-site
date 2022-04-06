@@ -2,7 +2,7 @@
     <div class="container mx-auto">
         <div class="max-w-lg mx-auto my-10 p-1 sm:p-4 ">
             <div class="text-center">
-                <h1 class="my-3 text-3xl font-semibold text-gray-700">Вход в аккаунт</h1>
+                <h1 class="my-3 font-bold text-3xl text-gray-700">Вход в аккаунт</h1>
                 <p class="text-gray-500 dark:text-gray-400">Сохраним адрес доставки и предоставим возможность оценивания!</p>
             </div>
             <div class="sm:m-7">
@@ -76,7 +76,7 @@
                        
                         <button (click)="logIn()" type="button"
                             [disabled]="!(password.valid && telephone.valid && checkedPolicy && person.telephone.length == 10)"
-                            [ngClass]="password.valid && telephone.valid && checkedPolicy && person.telephone.length == 10 ? 'text-center px-8 py-2 text-white bg-green-600 rounded-md focus:bg-green-700 focus:outline-none cursor-pointer' 
+                            [ngClass]="password.valid && telephone.valid && checkedPolicy && person.telephone.length == 10 ? 'text-center px-8 py-2 text-white bg-green-600 transition duration-150 ease-in-out hover:bg-green-700 rounded-md focus:bg-green-700 focus:outline-none cursor-pointer' 
                                   : 'text-center px-8 py-2 text-gray-600 text-base disabled:bg-gray-300 rounded-md'" class="">Войти</button>
                     </div>
 

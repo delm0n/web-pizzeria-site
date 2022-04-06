@@ -1,11 +1,95 @@
 <div class="min-h-screen bg-slate-50/50 pt-20">
     <div class="container mx-auto">
-        <div class="max-w-xl mx-auto p-1 sm:p-4 ">
+        <div *ngIf="checkLenght()" class="max-w-xl mx-auto p-1 sm:p-4 ">
             <div class="mt-4 my-2 sm:mx-7 ">
-                <h1 class="text-3xl font-semibold text-gray-700">Корзина</h1>
+                <h1 class="font-bold text-3xl text-gray-700">Корзина</h1>
             </div>
         </div>
     </div>
 
-    
+
+    <div class="container mx-auto">
+        <div *ngIf="checkLenght()" class="max-w-xl mx-auto p-1 sm:p-4 ">
+            <div *ngFor="let pizza of pizzasCartView; index as i" class="mt-4 mb-14 sm:mx-7">
+
+                <div class="flex flex-row">
+                    <div class="flex-initial w-40 ">
+                        <img [src]="pizza.UrlImg" alt="">
+                    </div>
+
+                    <!-- блок с контентом -->
+                    <div class="flex flex-row justify-between w-full">
+                        <div class="flex flex-col mx-2 flex-1 ">
+                            <div class="font-semibold text-lg text-gray-900">{{pizza.PizzaName}}</div>
+                            <div class="text-gray-400 pt-2 font-light">{{pizza.Sizes.NameSize}}, {{pizza.Sizes.Mass}}
+                                <span *ngIf="getIngredientsMass(i) != 0"
+                                    class="text-green-600">+{{getIngredientsMass(i)}}</span>
+                                грамм
+                            </div>
+                            <div class="flex flex-row flex-wrap">
+                                <div *ngFor="let ingredient of pizza.Ingredients; index as j"
+                                    class="text-sm mr-1 text-green-600">+{{ingredient.Name}}</div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <!-- кнопка удалить -->
+                            <button role="button" aria-label="close label" class="mt-6"
+                                (click)="deleteFromCart(pizza.PizzaId)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1.3em" height="1.3em" fill="currentColor"
+                                    class="bi bi-x-lg font-semibold text-gray-400 hover:text-gray-700"
+                                    viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z" />
+                                    <path fill-rule="evenodd"
+                                        d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="mt-4 flex flex-row justify-around">
+                    <div class="flex flex-row items-center">
+                        <div>
+                            <button (click)="decrement(i)"
+                                class="px-2 rounded bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold cursor-pointer">-</button>
+                        </div>
+                        <div class="px-3">{{pizza.Count}}</div>
+                        <div><button (click)="increment(i)"
+                                class="px-2 rounded bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold cursor-pointer">+</button>
+                        </div>
+                    </div>
+                    <div class="text-lg font-medium">
+                        {{getIngredientsPrice(i) + pizza.Sizes.Price * pizza.Count | number: '.0-2'}} ₽
+                    </div>
+                </div>
+
+                <!-- <hr class="my-6 border-gray-200 sm:mx-auto lg:my-8" /> -->
+
+                <div style="height: 1px;" class="my-6 w-full bg-gray-100"></div>
+            </div>
+
+            <div class="max-w-xl mx-auto flex flex-row justify-between items-center">
+                <div class="font-medium text-lg text-gray-700">Заказ на сумму:</div>
+                <div class="font-semibold text-lg text-green-600">{{lastPrice | number: '.0-2'}} ₽</div>
+            </div>
+
+        </div>
+
+        <div *ngIf="!checkLenght()" class="max-w-xl mt-10 mx-auto p-1 sm:p-4 text-center">
+            <div>
+                <h1 class="my-3 font-bold text-3xl text-gray-700">Ваша корзина пуста!</h1>
+                <p class="text-gray-500 dark:text-gray-400">Вернитесь на главную страницу и добавьте товары в корзину
+                </p>
+            </div>
+            <div>
+                <button type="button" [routerLink]="['/']"
+                    class="mt-6 text-center px-8 py-2 text-white bg-green-600 transition
+                duration-150 ease-in-out hover:bg-green-700 rounded-md focus:bg-green-700 focus:outline-none cursor-pointer">
+                    На главную</button>
+            </div>
+        </div>
+    </div>
 </div>

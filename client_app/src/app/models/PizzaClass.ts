@@ -4,4 +4,5 @@ export class PizzaClass {
     UrlImg!: string;
     Structure!: string;
     MinPrice!: number;
+    Rating!: number;
 }
