@@ -137,7 +137,8 @@ namespace serverPart.RouterModule
                         if (await dbContext.Clients.Where(c => c.Telephone == tel).FirstOrDefaultAsync() == null)
                         {   //если клиент с таким номером телефона не зарегистрирован
 
-                            Client client = new Client() { Telephone = x.Telephone, FirstName = x.FirstName, Password = x.Password, PizzaCartJson = "" };
+                            Client client = new Client() { Telephone = x.Telephone, FirstName = x.FirstName, 
+                                Password = x.Password, PizzaCartJson = "" };
                             dbContext.Clients.Add(client);
                             await dbContext.SaveChangesAsync();
 

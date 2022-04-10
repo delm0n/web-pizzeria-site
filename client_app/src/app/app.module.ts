@@ -28,6 +28,7 @@ import { RegistrationComponent } from './myapp/account/registration/registration
 import { ClientPageComponent } from './myapp/account/client-page/client-page.component';
 import { NotFoundPageComponent } from './myapp/not-found-page/not-found-page.component';
 import { CartPageComponent } from './myapp/cart-page/cart-page.component';
+import { DesertsComponent } from './myapp/home-components/deserts/deserts.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { CartPageComponent } from './myapp/cart-page/cart-page.component';
     RegistrationComponent,
     ClientPageComponent,
     NotFoundPageComponent,
-    CartPageComponent
+    CartPageComponent,
+    DesertsComponent
   ],
   imports: [
     BrowserModule,

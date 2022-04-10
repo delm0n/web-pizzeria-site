@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace serverPart.RouterModule
 {
-    public class HomePage : NancyModule
+    public class PizzaService : NancyModule
     {
-        public HomePage()
+        public PizzaService()
         {
             Get["/pizza", runAsync: true] = async (x, token) =>
             {

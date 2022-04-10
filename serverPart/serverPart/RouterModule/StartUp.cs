@@ -19,6 +19,11 @@ namespace serverPart.RouterModule
             {
                 using (var dbContext = new ApplicationContext())
                 {
+                    /* dbContext.Desserts.Add(new Dessert
+                    {   
+                        Name = "Чизкейк", UrlImg = "/assets/img/cheesecake.png", Mass = 95, Price =90
+                    });
+                    await dbContext.SaveChangesAsync(); */
                     /* dbContext.Pizzas.Add(new Pizza
                     {
                         PizzaName = "Гавайская",
