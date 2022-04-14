@@ -10,6 +10,9 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Net;
+using System.IO;
+using System.Net.Mail;
 
 namespace serverPart
 {
@@ -19,54 +22,51 @@ namespace serverPart
         {
 
 
-            Get["/test", runAsync: true] = async (x, token) =>
+            Get["/email", runAsync: true] = async (x, token) =>
             {
-                
-                //var req = Request.Query; //получаю все параметры
-                x = this.Bind<Client>(); //Получаю параметры + null в модели
-                string token_headers = Request.Headers["Authorization"].FirstOrDefault(); //получаю токен
-
-                Client client = new Client();
-
-                //если токен есть
-                if (!string.IsNullOrEmpty(token_headers))
+                try
                 {
-                    string tel = x.Telephone; string passw = x.Password;
+                    // отправитель - устанавливаем адрес и отображаемое в письме имя
+                    MailAddress from = new MailAddress("delm0n@mail.ru", "delm0n");
 
-                    using (var dbContext = new ApplicationContext())
-                    {
-                        client = await dbContext.Clients.FirstOrDefaultAsync(c => c.Telephone == tel && c.Password == passw);
-                    }
+                    // кому отправляем
+                    MailAddress to = new MailAddress("delm0n@mail.ru");
 
-                    if (client == null) //если клиент не зарегистрирован
-                        return "Not";
+                    // создаем объект сообщения
+                    MailMessage m = new MailMessage(from, to);
+
+                    // тема письма
+                    m.Subject = "три письма";
+                    m.IsBodyHtml = true;
+                    m.Body = "<h2>hello word</h2>";
                     
-                    else
-                    {
+                    // письмо представляет код html
+                    m.IsBodyHtml = true;
 
-                        var response = new Response();
+                    // адрес smtp-сервера и порт, с которого будем отправлять письмо
+                    SmtpClient smtp = new SmtpClient("smtp.mail.ru", 587);
 
-                        //Для запросов с «непростым» методом или особыми заголовками браузер делает предзапрос OPTIONS
-                        //response.Headers["Access-Control-Request-Method"] = "GET";
-                        //response.Headers["Access-Control-Request-Headers"] = "Authorization";
+                    // логин и пароль
+                    smtp.Credentials = new NetworkCredential("delm0n@mail.ru", "e0LEpm1e731bLGYjvu3Q");
+                    smtp.EnableSsl = true;
+                    smtp.Send(m);
 
-                        response.StatusCode = (Nancy.HttpStatusCode)200;
-                        response.Headers["Access-Control-Allow-Origin"] = "*";
-                        response.Headers["Access-Control-Allow-Method"] = "GET";
 
-                        
-                        response.Headers["Authorization"] = token_headers;
-                        response.Headers["Access-Control-Expose-Headers"] = "Authorization, Client"; //для прочтения заголовков клиентом
-                        response.Headers["Content-Type"] = "application/json";
+                    m.Body = "<table><tr><th>Russia</th><th>Great Br</th><th>Europe</th><th>Foot length, cm</th><tr><td>34,5</td><td>3,5</td><td>36</td><td>23</td></tr></table>";
+                    smtp.Send(m);
 
-                        
-                        response.Headers["Client"] = JsonSerializer.Serialize(client); //данные о клиенте
+                    m.Body = "";
+                    m.Attachments.Add(new Attachment("C://52c8e8114c11cfa9e6e668ee652dbf2b.pdf"));
+                    smtp.Send(m);
 
-                        return response;
-                    }
+                    //Console.Read();
+                } catch (Exception ex)
+                {
+
                 }
+                
 
-                else return new Response() { StatusCode = Nancy.HttpStatusCode.NotFound };
+                return new Response { StatusCode = Nancy.HttpStatusCode.OK };
 
             };
         }

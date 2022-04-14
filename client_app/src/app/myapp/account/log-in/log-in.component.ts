@@ -69,27 +69,14 @@ export class LogInComponent implements OnInit {
 
   logIn() {
 
-    let token = this.person.telephone + ':' +this.person.password + ':' + new Date().toLocaleDateString();
+    //let token = this.person.telephone + ':' +this.person.password + ':' + new Date().toLocaleDateString();
 
-    axios.get('http://localhost:1234/enter',
-    {
-      //withCredentials: true,
-      params: {
+    axios.post('http://localhost:1234/enter',
+    {  
         telephone: this.person.telephone,
-        password: this.person.password
-      },
-
-      headers: {
-        'Authorization':  token,
-      }
+        password: this.person.password   
     })
     .then((res) => {
-
-      if (res.status == 404) {
-        this.router.navigate(['/404'])
-      }
-      
-      else {
 
         if(res.data == "Not") {
           //если такого пользователя нет
@@ -97,19 +84,13 @@ export class LogInComponent implements OnInit {
         }
 
         else {
-          //проверяем на совпадение токенов
-          if(res.headers["authorization"] == token) {
-            
             this.clientService.enterClient(JSON.parse(res.headers["client"]));
-            this.router.navigate(['/'])
-          }
-          else { //если не совпадает
-            this.router.navigate(['/404'])
-          }
+            this.router.navigate(['/']);
+            sessionStorage.setItem('token', res.headers["token"]);
         } 
       }
       
-    })
+    )
     .catch((err) => {
       console.log(err);
     })

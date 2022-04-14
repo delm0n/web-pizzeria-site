@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CartService } from '../../myservices/cart/cart.service'
+import { ClientService } from '../../myservices/account/client.service'
 import { PizzaCartClass } from '../../models/PizzaCartClass' 
 
 
@@ -21,21 +22,34 @@ export class CartPageComponent implements OnInit {
     }
   }
 
-  constructor(private cdref: ChangeDetectorRef, private cartService: CartService) { }
+  constructor(private cdref: ChangeDetectorRef, private cartService: CartService, private clientService:ClientService ) { 
+    
+    this.pizzasCartView = cartService.pizzasInCart
+  }
 
   ngOnInit(): void {
-    
+    //this.pizzasCartView = this.cartService.pizzasInCart
   }
 
   decrement(index: number) {
     if (this.cartService.pizzasInCart[index].Count > 1) {
-      this.cartService.pizzasInCart[index].Count--;    
+      this.cartService.pizzasInCart[index].Count--; 
+
+      if(this.clientService.autorizationFlug) {
+        this.cartService.counterPizzaInCartServer(this.clientService.client.clientId, index, this.cartService.pizzasInCart[index].Count)   
+      }
+      
     } 
   }       
 
   increment(index: number) {
     if (this.cartService.pizzasInCart[index].Count < 11) {
     this.cartService.pizzasInCart[index].Count++;
+
+      if(this.clientService.autorizationFlug) {
+        this.cartService.counterPizzaInCartServer(this.clientService.client.clientId, index, this.cartService.pizzasInCart[index].Count)   
+      }
+      
     }
   }
 
@@ -57,8 +71,16 @@ export class CartPageComponent implements OnInit {
 
   deleteFromCart(index: number) {
     
-    this.cartService.pizzasInCart = this.cartService.pizzasInCart.filter(pc => pc.PizzaId != index);
+    this.cartService.pizzasInCart = this.cartService.pizzasInCart.slice(0, index)
+      .concat(this.cartService.pizzasInCart.slice(index + 1, this.cartService.pizzasInCart.length))
+
     this.pizzasCartView = this.cartService.pizzasInCart;
+
+    //вызвать функцию удаления из бд
+    if(this.clientService.autorizationFlug) {
+      this.cartService.deletePizzaFromCartServer(this.clientService.client.clientId, index);
+    }
+    
 
   }
 
@@ -67,23 +89,18 @@ export class CartPageComponent implements OnInit {
   getCartPrice() {
 
     this.lastPrice = 0;
-    for(let i = 0; i<this.pizzasCartView.length; i++) {
+    for(let i = 0; i<this.cartService.pizzasInCart.length; i++) {
       //складываем значения каждой пиццы
-      this.lastPrice += this.getIngredientsPrice(i) + this.cartService.pizzasInCart[i].Sizes.Price * this.cartService.pizzasInCart[i].Count; 
-    }
-    
-    // for(let i = 0; i<document.getElementsByClassName("price_class").length; i++) {
-    //   this.lastPrice += (Number)(document.getElementsByClassName("price_class")[i].innerHTML.split(',').join(''));
-    // }
-    
+      this.lastPrice += this.getIngredientsPrice(i) + this.cartService.pizzasInCart[i].Size.Price * this.cartService.pizzasInCart[i].Count; 
+    }    
   }
 
   ngAfterContentChecked() {
     this.cdref.detectChanges();
-    this.pizzasCartView = this.cartService.pizzasInCart;
-    //console.log(1);
+    //this.pizzasCartView = this.cartService.pizzasInCart;
+    //console.log(this.pizzasCartView);
     
     this.getCartPrice();
-    }
+  }
 
 }

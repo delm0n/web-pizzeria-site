@@ -52,7 +52,7 @@ export class ClientPageComponent implements OnInit {
     firstName : "",
     telephone : "",
     password : "",
-    pizzaCartJson : ""
+    //pizzaCartJson : ""
   }
 
   emptyError : boolean = false;
@@ -78,50 +78,30 @@ export class ClientPageComponent implements OnInit {
   constructor(private clientService: ClientService, private router: Router) { }
 
   updateClient(firstname: String, password: String, id: number) {  
-    let token = this.client.telephone + ':' +this.client.password
 
     if(firstname == "" || password == "") {
       this.emptyError = true;
     }
 
     else {
-      console.log(firstname, password, id);
-      let token = this.client.telephone + ':' + this.client.password + ':' + new Date().toLocaleDateString();
-
-      axios.get('http://localhost:1234/client-re',
-      {
-        params: {
+      axios.post('http://localhost:1234/client-re',
+        {
           ClientId: id,
           Firstname: firstname,
           Password: password,
         }, 
+        {
         headers: {
-          'Authorization': token
+          'Authorization':  sessionStorage.getItem('token')!,
         }
       })
       .then((res) => {
         if (res.status == 404) {
           this.router.navigate(['/404'])
         }
-        
         else {
-          if(res.data == "Not") {
-            this.router.navigate(['/404'])
-          }
-  
-          else {
-              //проверяем на совпадение токенов
-            if(res.headers["authorization"] == token) {
-              console.log("Совпадение токенов");
-              
-              this.clientService.enterClient(JSON.parse(res.headers["client"]));
-            }
-            else { //если не совпадает
-              this.router.navigate(['/404'])
-            }
-          }
+          this.clientService.enterClient(JSON.parse(res.headers["client"]));
         }
-        
       })
       .catch((err) => {
         console.log(err);       

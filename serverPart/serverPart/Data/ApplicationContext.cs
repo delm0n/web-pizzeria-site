@@ -15,6 +15,7 @@ namespace serverPart.Data
         public DbSet<PizzaSize> PizzaSizes { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<Dessert> Desserts { get; set; }
+        public DbSet<Cart> Carts { get; set; }
 
 
         //public DbSet<ClientCart> Carts { get; set; }

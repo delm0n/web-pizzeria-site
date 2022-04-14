@@ -54,6 +54,9 @@
     <Reference Include="Nancy.Hosting.Self, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Nancy.Hosting.Self.1.4.1\lib\net40\Nancy.Hosting.Self.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Npgsql, Version=4.1.3.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
       <HintPath>..\packages\Npgsql.4.1.3\lib\net461\Npgsql.dll</HintPath>
     </Reference>
@@ -97,9 +100,10 @@
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Data\ApplicationContext.cs" />
+    <Compile Include="Data\Entity\Cart.cs" />
     <Compile Include="Data\Entity\Client.cs" />
     <Compile Include="Data\Entity\Dessert.cs" />
-    <Compile Include="Data\Entity\Dish.cs" />
+    <Compile Include="Data\Helper\Dish.cs" />
     <Compile Include="Data\Entity\Drink.cs" />
     <Compile Include="Data\Entity\Ingredient.cs" />
     <Compile Include="Data\Entity\Order.cs" />
@@ -107,6 +111,7 @@
     <Compile Include="Data\Entity\PizzaSize.cs" />
     <Compile Include="Data\Entity\Salad.cs" />
     <Compile Include="Data\Entity\Snack.cs" />
+    <Compile Include="Data\Helper\PizzaCart.cs" />
     <Compile Include="Migrations\202203131536448_test-conn.cs" />
     <Compile Include="Migrations\202203131536448_test-conn.designer.cs">
       <DependentUpon>202203131536448_test-conn.cs</DependentUpon>
@@ -163,6 +168,14 @@
     <Compile Include="Migrations\202204101206426_addDesserts.designer.cs">
       <DependentUpon>202204101206426_addDesserts.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202204110847381_addCartClass.cs" />
+    <Compile Include="Migrations\202204110847381_addCartClass.designer.cs">
+      <DependentUpon>202204110847381_addCartClass.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202204111022192_updCart.cs" />
+    <Compile Include="Migrations\202204111022192_updCart.designer.cs">
+      <DependentUpon>202204111022192_updCart.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -171,6 +184,7 @@
     <Compile Include="RouterModule\CartService.cs" />
     <Compile Include="RouterModule\PizzaService.cs" />
     <Compile Include="RouterModule\StartUp.cs" />
+    <Compile Include="PersonalToken.cs" />
     <Compile Include="Test-conn.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -219,6 +233,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202204101206426_addDesserts.resx">
       <DependentUpon>202204101206426_addDesserts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202204110847381_addCartClass.resx">
+      <DependentUpon>202204110847381_addCartClass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202204111022192_updCart.resx">
+      <DependentUpon>202204111022192_updCart.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

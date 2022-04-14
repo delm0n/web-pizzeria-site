@@ -14,6 +14,7 @@ namespace serverPart.Data.Entity
         public int Mass { get; set; }
 
         public int PizzaId { get; set;}
+
         public Pizza Pizza { get; set; }
     }
 }

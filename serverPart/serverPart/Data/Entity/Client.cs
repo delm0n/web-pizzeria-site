@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Nancy.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace serverPart.Data.Entity
@@ -19,7 +21,10 @@ namespace serverPart.Data.Entity
 
         public string Password { get; set; }
 
-        public string PizzaCartJson { get; set; } //=""
+        //[ScriptIgnore]
+        public Cart Cart { get; set; }
+
+        //public string PizzaCartJson { get; set; } //=""
 
 
         //public ICollection<Order> Orders { get; set; }

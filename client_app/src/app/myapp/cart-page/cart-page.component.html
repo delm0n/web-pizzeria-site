@@ -21,7 +21,7 @@
                     <div class="flex flex-row justify-between w-full">
                         <div class="flex flex-col mx-2 flex-1 ">
                             <div class="font-semibold text-lg text-gray-900">{{pizza.PizzaName}}</div>
-                            <div class="text-gray-400 pt-2 font-light">{{pizza.Sizes.NameSize}}, {{pizza.Sizes.Mass}}
+                            <div class="text-gray-400 pt-2 font-light">{{pizza.Size.NameSize!}}, {{pizza.Size.Mass!}}
                                 <span *ngIf="getIngredientsMass(i) != 0"
                                     class="text-green-600">+{{getIngredientsMass(i)}}</span>
                                 грамм
@@ -35,7 +35,7 @@
                         <div>
                             <!-- кнопка удалить -->
                             <button role="button" aria-label="close label" class="mt-6"
-                                (click)="deleteFromCart(pizza.PizzaId)">
+                                (click)="deleteFromCart(i)">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1.3em" height="1.3em" fill="currentColor"
                                     class="bi bi-x-lg font-semibold text-gray-400 hover:text-gray-700"
                                     viewBox="0 0 16 16">
@@ -62,7 +62,7 @@
                         </div>
                     </div>
                     <div class="text-lg font-medium">
-                        {{getIngredientsPrice(i) + pizza.Sizes.Price * pizza.Count | number: '.0-2'}} ₽
+                        {{getIngredientsPrice(i) + pizza.Size.Price! * pizza.Count | number: '.0-2'}} ₽
                     </div>
                 </div>
 

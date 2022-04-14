@@ -182,24 +182,26 @@ export class PizzasComponent implements OnInit {
     let ingredientArray: IngredientClass[] = [];
     for(let i = 0; i<this.pizzaService.ingredientArray.length; i++){
       if (this.pizzaService.boolArrayServ[i] == true) {
-        ingredientArray.push(this.pizzaService.ingredientArray[i])
+        ingredientArray.push(this.pizzaService.ingredientArray[i]);
       } 
     }
     
-    //сначала визуализация данных
     this.cartService.pizzasInCart.push({
       PizzaId: this.modalPizzas.pizzaId,
       PizzaName: this.modalPizzas.pizzaName,
       UrlImg: this.modalPizzas.urlImg,
       Structure: this.modalPizzas.structure,
-      Sizes: this.modalPizzas.sizes[this.active_status],
+      Size: this.modalPizzas.sizes[this.active_status],
       Ingredients: ingredientArray,
       Count: this.countModal
     })
 
-    //асинхронанная отправка на сервер данных
-    this.cartService.postInCartAsync()
 
+    if(this.clientService.autorizationFlug) {
+
+     this.cartService.addPizzaInCartServer(this.clientService.client.clientId );
+    }
+    
     //закрыть модальное окно
     this.modalBtn();
     

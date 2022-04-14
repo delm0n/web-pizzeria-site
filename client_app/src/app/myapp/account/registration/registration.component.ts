@@ -68,27 +68,22 @@ export class RegistrationComponent implements OnInit {
 
   registration() {
 
-    let token = this.person.telephone + ':' + this.person.password + ':' + new Date().toLocaleDateString();
+    //let token = this.person.telephone + ':' + this.person.password + ':' + new Date().toLocaleDateString();
     
-    axios.post('http://localhost:1234/registration', 
-    {
+    axios.post('http://localhost:1234/registr', 
+    {  
       Telephone: this.person.telephone,
       Password: this.person.password,
-      FirstName: this.person.firstName,
+      FirstName: this.person.firstName
     },
-    {    
+    // {    
 
-      headers: {
-        'Authorization':  token,
-      }
-    })
+    //   headers: {
+    //     'Authorization':  token,
+    //   }
+    // }
+    )
     .then(res => {
-
-      if (res.status == 404) {
-        this.router.navigate(['/404'])
-      }
-      
-      else {
 
         if(res.data == "Not") {
           //если такого пользователя нет
@@ -96,21 +91,15 @@ export class RegistrationComponent implements OnInit {
         }
 
         else {
-          //проверяем на совпадение токенов
-          if(res.headers["authorization"] == token) {
             
             this.clientService.enterClient(JSON.parse(res.headers["client"]));
-            this.router.navigate(['/'])
+            this.router.navigate(['/']);
+            sessionStorage.setItem('token', res.headers["token"]);
 
-          }
-
-          else { //если не совпадает
-            this.router.navigate(['/404'])
-          }
         } 
       }
 
-    })
+    )
     .catch(errors => console.log(errors));
   }
 
