@@ -27,13 +27,10 @@ export class ClientService {
     //this.client.pizzaCartJson = entity["PizzaCartJson"];
     
     this.autorizationFlug = true;
-
+    
     //получаем корзину с пиццами клиента 
-    this.cartService.getPizzasFromCartServer(this.client.clientId);
-    //отправляем ему уведомление, если в бд хранятся пиццы
-    this.notifyClient(); 
+    this.cartService.getPizzasFromCartServer(this.client.clientId, this.client.firstName);
 
-    //здесь же вызвать отправку в бд выбранных нами пицц до этого
   }
 
   exitClient() {
@@ -45,35 +42,9 @@ export class ClientService {
     }
 
     this.autorizationFlug = false;
+    this.cartService.pizzasInCart_server = [];
+
   }
-
-  notifyClient() {
-    if (!("Notification" in window)) {
-      alert("This browser does not support desktop notification");
-    }
-
-    else if (Notification.permission === "granted") {
-      // If it's okay 
-      var notification = new Notification(this.client.firstName + "!", {
-        tag: "ache-mail",
-        body: "В корзине есть блюда, добавленные ранее...",
-        icon : "https://img.icons8.com/ios-glyphs/90/000000/pizza.png"
-      });  
-    }
-
-    else if (Notification.permission !== "denied") {
-      Notification.requestPermission().then( (permission) => {
-        if (permission === "granted") {
-          var notification = new Notification(this.client.firstName + "!", {
-            tag: "ache-mail",
-            body: "В корзине есть блюда, добавленные ранее...",
-            icon : "https://img.icons8.com/ios-glyphs/90/000000/pizza.png"
-          });  
-        }
-      });
-    }
-  }
-
 
   constructor(private cartService:CartService, private router: Router) { }
 }

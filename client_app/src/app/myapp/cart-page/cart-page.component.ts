@@ -1,7 +1,8 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { CartService } from '../../myservices/cart/cart.service'
 import { ClientService } from '../../myservices/account/client.service'
-import { PizzaCartClass } from '../../models/PizzaCartClass' 
+import { PizzaCartClass } from '../../models/PizzaCartClass'
+
 
 
 @Component({
@@ -22,13 +23,12 @@ export class CartPageComponent implements OnInit {
     }
   }
 
-  constructor(private cdref: ChangeDetectorRef, private cartService: CartService, private clientService:ClientService ) { 
-    
-    this.pizzasCartView = cartService.pizzasInCart
+  constructor(private cdref: ChangeDetectorRef, private cartService: CartService, private clientService:ClientService) { 
+    this.pizzasCartView = cartService.pizzasInCart;
   }
 
+
   ngOnInit(): void {
-    //this.pizzasCartView = this.cartService.pizzasInCart
   }
 
   decrement(index: number) {
@@ -96,11 +96,11 @@ export class CartPageComponent implements OnInit {
   }
 
   ngAfterContentChecked() {
-    this.cdref.detectChanges();
-    //this.pizzasCartView = this.cartService.pizzasInCart;
-    //console.log(this.pizzasCartView);
-    
+    this.cdref.detectChanges();    
     this.getCartPrice();
+
   }
 
 }
+
+

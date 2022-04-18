@@ -13,8 +13,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TestConnComponent } from './test-conn/test-conn.component';
 
-
-//import { ModalPizzaService } from './modal-pizza.service';
 import { ModalPizzaService } from '../app/myservices/modal-pizza/modal-pizza.service';
 import { ClientService } from '../app/myservices/account/client.service';
 
@@ -30,6 +28,7 @@ import { NotFoundPageComponent } from './myapp/not-found-page/not-found-page.com
 import { CartPageComponent } from './myapp/cart-page/cart-page.component';
 import { DesertsComponent } from './myapp/home-components/deserts/deserts.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,7 +42,8 @@ import { DesertsComponent } from './myapp/home-components/deserts/deserts.compon
     ClientPageComponent,
     NotFoundPageComponent,
     CartPageComponent,
-    DesertsComponent
+    DesertsComponent,
+       
   ],
   imports: [
     BrowserModule,

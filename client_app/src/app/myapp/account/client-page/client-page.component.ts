@@ -5,6 +5,8 @@ import {Router} from '@angular/router';
 
 import { ClientClass } from '../../../models/ClientClass'
 
+import { CartService } from '../../../myservices/cart/cart.service';
+
 import {
   trigger,
   state,
@@ -63,19 +65,25 @@ export class ClientPageComponent implements OnInit {
     this.hide = !this.hide;
   }
 
-  exitUser() {
+  exitUser__save() {
     this.clientService.exitClient();
     this.router.navigate(['/log-in'])
   }
 
+  exitUser__clear() {
+    this.clientService.exitClient();
+    this.router.navigate(['/log-in']);
+    this.cartService.pizzasInCart = [];
+  }
+
   doneChange() {
-    this.successDone = true;;
+    this.successDone = true;
     setTimeout(() =>{
       this.successDone = false;
     }, 6000);
   }
 
-  constructor(private clientService: ClientService, private router: Router) { }
+  constructor(private clientService: ClientService, private router: Router, private cartService: CartService) { }
 
   updateClient(firstname: String, password: String, id: number) {  
 

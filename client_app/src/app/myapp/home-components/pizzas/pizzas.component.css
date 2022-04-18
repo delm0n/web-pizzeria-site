@@ -5,3 +5,10 @@
 #modalMobile {
     height: 95%;
 }
+
+@media (min-width: 1024px) {
+    #modalMobile {
+        height: 85%;
+        /* max-height: auto; */
+    }
+}
