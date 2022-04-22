@@ -15,13 +15,13 @@ namespace serverPart.RouterModule
     {
         public Addishes()
         {
-            Get["/desserts", runAsync: true] = async (x, token) =>
+            Get["/dishes/", runAsync: true] = async (x, token) =>
             {
-                List<Dessert> desserts = new List<Dessert>();
+                List<Dish> dishes = new List<Dish>();
 
                 using (var dbContext = new ApplicationContext())
                 {
-                    desserts = await dbContext.Desserts.ToListAsync();
+                    dishes = await dbContext.Dishes.ToListAsync();
                 }
 
                 var response = new Response();
@@ -29,8 +29,31 @@ namespace serverPart.RouterModule
                 response.Headers["Access-Control-Allow-Origin"] = "*";
                 response.Headers["Access-Control-Allow-Methods"] = "GET";
                 response.Headers["Content-Type"] = "application/json";
-                response.Headers["Desserts"] = JsonSerializer.Serialize(desserts);
-                response.Headers["Access-Control-Expose-Headers"] = "Desserts";
+                response.Headers["Dishes"] = JsonSerializer.Serialize(dishes);
+                response.Headers["Access-Control-Expose-Headers"] = "Dishes";
+
+                return response;
+            };
+
+            Get["/dishes/{enumer}", runAsync: true] = async (x, token) =>
+            {
+                int enumer = x.enumer;
+                //Dish.TypesEnum enumer = x.enumer;
+
+                List<Dish> dishes = new List<Dish>();
+
+                using (var dbContext = new ApplicationContext())
+                {
+                    dishes = await dbContext.Dishes.Where(dish => ((int)dish.DishType) == enumer).ToListAsync();
+                }
+
+                var response = new Response();
+
+                response.Headers["Access-Control-Allow-Origin"] = "*";
+                response.Headers["Access-Control-Allow-Methods"] = "GET";
+                response.Headers["Content-Type"] = "application/json";
+                response.Headers["Dishes"] = JsonSerializer.Serialize(dishes);
+                response.Headers["Access-Control-Expose-Headers"] = "Dishes";
 
                 return response;
             };

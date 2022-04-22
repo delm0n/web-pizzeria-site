@@ -102,15 +102,12 @@
     <Compile Include="Data\ApplicationContext.cs" />
     <Compile Include="Data\Entity\Cart.cs" />
     <Compile Include="Data\Entity\Client.cs" />
-    <Compile Include="Data\Entity\Dessert.cs" />
-    <Compile Include="Data\Helper\Dish.cs" />
-    <Compile Include="Data\Entity\Drink.cs" />
+    <Compile Include="Data\Entity\Dish.cs" />
     <Compile Include="Data\Entity\Ingredient.cs" />
     <Compile Include="Data\Entity\Order.cs" />
     <Compile Include="Data\Entity\Pizza.cs" />
     <Compile Include="Data\Entity\PizzaSize.cs" />
-    <Compile Include="Data\Entity\Salad.cs" />
-    <Compile Include="Data\Entity\Snack.cs" />
+    <Compile Include="Data\Helper\DishCart.cs" />
     <Compile Include="Data\Helper\PizzaCart.cs" />
     <Compile Include="Migrations\202203131536448_test-conn.cs" />
     <Compile Include="Migrations\202203131536448_test-conn.designer.cs">
@@ -176,6 +173,18 @@
     <Compile Include="Migrations\202204111022192_updCart.designer.cs">
       <DependentUpon>202204111022192_updCart.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202204191213413_add_dish.cs" />
+    <Compile Include="Migrations\202204191213413_add_dish.designer.cs">
+      <DependentUpon>202204191213413_add_dish.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202204191229424_add_type.cs" />
+    <Compile Include="Migrations\202204191229424_add_type.designer.cs">
+      <DependentUpon>202204191229424_add_type.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202204200944500_dish_cart.cs" />
+    <Compile Include="Migrations\202204200944500_dish_cart.designer.cs">
+      <DependentUpon>202204200944500_dish_cart.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -239,6 +248,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202204111022192_updCart.resx">
       <DependentUpon>202204111022192_updCart.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202204191213413_add_dish.resx">
+      <DependentUpon>202204191213413_add_dish.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202204191229424_add_type.resx">
+      <DependentUpon>202204191229424_add_type.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202204200944500_dish_cart.resx">
+      <DependentUpon>202204200944500_dish_cart.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

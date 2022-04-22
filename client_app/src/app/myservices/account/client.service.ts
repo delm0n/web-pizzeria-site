@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ClientClass } from '../../models/ClientClass';
 import { CartService } from '../cart/cart.service';
 import {Router} from '@angular/router';
+import { DishesService } from '../dishes/dishes.service';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +31,8 @@ export class ClientService {
     
     //получаем корзину с пиццами клиента 
     this.cartService.getPizzasFromCartServer(this.client.clientId, this.client.firstName);
+    //получаем корзину с допами клиента
+    this.dishesService.getDishFromCartServer(this.client.clientId, this.client.firstName);
 
   }
 
@@ -43,8 +46,10 @@ export class ClientService {
 
     this.autorizationFlug = false;
     this.cartService.pizzasInCart_server = [];
+    this.dishesService.dishesCart_server = [];
 
   }
 
-  constructor(private cartService:CartService, private router: Router) { }
+  constructor(private cartService:CartService, private router: Router,
+    private dishesService:DishesService,) { }
 }

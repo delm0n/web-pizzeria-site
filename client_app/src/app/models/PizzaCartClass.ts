@@ -14,30 +14,12 @@ export class PizzaCartClass  {
   };
     Ingredients!: IngredientClass[]; 
     Count!: number;
-
-    // constructor() {
-    //   this.PizzaId = 0;
-    //   this.PizzaName = "";
-    //   this.UrlImg ="";
-    //   this.Structure = "";
-    //   this.Size = new Sizes();
-    //   this.Ingredients = []
-    //   this.Count = 0;
-    // }
-
 }
 
-class Sizes {
+export class Size {
   PizzaSizeId!: number; 
   NameSize!: string; //имя размера
   Price!: number ;
   Mass!: number;
 
-  constructor() {
-    this.PizzaSizeId= 0; 
-    this.NameSize= ""; //имя размера
-    this.Price= 0 ;
-    this.Mass= 0;
-  }
-  
 }

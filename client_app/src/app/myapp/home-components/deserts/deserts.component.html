@@ -1,37 +1,45 @@
 <div class="grid sm:px-4 grid-cols-1 gap-0 lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-2 ">
-    <div *ngFor="let desert of deserts; index as i;" class="w-full p-2 lg:px-0">
-      <div class="p-3 bg-white rounded  ">
-        <div class="">
-          <div class="relative max-w-full mb-3 h-62 lg:mb-0 max-w-xs mx-auto flex-initial" 
-          >
-            <img [src]="desert.UrlImg"
-              (click)="addToCart(i);"
-              alt="Just a flower" class="object-fill w-full h-full rounded opacity-95 cursor-pointer">
+  <div *ngFor="let desert of deserts; index as i;" class="w-full p-2 lg:px-0">
+    <div class="bg-white rounded p-3">
+      <div>
+        <div class="max-w-full mb-3 h-62 lg:mb-0 max-w-xs mx-auto flex-initial">
+          <img [src]="desert.UrlImg" (click)="addToCart(desert.DishId);" alt="Just a flower"
+            class="object-fill w-full h-full rounded opacity-95 cursor-pointer">
+        </div>
+        <div class="flex-auto p-2 justify-evenly">
+          <div class="flex flex-wrap ">
+            <div class="flex flex-row items-center justify-between w-full min-w-0 ">
+              <h2 class="font-semibold mr-auto text-xl text-gray-900">
+                {{desert.Name}}
+              </h2>
+            </div>
           </div>
-          <div class="flex-auto p-2 justify-evenly">
-            <div class="flex flex-wrap ">
-              <div class="flex flex-row items-center justify-between w-full min-w-0 ">
-                <h2 class="font-semibold mr-auto text-xl text-gray-900">
-                  {{desert.Name}}
-                </h2>  
-              </div>
+          <div class="flex flex-wrap ">
+            <div class="flex items-center justify-between w-full min-w-0 text-gray-400 pt-2 pb-4 font-light"
+              style="height: 60px;">
+              <p>{{desert.Mass}} грамм</p>
             </div>
-            <div class="flex flex-wrap ">
-              <div class="flex items-center justify-between w-full min-w-0 text-gray-400 pt-2 pb-4 font-light"
-                style="height: 60px;">
-                <p>{{desert.Mass}} грамм</p>
-              </div>
-            </div>
-            <div class="flex items-center justify-between w-full min-w-0 ">
-              <div class="text-lg font-medium">От {{desert.Price}} ₽</div>
-  
-              <button (click)="addToCart(i);"
-                class="mx-2 my-2 bg-green-600 transition
-                 duration-150 ease-in-out hover:bg-green-700 rounded 
-                 text-white text-base px-6 py-2 ">Выбрать</button>
-            </div>
+          </div>
+          <div class="flex items-center justify-between w-full min-w-0 ">
+            <div class="text-lg font-medium">{{desert.Price}} ₽</div>
+
+            <button *ngIf="!desertsInCartID.includes(desert.DishId)" (click)="addToCart(desert.DishId);" class="mx-2 my-2 bg-green-600 shadow-md
+                hover:bg-green-700 hover:shadow-lg
+                active:bg-green-800 active:shadow-lg
+                transition duration-150
+                ease-in-out rounded-md 
+                text-white text-base px-6 py-2">В корзину</button>
+
+            <button *ngIf="desertsInCartID.includes(desert.DishId)" (click)="addToCart(desert.DishId);" class="mx-2 my-2 bg-green-600 shadow-md
+                hover:bg-green-700 hover:shadow-lg
+                active:bg-green-800 active:shadow-lg
+                transition duration-150
+                ease-in-out rounded-md 
+                text-white text-base px-6 py-2">Добавить ещё</button>
+            
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>

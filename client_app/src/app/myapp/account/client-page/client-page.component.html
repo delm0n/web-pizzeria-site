@@ -4,8 +4,9 @@
         <div class="max-w-xl mx-auto p-1 sm:p-4 ">
             <div class="mt-4 my-2 sm:mx-7 flex flex-row items-center justify-between">
                 <h1 class="font-bold text-3xl text-gray-700">Личный кабинет</h1>
-                <span type="button" class="font-semibold text-sm text-green-600 cursor-pointer" data-bs-toggle="modal"
+                <span *ngIf="cartContainFlugView" type="button" class="font-semibold text-sm text-green-600 cursor-pointer" data-bs-toggle="modal"
                     data-bs-target="#exampleModal">Выход</span>
+                <span *ngIf="!cartContainFlugView" (click)="exitUser__save()" type="button" class="font-semibold text-sm text-green-600 cursor-pointer">Выход</span>    
             </div>
         </div>
     </div>

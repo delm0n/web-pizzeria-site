@@ -1,26 +1,189 @@
 import { Injectable } from '@angular/core';
-import { PizzaCartClass } from '../../models/PizzaCartClass'
 import axios from 'axios';
 import { Router } from '@angular/router';
 
 
+import { DishesClass } from '../../models/DishClass';
+import { DishesCartClass } from '../../models/DishCartClass';
+
 @Injectable({
   providedIn: 'root'
 })
-export class CartService {
+export class DishesService {
 
-  pizzasInCart: PizzaCartClass[] = [];
-  pizzasInCart_server: PizzaCartClass[] = [];
+  constructor(private router: Router) { }
+
+  dishes: DishesClass[] = [];
+
+  dishesCart: DishesCartClass[] = [];
+  dishesCart_server: DishesCartClass[] = [];
   
 
-  addPizzaInCartServer(id_client: number) {
+  addDishInCartServer(id_client: number) {
+    axios.post('http://localhost:1234/add-dish-in-cart/' + id_client, {
+      dishId: this.dishesCart[this.dishesCart.length - 1].DishId,
+      count: this.dishesCart[this.dishesCart.length - 1].Count
+    },
+      {
+        headers: {
+          'Authorization': sessionStorage.getItem('token')!,
+        }
+      }
+    )
+      .then((res) => {
+        if (res.status == 404) {
+          this.router.navigate(['/404']);
+        }
 
-    axios.post('http://localhost:1234/add-pizza-in-cart/' + id_client, {
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }
 
-      pizzaId: this.pizzasInCart[this.pizzasInCart.length - 1].PizzaId,
-      size: this.pizzasInCart[this.pizzasInCart.length - 1].Size,
-      ingredients: this.pizzasInCart[this.pizzasInCart.length - 1].Ingredients,
-      count: this.pizzasInCart[this.pizzasInCart.length - 1].Count,
+  getDishFromCartServer(id_client: number, name_client: string) {
+    axios.get('http://localhost:1234//get-dish-from-cart/' + id_client,
+      {
+        headers: {
+          'Authorization': sessionStorage.getItem('token')!,
+        }
+      })
+      .then((res) => {
+        if (res.status == 404) {
+          this.router.navigate(['/404']);
+        }
+        else {
+          if (res.status != 204) {
+            //количество пицц в корзине до входа в аккаунт
+            let length_before = this.dishesCart.length;
+
+            if (JSON.parse(res.headers["dishes"]).length > 0) {
+              for (let i = 0; i < JSON.parse(res.headers["dishes"]).length; i++) {
+                this.dishesCart_server.push(JSON.parse(res.headers["dishes"])[i]);
+              }
+            }
+
+            if (length_before == 0) {
+              //если до входа в корзине ничего не было
+
+              if (this.dishesCart_server.length > 0) {
+                //но пришло с сервера
+                this.notifyClient(name_client);
+                this.dishesCart = this.dishesCart_server;
+                console.log("до входа в корзине ничего не было, но пришло с сервера");
+
+              }
+
+              else {
+                //если не пришло, то не делаем ничего
+                console.log("Корзина пуста");
+              }
+            }
+            else {
+              //если в корзине что-то было до входа в аккаунт
+
+              if (this.dishesCart_server.length == 0) {
+                //а на сервере оказалось пусто
+                console.log("в корзине что-то было до входа в аккаунт, а на сервере оказалось пусто");
+
+                for (let i = 0; i < this.dishesCart.length; i++) {
+                  axios.post('http://localhost:1234/add-dish-in-cart/' + id_client, {
+
+                    dishId: this.dishesCart[i].DishId,
+                    count: this.dishesCart[i].Count
+
+                  },
+                    {
+                      headers: {
+                        'Authorization': sessionStorage.getItem('token')!,
+                      }
+                    }
+                  )
+                    .then((res) => {
+                      if (res.status == 404) {
+                        this.router.navigate(['/404']);
+                      }
+                      else {
+                        this.dishesCart = this.dishesCart_server;
+                      }
+
+                    })
+                    .catch((err) => {
+                      console.log(err);
+
+                    })
+                }
+
+              }
+
+              else {
+                //если с сервера что-то пришло
+                this.notifyClient(name_client);
+
+                for (let i = 0; i < this.dishesCart.length; i++) {
+                  axios.post('http://localhost:1234/add-pizza-in-cart/' + id_client, {
+
+                    dishId: this.dishesCart[i].DishId,
+                    count: this.dishesCart[i].Count
+                  },
+                    {
+                      headers: {
+                        'Authorization': sessionStorage.getItem('token')!,
+                      }
+                    }
+                  )
+                    .then((res) => {
+                      if (res.status == 404) {
+                        this.router.navigate(['/404']);
+                      }
+
+                    })
+                    .catch((err) => {
+                      console.log(err);
+
+                    })
+                }
+
+                for (let i = 0; i < this.dishesCart_server.length; i++) {
+                  this.dishesCart.push(this.dishesCart_server[i]);
+                }
+              }
+            }
+          }
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }
+
+  deleteDishFromCartServer(id_client: number, id_dish: number) {
+
+    axios.post('http://localhost:1234/delete-dish-from-cart/' + id_client, {
+      dishId: id_dish
+    },
+      {
+        headers: {
+          'Authorization': sessionStorage.getItem('token')!,
+        }
+      }
+    )
+      .then((res) => {
+        if (res.status == 404) {
+          this.router.navigate(['/404']);
+        }
+
+      })
+      .catch((err) => {
+        console.log(err);
+
+      })
+
+  }
+
+  plusCounterDishInCartServer(id_client: number, id_dish: number) {
+    axios.post('http://localhost:1234/plus-counter-dish-from-cart/' + id_client, {
+      dishId: id_dish
     },
       {
         headers: {
@@ -40,14 +203,16 @@ export class CartService {
       })
   }
 
-  deletePizzaFromCartServer(id_client: number, index: number) {
-
-    axios.get('http://localhost:1234/delete-pizza-from-cart/' + id_client + '&&' + index,
+  minusCounterDishInCartServer(id_client: number, id_dish: number) {
+    axios.post('http://localhost:1234/minus-counter-dish-from-cart/' + id_client, {
+      dishId: id_dish
+    },
       {
         headers: {
           'Authorization': sessionStorage.getItem('token')!,
         }
-      })
+      }
+    )
       .then((res) => {
         if (res.status == 404) {
           this.router.navigate(['/404']);
@@ -58,195 +223,7 @@ export class CartService {
         console.log(err);
 
       })
-
   }
-
-  // counterPizzaInCartServer(id_client: number, index: number, counter: number) {
-
-  //   axios.get('http://localhost:1234/counter-pizza-in-cart/' + id_client + '&&' + index + '&&' + counter,
-  //     {
-  //       headers: {
-  //         'Authorization': sessionStorage.getItem('token')!,
-  //       }
-  //     })
-  //     .then((res) => {
-  //       if (res.status == 404) {
-  //         this.router.navigate(['/404']);
-  //       }
-
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-
-  //     })
-
-  // }
-
-  counterPlusPizzaInCartServer(id_client: number, index: number) {
-
-    axios.get('http://localhost:1234/plus-counter-pizza-in-cart/' + id_client + '&&' + index,
-      {
-        headers: {
-          'Authorization': sessionStorage.getItem('token')!,
-        }
-      })
-      .then((res) => {
-        if (res.status == 404) {
-          this.router.navigate(['/404']);
-        }
-
-      })
-      .catch((err) => {
-        console.log(err);
-
-      })
-
-  }
-
-  
-  counterMinusPizzaInCartServer(id_client: number, index: number) {
-
-    axios.get('http://localhost:1234/minus-counter-pizza-in-cart/' + id_client + '&&' + index,
-      {
-        headers: {
-          'Authorization': sessionStorage.getItem('token')!,
-        }
-      })
-      .then((res) => {
-        if (res.status == 404) {
-          this.router.navigate(['/404']);
-        }
-
-      })
-      .catch((err) => {
-        console.log(err);
-
-      })
-
-  }
-
-
-  getPizzasFromCartServer(id_client: number, name_client: string) {
-    axios.get('http://localhost:1234/get-pizzas-from-cart/' + id_client,
-      {
-        headers: {
-          'Authorization': sessionStorage.getItem('token')!,
-        }
-      })
-      .then((res) => {
-        if (res.status == 404) {
-          this.router.navigate(['/404']);
-        }
-        else {
-          if (res.status != 204) {
-
-
-            //количество пицц в корзине до входа в аккаунт
-            let length_before = this.pizzasInCart.length;
-
-            if (JSON.parse(res.headers["pizzas"]).length > 0) {
-              for (let i = 0; i < JSON.parse(res.headers["pizzas"]).length; i++) {
-                this.pizzasInCart_server.push(JSON.parse(res.headers["pizzas"])[i]);
-              }
-            }
-
-            if (length_before == 0) {
-              //если до входа в корзине ничего не было
-
-              if (this.pizzasInCart_server.length > 0) {
-                //но пришло с сервера
-                this.notifyClient(name_client);
-                this.pizzasInCart = this.pizzasInCart_server;
-                console.log("до входа в корзине ничего не было, но пришло с сервера");
-
-              }
-
-              else {
-                //если не пришло, то не делаем ничего
-                console.log("Корзина пуста");
-              }
-            }
-            else {
-              //если в корзине что-то было до входа в аккаунт
-
-              if (this.pizzasInCart_server.length == 0) {
-                //а на сервере оказалось пусто
-                console.log("в корзине что-то было до входа в аккаунт, а на сервере оказалось пусто");
-
-                for (let i = 0; i < this.pizzasInCart.length; i++) {
-                  axios.post('http://localhost:1234/add-pizza-in-cart/' + id_client, {
-
-                    pizzaId: this.pizzasInCart[i].PizzaId,
-                    size: this.pizzasInCart[i].Size,
-                    ingredients: this.pizzasInCart[i].Ingredients,
-                    count: this.pizzasInCart[i].Count,
-                  },
-                    {
-                      headers: {
-                        'Authorization': sessionStorage.getItem('token')!,
-                      }
-                    }
-                  )
-                    .then((res) => {
-                      if (res.status == 404) {
-                        this.router.navigate(['/404']);
-                      }
-                      else {
-                        this.pizzasInCart = this.pizzasInCart_server;
-                      }
-
-                    })
-                    .catch((err) => {
-                      console.log(err);
-
-                    })
-                }
-
-              }
-
-              else {
-                //если с сервера что-то пришло
-                this.notifyClient(name_client);
-
-                for (let i = 0; i < this.pizzasInCart.length; i++) {
-                  axios.post('http://localhost:1234/add-pizza-in-cart/' + id_client, {
-
-                    pizzaId: this.pizzasInCart[i].PizzaId,
-                    size: this.pizzasInCart[i].Size,
-                    ingredients: this.pizzasInCart[i].Ingredients,
-                    count: this.pizzasInCart[i].Count,
-                  },
-                    {
-                      headers: {
-                        'Authorization': sessionStorage.getItem('token')!,
-                      }
-                    }
-                  )
-                    .then((res) => {
-                      if (res.status == 404) {
-                        this.router.navigate(['/404']);
-                      }
-
-                    })
-                    .catch((err) => {
-                      console.log(err);
-
-                    })
-                }
-
-                for (let i = 0; i < this.pizzasInCart_server.length; i++) {
-                  this.pizzasInCart.push(this.pizzasInCart_server[i]);
-                }
-              }
-            }
-          }
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-  }
-
 
   notifyClient(name_client: string) {
     if (!("Notification" in window)) {
@@ -275,5 +252,5 @@ export class CartService {
     }
   }
 
-  constructor(private router: Router) { }
+
 }

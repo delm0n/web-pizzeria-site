@@ -19,12 +19,59 @@ namespace serverPart.RouterModule
             {
                 using (var dbContext = new ApplicationContext())
                 {
-                    /* dbContext.Desserts.Add(new Dessert
-                    {   
-                        Name = "Чизкейк", UrlImg = "/assets/img/cheesecake.png", Mass = 95, Price =90
+
+                    dbContext.Dishes.Add(new Dish
+                    {
+                        Name = "Чизкейк",
+                        UrlImg = "/assets/img/cheesecake.png",
+                        Mass = 95,
+                        Price = 90,
+                        DishType = Dish.TypesEnum.Desserts
                     });
-                    await dbContext.SaveChangesAsync(); */
-                    /* dbContext.Pizzas.Add(new Pizza
+
+                    dbContext.Dishes.Add(new Dish
+                    {
+                        Name = "Кокосовый пончик",
+                        UrlImg = "/assets/img/coconut_donut.png",
+                        Mass = 90,
+                        Price = 90,
+                        DishType = Dish.TypesEnum.Desserts
+                    });
+
+                    dbContext.Dishes.Add(new Dish
+                    {
+                        Name = "Сырники",
+                        UrlImg = "/assets/img/cheesecakes.png",
+                        Mass = 95,
+                        Price = 149,
+                        DishType = Dish.TypesEnum.Desserts
+                    });
+
+                    dbContext.Dishes.Add(new Dish
+                    {
+                        Name = "Маффин",
+                        UrlImg = "/assets/img/muffin.jpg",
+                        Mass = 95,
+                        Price = 90,
+                        DishType = Dish.TypesEnum.Desserts
+                    });
+                    
+                    await dbContext.SaveChangesAsync();
+                    /*
+
+                    dbContext.Desserts.Add(new Dessert
+                    {
+                        Name = "Сырники",
+                        UrlImg = "/assets/img/cheesecakes.png",
+                        Mass = 95,
+                        Price = 149
+                    });
+
+                    
+
+                    
+                    await dbContext.SaveChangesAsync(); 
+                     dbContext.Pizzas.Add(new Pizza
                     {
                         PizzaName = "Гавайская",
                         UrlImg = "/assets/img/hawaiian.jpg",

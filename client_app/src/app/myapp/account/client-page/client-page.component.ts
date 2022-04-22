@@ -15,6 +15,7 @@ import {
   transition,
   keyframes
 } from '@angular/animations';
+import { DishesService } from 'src/app/myservices/dishes/dishes.service';
 
 @Component({
   selector: 'app-client-page',
@@ -48,6 +49,7 @@ import {
 export class ClientPageComponent implements OnInit {
 
   active_status = 0;
+  
 
   client: ClientClass = {
     clientId : 0,
@@ -65,6 +67,16 @@ export class ClientPageComponent implements OnInit {
     this.hide = !this.hide;
   }
 
+  cartContainFlugView: boolean = false;
+  checkContainCart() {
+    if(this.cartService.pizzasInCart.length > 0 || this.dishesService.dishesCart.length > 0) {
+      this.cartContainFlugView = true;
+    }
+    else {
+      this.cartContainFlugView = false;
+    }
+  }
+
   exitUser__save() {
     this.clientService.exitClient();
     this.router.navigate(['/log-in'])
@@ -74,6 +86,7 @@ export class ClientPageComponent implements OnInit {
     this.clientService.exitClient();
     this.router.navigate(['/log-in']);
     this.cartService.pizzasInCart = [];
+    this.dishesService.dishesCart = [];
   }
 
   doneChange() {
@@ -83,7 +96,8 @@ export class ClientPageComponent implements OnInit {
     }, 6000);
   }
 
-  constructor(private clientService: ClientService, private router: Router, private cartService: CartService) { }
+  constructor(private clientService: ClientService, private router: Router, 
+    private cartService: CartService, private dishesService: DishesService) { }
 
   updateClient(firstname: String, password: String, id: number) {  
 
@@ -120,6 +134,7 @@ export class ClientPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.client = this.clientService.client;   
+    this.checkContainCart();
   }
 
 }

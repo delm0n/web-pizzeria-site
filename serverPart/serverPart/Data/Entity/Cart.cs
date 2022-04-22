@@ -19,9 +19,9 @@ namespace serverPart.Data.Entity
         public string PizzaIngredientIdJson { get; set; } = "";
         public string PizzaCount { get; set; } = "";
 
-        public string AddishIdJson { get; set; } = "";
+        public string DishIdJson { get; set; } = "";
+        public string DishCount { get; set; } = "";
 
-        //public int ClientId { get; set; }
         public Client Client { get; set; }
     }
 }

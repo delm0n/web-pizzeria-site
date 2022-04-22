@@ -1,4 +1,5 @@
 import { Component, OnInit, AfterContentChecked, ChangeDetectorRef } from '@angular/core';
+import { DishesService } from 'src/app/myservices/dishes/dishes.service';
 import { ClientService } from '../../myservices/account/client.service';
 import { CartService } from '../../myservices/cart/cart.service'
 
@@ -21,7 +22,7 @@ export class AppNavComponent implements OnInit, AfterContentChecked {
   firstName = ""
 
   checkContainCart() {
-    if(this.cartService.pizzasInCart.length > 0) {
+    if(this.cartService.pizzasInCart.length > 0 || this.dishesService.dishesCart.length > 0) {
       this.cartContainFlugView = true;
     }
     else {
@@ -30,7 +31,7 @@ export class AppNavComponent implements OnInit, AfterContentChecked {
   }
 
   constructor(private cdref: ChangeDetectorRef, private clientService: ClientService, 
-    private cartService: CartService) { 
+    private cartService: CartService, private dishesService: DishesService) { 
     
   }
 
