@@ -12,6 +12,7 @@ export class PizzaCartClass  {
     Mass: number;
     //Pizza: null;
   };
+    PizzaType!: TypesPizzaEnum;
     Ingredients!: IngredientClass[]; 
     Count!: number;
 }
@@ -21,5 +22,10 @@ export class Size {
   NameSize!: string; //имя размера
   Price!: number ;
   Mass!: number;
+}
 
+enum TypesPizzaEnum {
+  Usual = 0,
+  Spicy = 1,
+  Meatless = 2,
 }

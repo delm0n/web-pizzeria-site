@@ -21,7 +21,7 @@ namespace serverPart.RouterModule
 
                 using (var dbContext = new ApplicationContext())
                 {
-                    pizzas = await dbContext.Pizzas.ToListAsync();
+                    pizzas = await dbContext.Pizzas.OrderBy(p => p.MinPrice).ToListAsync();
                 }
 
                 var response = new Response();
@@ -34,7 +34,6 @@ namespace serverPart.RouterModule
 
                 return response;
             };
-
 
 
             Get["/sizeofasync/{id}", runAsync: true] = async (x, token) =>
@@ -57,6 +56,7 @@ namespace serverPart.RouterModule
                 return response;
             };
 
+
             Get["/ingredients", runAsync: true] = async (x, token) =>
             {
                 List<Ingredient> ingredients = new List<Ingredient>();
@@ -72,6 +72,46 @@ namespace serverPart.RouterModule
                 response.Headers["Content-Type"] = "application/json";
                 response.Headers["Ingredients"] = JsonSerializer.Serialize(ingredients);
                 response.Headers["Access-Control-Expose-Headers"] = "Ingredients";
+
+                return response;
+            };
+
+
+            Get["/filter/{pizza_type}&&{order_filter}", runAsync: true] = async (x, token) =>
+            {
+                int pizza_type = x.pizza_type;
+                int order_filter = x.order_filter;
+
+                List<Pizza> pizzas = new List<Pizza>();
+
+                using (var dbContext = new ApplicationContext())
+                {
+                    if (pizza_type == 0)
+                    {
+                        if (order_filter == 1)
+                            pizzas = await dbContext.Pizzas.OrderBy(p => p.MinPrice).ToListAsync();
+                        
+                        else
+                            pizzas = await dbContext.Pizzas.OrderBy(p => p.Rating).ToListAsync();
+                        
+                    }
+                    else
+                    {
+                        if (order_filter == 1)
+                            pizzas = await dbContext.Pizzas.Where(p => p.PizzaType == (Pizza.TypesPizzaEnum)pizza_type).OrderBy(p => p.MinPrice).ToListAsync();
+
+                        else
+                            pizzas = await dbContext.Pizzas.Where(p => p.PizzaType == (Pizza.TypesPizzaEnum)pizza_type).OrderBy(p => p.Rating).ToListAsync();
+                    }
+                }
+
+                var response = new Response();
+
+                response.Headers["Access-Control-Allow-Origin"] = "*";
+                response.Headers["Access-Control-Allow-Methods"] = "GET";
+                response.Headers["Content-Type"] = "application/json";
+                response.Headers["Pizzas"] = JsonSerializer.Serialize(pizzas);
+                response.Headers["Access-Control-Expose-Headers"] = "Pizzas";
 
                 return response;
             };

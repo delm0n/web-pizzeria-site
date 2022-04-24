@@ -131,50 +131,6 @@ namespace serverPart.RouterModule
             };
 
 
-            /*Get["/counter-pizza-in-cart/{id_client}&&{index_array}&&{count_re}", runAsync: true] = async (x, token) =>
-            {
-
-                int id_client = x.id_client;
-                int index_array = x.index_array;
-                int count_re = x.count_re;
-                string token_headers = Request.Headers["Authorization"].FirstOrDefault();
-
-                if (token_headers == PersonalToken.getToken())
-                {
-                    using (var dbContext = new ApplicationContext())
-                    {
-
-                        Cart cart = await dbContext.Carts.Where(c => c.ClientId == id_client).FirstOrDefaultAsync();
-
-                        if (cart != null)
-                        {
-                            List<int> idPizzas = new List<int>();List<int> countPizzas = new List<int>();
-
-
-                            if (JsonConvert.DeserializeObject<List<int>>(cart.PizzaIdJson) != null)
-                            {
-                                countPizzas.AddRange(JsonConvert.DeserializeObject<List<int>>(cart.PizzaCount));
-                            }
-
-                            countPizzas[index_array] = count_re;
-
-                            cart.PizzaCount = JsonConvert.SerializeObject(countPizzas);
-
-                            await dbContext.SaveChangesAsync();
-
-                            return new Response { StatusCode = HttpStatusCode.OK };
-                        }
-
-                        else
-                        {
-                            return new Response { StatusCode = HttpStatusCode.NotFound };
-                        }
-                    }
-                }
-                else return new Response { StatusCode = HttpStatusCode.NotFound };
-            };*/
-
-
             Get["/plus-counter-pizza-in-cart/{id_client}&&{index_array}", runAsync: true] = async (x, token) =>
             {
 
@@ -314,6 +270,7 @@ namespace serverPart.RouterModule
                                     UrlImg = pizza.UrlImg,
                                     Size = pizzaSize,
                                     Ingredients = ingredients,
+                                    PizzaType = (PizzaCart.TypesPizzaEnum)pizza.PizzaType
                                 });
                             }
 
@@ -426,6 +383,7 @@ namespace serverPart.RouterModule
                                     Price = dish.Price,
                                     Name = dish.Name,
                                     UrlImg = dish.UrlImg,
+                                    Structure = dish.Structure,
                                     Count = countDishes[i]
                                 });
                             }

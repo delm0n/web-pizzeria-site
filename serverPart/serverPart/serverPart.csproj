@@ -185,6 +185,10 @@
     <Compile Include="Migrations\202204200944500_dish_cart.designer.cs">
       <DependentUpon>202204200944500_dish_cart.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202204240850571_add_type_pizzas.cs" />
+    <Compile Include="Migrations\202204240850571_add_type_pizzas.designer.cs">
+      <DependentUpon>202204240850571_add_type_pizzas.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -257,6 +261,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202204200944500_dish_cart.resx">
       <DependentUpon>202204200944500_dish_cart.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202204240850571_add_type_pizzas.resx">
+      <DependentUpon>202204240850571_add_type_pizzas.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

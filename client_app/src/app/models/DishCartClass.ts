@@ -5,6 +5,7 @@ export class DishesCartClass {
     Price!: number;
     Mass!: number;
     Count!: number;
+    Structure!: string;
     DishType!: TypesEnum;
 }
 

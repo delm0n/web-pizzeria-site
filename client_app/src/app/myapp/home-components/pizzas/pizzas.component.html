@@ -1,12 +1,76 @@
+<div class="sm:px-4">
+  <div class="p-2 lg:px-0 grid grid-cols-1 gap-0 sm:grid-cols-2">
+    <div class="flex flex-row gap-x-3 mb-2 sm:my-2">
+
+      <span (click)="filter_status = 0; getPizzasFilter()" class="cursor-pointer text-base font-medium inline-block py-2.5 px-3 leading-none transition duration-150 ease-in-out
+      text-center whitespace-nowrap align-baseline  rounded-full my-auto"
+        [ngClass]="filter_status == 0 ? 'bg-gray-700 text-white shadow-md hover:shadow-lg' : 'bg-gray-300 text-gray-600' ">Все</span>
+
+      <span (click)="filter_status = 1; getPizzasFilter()" class="cursor-pointer text-base font-medium inline-block py-2.5 px-3 leading-none transition duration-150 ease-in-out
+      text-center whitespace-nowrap align-baseline  rounded-full my-auto"
+        [ngClass]="filter_status == 1 ? 'bg-red-600 text-white shadow-md hover:shadow-lg' : 'bg-red-200 text-white' ">Острая</span>
+
+      <span (click)="filter_status = 2; getPizzasFilter()" class="cursor-pointer text-base font-medium inline-block py-2.5 px-3 leading-none transition duration-150 ease-in-out
+      text-center whitespace-nowrap align-baseline  rounded-full my-auto"
+        [ngClass]="filter_status == 2 ? 'bg-emerald-500 text-white shadow-md hover:shadow-lg' : 'bg-emerald-200 text-white' ">Без
+        мяса</span>
+
+    </div>
+
+    <div class="relative flex sm:justify-end ">
+      <button (click)="dropdownClick()" class="bg-gray-700 shadow-md
+            hover:shadow-lg my-auto
+            active:shadow-lg
+            transition duration-150
+            ease-in-out rounded-md 
+            text-white text-base font-medium py-2 flex flex-row justify-center w-44"> {{dropdown_active.name}}
+
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"
+          class="bi bi-chevron-down my-auto ml-2 -mr-1 "
+          [ngClass]="dropdown_status ? ' rotate-180 transition duration-150 ease-in-out': 'transition duration-150 ease-in-out'">
+          <path fill-rule="evenodd"
+            d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
+        </svg>
+      </button>
+
+      <div
+        [ngClass]="dropdown_status ? 'transition duration-150 ease-in-out' : 'hidden transition duration-150 ease-in-out' "
+        class="absolute top-12 z-30 shadow rounded-md bg-white">
+
+        <div *ngFor="let opt of dropdown_array"
+          class="cursor-pointer text-gray-700 text-base px-5 py-2.5 hover:bg-gray-200 hover:text-gray-600"
+          (click)="changeDropdownActive(opt.id); getPizzasFilter(); dropdownClick()">{{opt.name}}</div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+
+
 <div class="grid sm:px-4 grid-cols-1 gap-0 lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-2 ">
   <div *ngFor="let pizza of pizzas; index as i;" class="w-full p-2 lg:px-0">
-    <div class="p-3 bg-white rounded">
+    <div class="p-3 bg-white rounded relative">
+
+      <span *ngIf="pizza.PizzaType == 1"
+        (click)="modalBtn(); openPizzaModal(pizza.PizzaId, pizza.PizzaName, pizza.UrlImg, pizza.Structure)"
+        class="absolute cursor-pointer right-5 top-8 z-20 text-xs inline-block py-2 px-2.5 leading-none text-center 
+      whitespace-nowrap align-baseline font-bold bg-red-600 text-white rounded-full border-2 border-white">Острая</span>
+
+      <span *ngIf="pizza.PizzaType == 2"
+        (click)="modalBtn(); openPizzaModal(pizza.PizzaId, pizza.PizzaName, pizza.UrlImg, pizza.Structure)" class="absolute cursor-pointer right-3 top-8 z-20 text-xs inline-block py-2 px-2.5 leading-none text-center 
+      whitespace-nowrap align-baseline font-bold bg-emerald-500 text-white rounded-full border-2 border-white">Без
+        мяса</span>
+
       <div class="">
-        <div class="relative max-w-full mb-3 h-62 lg:mb-0 max-w-xs mx-auto flex-initial" 
-        >
+        <div class="relative max-w-full mb-3 h-62 lg:mb-0 max-w-xs mx-auto flex-initial">
           <img [src]="pizza.UrlImg"
             (click)="modalBtn(); openPizzaModal(pizza.PizzaId, pizza.PizzaName, pizza.UrlImg, pizza.Structure)"
-            alt="Just a flower" class="object-fill w-full h-full rounded opacity-95 cursor-pointer">
+            alt="Just a flower"
+            class="object-fill w-full h-full rounded opacity-95 cursor-pointer hover:translate-y-1 transition duration-150 ease-in-out">
         </div>
         <div class="flex-auto p-2 justify-evenly">
           <div class="flex flex-wrap ">
@@ -20,16 +84,16 @@
             </div>
           </div>
           <div class="flex flex-wrap ">
-            <div class="flex items-center justify-between w-full min-w-0 text-gray-400 pt-2 pb-4 font-light"
+            <div class="flex items-center justify-between w-full min-w-0 text-gray-400 pt-2 pb-4 font-light "
               style="height: 120px;">
               <p>{{pizza.Structure}}</p>
             </div>
           </div>
           <div class="flex items-center justify-between w-full min-w-0 ">
-            <div class="text-lg font-medium">От {{pizza.MinPrice}} ₽</div>
+            <div class="text-lg font-medium">от {{pizza.MinPrice}} ₽</div>
 
             <button (click)="modalBtn(); openPizzaModal(pizza.PizzaId, pizza.PizzaName, pizza.UrlImg, pizza.Structure)"
-            class="mx-2 my-2 bg-green-600 shadow-md
+              class="mx-2 my-2 bg-green-600 shadow-md
             hover:bg-green-700 hover:shadow-lg
             active:bg-green-800 active:shadow-lg
             transition duration-150
@@ -40,8 +104,7 @@
       </div>
     </div>
   </div>
-</div
->
+</div>
 
 
 <!-- модальное окно -->
@@ -71,7 +134,7 @@
             </div>
 
             <div id="modalNotMobile" class=" ml-0 sm:ml-2 pr-2">
-              <div class="w-full min-w-0 text-gray-400 py-2 font-light">
+              <div class="w-full min-w-0 text-gray-400 py-2">
                 <p>Состав: {{modalPizzas.structure}}</p>
               </div>
 

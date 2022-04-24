@@ -52,9 +52,6 @@ import { PizzaCartClass, Size } from 'src/app/models/PizzaCartClass';
   ],
 })
 
-
-
-
 export class PizzasComponent implements OnInit {
 
 
@@ -65,6 +62,7 @@ export class PizzasComponent implements OnInit {
     pizzaName: "",
     urlImg: "",
     structure: "",
+    pizzaType: 0,
     sizes: [{
       PizzaSizeId: 0,
       NameSize: "", //имя размера
@@ -112,6 +110,7 @@ export class PizzasComponent implements OnInit {
       pizzaName: "",
       urlImg: "",
       structure: "",
+      pizzaType: 0,
       sizes: [{
         PizzaSizeId: 0,
         NameSize: "", //имя размера
@@ -173,7 +172,6 @@ export class PizzasComponent implements OnInit {
     }
   }
 
-
   increment(active: number) {
     if (this.countModal < 11) {
       this.countModal++;
@@ -217,6 +215,7 @@ export class PizzasComponent implements OnInit {
         PizzaName: this.modalPizzas.pizzaName,
         UrlImg: this.modalPizzas.urlImg,
         Structure: this.modalPizzas.structure,
+        PizzaType: this.modalPizzas.pizzaType,
         Size: this.modalPizzas.sizes[this.active_status],
         Ingredients: ingredientArray,
         Count: this.countModal
@@ -281,7 +280,44 @@ export class PizzasComponent implements OnInit {
 
   }
 
-  //chrome.exe --disable-web-security --disable-gpu --allow-file-access-from-files --user-data-dir=C:\temp\
+  filter_status: number = 0;
+  dropdown_status: boolean = false;
+
+  dropdown_active = {
+    id: 1, 
+    name: "По стоимости"
+  };
+
+  dropdown_array = [{
+    id: 1, 
+    name: "По стоимости"
+  },
+  {
+    id: 2, 
+    name: "По рейтингу"
+  }
+]
+
+  dropdownClick() {
+    this.dropdown_status = !this.dropdown_status
+  }
+
+  changeDropdownActive(id_:number) {
+    this.dropdown_active = this.dropdown_array.find(dd => dd.id == id_)!
+  }
+
+  getPizzasFilter() {
+    axios.get('http://localhost:1234/filter/' + this.filter_status + '&&' + this.dropdown_active.id)
+      .then((res) => {
+        this.pizzas = JSON.parse(res.headers['pizzas']);
+      })
+      .catch((err: any) => {
+        console.log(err);
+      });
+  }
+
+
+
   ngOnInit(): void {
 
     axios.get('http://localhost:1234/pizza')

@@ -22,5 +22,14 @@ namespace serverPart.Data.Helper
         public List<Ingredient> Ingredients { get; set; }
         public int Count { get; set; }
 
+        public TypesPizzaEnum PizzaType { get; set; }
+
+        public enum TypesPizzaEnum
+        {
+            Usual = 0,
+            Spicy = 1,
+            Meatless = 2,
+        }
+
     }
 }

@@ -4,7 +4,7 @@ export class DishesClass {
     UrlImg!: string;
     Price!: number;
     Mass!: number;
-    //Count!: number;
+    Structure!: string;
     DishType!: TypesEnum;
 }
 

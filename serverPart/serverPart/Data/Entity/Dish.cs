@@ -14,6 +14,8 @@ namespace serverPart.Data.Entity
 
         public string UrlImg { get; set; }
 
+        public string Structure { get; set; }
+
         public decimal Price { get; set; }
         
         public int Mass { get; set; }

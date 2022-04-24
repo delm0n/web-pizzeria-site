@@ -27,6 +27,8 @@ import { ClientPageComponent } from './myapp/account/client-page/client-page.com
 import { NotFoundPageComponent } from './myapp/not-found-page/not-found-page.component';
 import { CartPageComponent } from './myapp/cart-page/cart-page.component';
 import { DesertsComponent } from './myapp/home-components/deserts/deserts.component';
+import { DrinksComponent } from './myapp/home-components/drinks/drinks.component';
+//import { DrinksComponent } from './myapp/home-components/drinks/drinks/drinks.component';
 
 
 @NgModule({
@@ -43,6 +45,7 @@ import { DesertsComponent } from './myapp/home-components/deserts/deserts.compon
     NotFoundPageComponent,
     CartPageComponent,
     DesertsComponent,
+    DrinksComponent,
        
   ],
   imports: [

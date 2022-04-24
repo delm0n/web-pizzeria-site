@@ -26,6 +26,15 @@ namespace serverPart.Data.Entity
         public double Rating { get; set; } = 5;
 
         public ICollection<PizzaSize> PizzaSizes { get; set; }
-        
+
+        public TypesPizzaEnum PizzaType { get; set; }
+
+        public enum TypesPizzaEnum
+        {
+            Usual = 0,
+            Spicy = 1,
+            Meatless = 2,
+        }
+
     }
 }

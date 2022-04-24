@@ -15,7 +15,7 @@ namespace serverPart.RouterModule
     {
         public Addishes()
         {
-            Get["/dishes/", runAsync: true] = async (x, token) =>
+            /* Get["/dishes/", runAsync: true] = async (x, token) =>
             {
                 List<Dish> dishes = new List<Dish>();
 
@@ -33,7 +33,7 @@ namespace serverPart.RouterModule
                 response.Headers["Access-Control-Expose-Headers"] = "Dishes";
 
                 return response;
-            };
+            }; */
 
             Get["/dishes/{enumer}", runAsync: true] = async (x, token) =>
             {
@@ -44,7 +44,7 @@ namespace serverPart.RouterModule
 
                 using (var dbContext = new ApplicationContext())
                 {
-                    dishes = await dbContext.Dishes.Where(dish => ((int)dish.DishType) == enumer).ToListAsync();
+                    dishes = await dbContext.Dishes.Where(dish => ((int)dish.DishType) == enumer).OrderBy(d=> d.Name).ToListAsync();
                 }
 
                 var response = new Response();
