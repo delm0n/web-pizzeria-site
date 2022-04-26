@@ -19,7 +19,175 @@ namespace serverPart.RouterModule
             {
                 using (var dbContext = new ApplicationContext())
                 {
+                    dbContext.Dishes.Add(new Dish
+                    {
+                        Name = "Чиз ролл",
+                        UrlImg = "/assets/img/ch_roll.jpg",
+                        Mass = 140,
+                        Price = 140,
+                        Structure = "Сливочный сыр, японский омлет, кунжут, рис и нори",
+                        DishType = Dish.TypesEnum.Rolls
+                    });
+
+                    dbContext.Dishes.Add(new Dish
+                    {
+                        Name = "Ролл с лососем",
+                        UrlImg = "/assets/img/salm_roll.jpg",
+                        Mass = 115,
+                        Price = 199,
+                        Structure = "Лосось слабосолёный, рис и нори",
+                        DishType = Dish.TypesEnum.Rolls
+                    });
+
+                    dbContext.Dishes.Add(new Dish
+                    {
+                        Name = "Чиби",
+                        UrlImg = "/assets/img/chib_roll.png",
+                        Mass = 170,
+                        Price = 199,
+                        Structure = "Лосось холодного копчения, икра Масаго, свежий огурец, пекинская капуста, соус Ширрача, рис и нори",
+                        DishType = Dish.TypesEnum.Rolls
+                    });
+
+                    dbContext.Dishes.Add(new Dish
+                    {
+                        Name = "Окинава",
+                        UrlImg = "/assets/img/oki_roll.jpg",
+                        Mass = 220,
+                        Price = 199,
+                        Structure = "Сливочный сыр, японский омлет, кунжут, рис и нори",
+                        DishType = Dish.TypesEnum.Rolls
+                    });
+
+                    dbContext.Dishes.Add(new Dish
+                    {
+                        Name = "Ролл с угрём",
+                        UrlImg = "/assets/img/eel_rool.jpg",
+                        Mass = 100,
+                        Price = 219,
+                        Structure = "Копчёный угорь, рис и нори",
+                        DishType = Dish.TypesEnum.Rolls
+                    });
+
+                    dbContext.Dishes.Add(new Dish
+                    {
+                        Name = "Сидней",
+                        UrlImg = "/assets/img/syd_roll.png",
+                        Mass = 220,
+                        Price = 199,
+                        Structure = "Креветка, сливочный сыр, стружка тунца, рис и нори",
+                        DishType = Dish.TypesEnum.Rolls
+                    });
+                    
+
+                    dbContext.Dishes.Add(new Dish
+                    {
+                        Name = "Ойши",
+                        UrlImg = "/assets/img/ois_roll.jpg",
+                        Mass = 220,
+                        Price = 290,
+                        Structure = "Кальмар, сливочный сыр, лосось слабосоленый, соус Чили манго, кунжут, рис и нори",
+                        DishType = Dish.TypesEnum.Rolls
+                    });
+
+                    dbContext.Dishes.Add(new Dish
+                    {
+                        Name = "Токио",
+                        UrlImg = "/assets/img/tok_roll.jpg",
+                        Mass = 240,
+                        Price = 309,
+                        Structure = "Лосось холодного копчения, огурец свежий, сливочный сыр, икра Масаго, соус Токио, рис и нори",
+                        DishType = Dish.TypesEnum.Rolls
+                    });
+
+                    dbContext.Dishes.Add(new Dish
+                    {
+                        Name = "Инь-Янь ",
+                        UrlImg = "/assets/img/in_roll.png",
+                        Mass = 190,
+                        Price = 329,
+                        Structure = "Лосось слабосолёный, копчёный угорь, свежий огурец, икра Масаго, рис и нори",
+                        DishType = Dish.TypesEnum.Rolls
+                    });
+
+                    await dbContext.SaveChangesAsync();
+
+
                     /*
+                    dbContext.Dishes.Add(new Dish
+                    {
+                        Name = "Картофель Айдахо",
+                        UrlImg = "/assets/img/potato.jpg",
+                        Mass = 100,
+                        Price = 115,
+                        Structure = "",
+                        DishType = Dish.TypesEnum.Snacks
+                    });
+
+                    dbContext.Dishes.Add(new Dish
+                    {
+                        Name = "Картофель фри",
+                        UrlImg = "/assets/img/potato_2.jpg",
+                        Mass = 100,
+                        Price = 115,
+                        Structure = "",
+                        DishType = Dish.TypesEnum.Snacks
+                    });
+
+                    dbContext.Dishes.Add(new Dish
+                    {
+                        Name = "Куриные нагетсы",
+                        UrlImg = "/assets/img/nuggets.jpg",
+                        Mass = 120,
+                        Price = 150,
+                        Structure = "",
+                        DishType = Dish.TypesEnum.Snacks
+                    });
+
+                    dbContext.Dishes.Add(new Dish
+                    {
+                        Name = "Греческий салат",
+                        UrlImg = "/assets/img/greek_salad.jpg",
+                        Mass = 210,
+                        Price = 195,
+                        Structure = "Пекинская капуста, сочные томаты, красный лук, свежие огурцы, болгарский перец, сыр Брынза, маслины",
+                        DishType = Dish.TypesEnum.Snacks
+                    });
+
+                    dbContext.Dishes.Add(new Dish
+                    {
+                        Name = "Салат цезарь",
+                        UrlImg = "/assets/img/caesar_salad.jpg",
+                        Mass = 215,
+                        Price = 199,
+                        Structure = "Пекинская капуста, сочные томаты, грудка куриная копченая, сыр Пармезан, сухарики и соус цезарь",
+                        DishType = Dish.TypesEnum.Snacks
+                    });
+
+                    dbContext.Dishes.Add(new Dish
+                    {
+                        Name = "Паста Мюнхенская",
+                        UrlImg = "/assets/img/pasta_m.jpg",
+                        Mass = 290,
+                        Price = 249,
+                        Structure = "Паста, ароматные мюнхенские колбаски, болгарский перец, моцарелла и фирменный соус",
+                        DishType = Dish.TypesEnum.Snacks
+                    });
+
+
+                    dbContext.Dishes.Add(new Dish
+                    {
+                        Name = "Паста Карбонара",
+                        UrlImg = "/assets/img/pasta_k.jpg",
+                        Mass = 300,
+                        Price = 270,
+                        Structure = "Паста, нежная свинина, ароматный бекон, моцарелла, пармезан и сливочный соус",
+                        DishType = Dish.TypesEnum.Snacks
+                    });
+
+                    await dbContext.SaveChangesAsync();
+
+                    
                     dbContext.Dishes.Add(new Dish
                     {
                         Name = "Coca-Cola",

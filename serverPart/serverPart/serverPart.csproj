@@ -189,6 +189,10 @@
     <Compile Include="Migrations\202204240850571_add_type_pizzas.designer.cs">
       <DependentUpon>202204240850571_add_type_pizzas.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202204261058236_add_pizzacount.cs" />
+    <Compile Include="Migrations\202204261058236_add_pizzacount.designer.cs">
+      <DependentUpon>202204261058236_add_pizzacount.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -264,6 +268,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202204240850571_add_type_pizzas.resx">
       <DependentUpon>202204240850571_add_type_pizzas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202204261058236_add_pizzacount.resx">
+      <DependentUpon>202204261058236_add_pizzacount.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

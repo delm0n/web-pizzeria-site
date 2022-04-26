@@ -6,6 +6,7 @@ export class PizzaClass {
     MinPrice!: number;
     Rating!: number;
     PizzaType!: TypesPizzaEnum;
+    CountOrder!: number
 }
 
 enum TypesPizzaEnum {

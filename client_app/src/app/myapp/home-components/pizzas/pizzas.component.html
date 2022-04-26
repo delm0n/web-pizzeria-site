@@ -1,55 +1,110 @@
+
 <div class="sm:px-4">
-  <div class="p-2 lg:px-0 grid grid-cols-1 gap-0 sm:grid-cols-2">
-    <div class="flex flex-row gap-x-3 mb-2 sm:my-2">
+  <div class="px-2 lg:px-0 flex flex-col md:flex-row md:justify-between my-auto">
 
-      <span (click)="filter_status = 0; getPizzasFilter()" class="cursor-pointer text-base font-medium inline-block py-2.5 px-3 leading-none transition duration-150 ease-in-out
-      text-center whitespace-nowrap align-baseline  rounded-full my-auto"
-        [ngClass]="filter_status == 0 ? 'bg-gray-700 text-white shadow-md hover:shadow-lg' : 'bg-gray-300 text-gray-600' ">Все</span>
+    <div class="hidden md:flex flex-row my-auto gap-x-3 mb-2 sm:my-2 ">
 
-      <span (click)="filter_status = 1; getPizzasFilter()" class="cursor-pointer text-base font-medium inline-block py-2.5 px-3 leading-none transition duration-150 ease-in-out
-      text-center whitespace-nowrap align-baseline  rounded-full my-auto"
-        [ngClass]="filter_status == 1 ? 'bg-red-600 text-white shadow-md hover:shadow-lg' : 'bg-red-200 text-white' ">Острая</span>
-
-      <span (click)="filter_status = 2; getPizzasFilter()" class="cursor-pointer text-base font-medium inline-block py-2.5 px-3 leading-none transition duration-150 ease-in-out
-      text-center whitespace-nowrap align-baseline  rounded-full my-auto"
-        [ngClass]="filter_status == 2 ? 'bg-emerald-500 text-white shadow-md hover:shadow-lg' : 'bg-emerald-200 text-white' ">Без
-        мяса</span>
-
-    </div>
-
-    <div class="relative flex sm:justify-end ">
-      <button (click)="dropdownClick()" class="bg-gray-700 shadow-md
-            hover:shadow-lg my-auto
-            active:shadow-lg
-            transition duration-150
-            ease-in-out rounded-md 
-            text-white text-base font-medium py-2 flex flex-row justify-center w-44"> {{dropdown_active.name}}
-
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"
-          class="bi bi-chevron-down my-auto ml-2 -mr-1 "
-          [ngClass]="dropdown_status ? ' rotate-180 transition duration-150 ease-in-out': 'transition duration-150 ease-in-out'">
-          <path fill-rule="evenodd"
-            d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
-        </svg>
+      <button class="text-center px-8 py-2 text-base font-medium 
+      rounded-md border-2 transition duration-150 ease-in-out" (click)="sorted_status = 0; getPizzasFilter()"
+        [ngClass]="sorted_status == 0 ? 'bg-white text-red-600 border-red-500':'text-gray-600 border-gray-300'">
+        По цене
       </button>
 
-      <div
-        [ngClass]="dropdown_status ? 'transition duration-150 ease-in-out' : 'hidden transition duration-150 ease-in-out' "
-        class="absolute top-12 z-30 shadow rounded-md bg-white">
+      <button class="text-center px-8 py-2 text-base font-medium 
+      rounded-md border-2 transition duration-150 ease-in-out" (click)="sorted_status = 1; getPizzasFilter()"
+        [ngClass]="sorted_status == 1 ? 'bg-white text-red-600 border-red-500':'text-gray-600 border-gray-300'">
+        По рейтингу
+      </button>
 
-        <div *ngFor="let opt of dropdown_array"
-          class="cursor-pointer text-gray-700 text-base px-5 py-2.5 hover:bg-gray-200 hover:text-gray-600"
-          (click)="changeDropdownActive(opt.id); getPizzasFilter(); dropdownClick()">{{opt.name}}</div>
+      <button class="text-center px-8 py-2 text-base font-medium 
+      rounded-md border-2 transition duration-150 ease-in-out" (click)="sorted_status = 2; getPizzasFilter()"
+        [ngClass]="sorted_status == 2 ? 'bg-white text-red-600 border-red-500':'text-gray-600 border-gray-300'">
+        По популярности
+      </button>
+    </div>
 
+    <div class="">
+
+      <div class="border-2 rounded-full my-auto transition duration-150 ease-in-out p-2.5" style="max-width: 49px;"
+        (click)="show_filter = !show_filter" data-bs-toggle="collapse" data-bs-target="#collapseExample"
+        aria-expanded="false" aria-controls="collapseExample"
+        [ngClass]="show_filter ? 'bg-white text-red-600 border-red-300':' text-gray-500 border-gray-300'">
+
+        <svg *ngIf="!show_filter" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+          class="bi bi-sliders" viewBox="0 0 16 16">
+          <path fill-rule="evenodd"
+            d="M11.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM9.05 3a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V3h9.05zM4.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM2.05 8a2.5 2.5 0 0 1 4.9 0H16v1H6.95a2.5 2.5 0 0 1-4.9 0H0V8h2.05zm9.45 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm-2.45 1a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0v-1h9.05z" />
+        </svg>
+
+        <svg *ngIf="show_filter" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+          class="bi bi-x-lg" viewBox="0 0 16 16">
+          <path fill-rule="evenodd"
+            d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z" />
+          <path fill-rule="evenodd"
+            d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z" />
+        </svg>
       </div>
-
     </div>
 
   </div>
 </div>
 
+<div class="collapse" id="collapseExample">
+  <div class="px-4 pt-2 rounded">
 
+    <!-- между планшетом и телефоном -->
+    <div class="hidden sm:flex flex-row my-auto gap-x-3 mb-2 sm:my-2 md:hidden">
 
+      <button class="text-center px-8 py-2 text-base font-medium 
+      rounded-md border-2 transition duration-150 ease-in-out" (click)="sorted_status = 0; getPizzasFilter()"
+        [ngClass]="sorted_status == 0 ? 'bg-white text-red-600 border-red-500':'text-gray-600 border-gray-300'">
+        По цене
+      </button>
+
+      <button class="text-center px-8 py-2 text-base font-medium 
+      rounded-md border-2 transition duration-150 ease-in-out" (click)="sorted_status = 1; getPizzasFilter()"
+        [ngClass]="sorted_status == 1 ? 'bg-white text-red-600 border-red-500':'text-gray-600 border-gray-300'">
+        По рейтингу
+      </button>
+
+      <button class="text-center px-8 py-2 text-base font-medium 
+      rounded-md border-2 transition duration-150 ease-in-out" (click)="sorted_status = 2; getPizzasFilter()"
+        [ngClass]="sorted_status == 2 ? 'bg-white text-red-600 border-red-500':'text-gray-600 border-gray-300'">
+        По популярности
+      </button>
+    
+    </div>
+
+    <!-- между телефоном и компьютером -->
+    <div class="hidden sm:flex flex-row my-auto gap-x-3 mb-2 sm:my-2">
+
+      <button class="text-center px-8 py-2 text-base font-medium 
+      rounded-md border-2 transition duration-150 ease-in-out" (click)="filter_type_pizza = 0; getPizzasFilter()"
+        [ngClass]="filter_type_pizza == 0 ? 'bg-white text-red-600 border-red-500':'text-gray-600 border-gray-300'">
+        Все
+      </button>
+
+      <button class="text-center px-8 py-2 text-base font-medium 
+      rounded-md border-2 transition duration-150 ease-in-out" (click)="filter_type_pizza = 1; getPizzasFilter()"
+        [ngClass]="filter_type_pizza == 1 ? 'bg-white text-red-600 border-red-500':'text-gray-600 border-gray-300'">
+        Острые
+      </button>
+
+      <button class="text-center px-8 py-2 text-base font-medium 
+      rounded-md border-2 transition duration-150 ease-in-out" (click)="filter_type_pizza = 2; getPizzasFilter()"
+        [ngClass]="filter_type_pizza == 2 ? 'bg-white text-red-600 border-red-500':'text-gray-600 border-gray-300'">
+        Без мяса
+      </button>
+    
+    </div>
+
+    <!-- телефон -->
+    <div class="sm:hidden">
+      привет
+    </div>
+
+  </div>
+</div>
 
 <div class="grid sm:px-4 grid-cols-1 gap-0 lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-2 ">
   <div *ngFor="let pizza of pizzas; index as i;" class="w-full p-2 lg:px-0">
@@ -57,12 +112,12 @@
 
       <span *ngIf="pizza.PizzaType == 1"
         (click)="modalBtn(); openPizzaModal(pizza.PizzaId, pizza.PizzaName, pizza.UrlImg, pizza.Structure)"
-        class="absolute cursor-pointer right-5 top-8 z-20 text-xs inline-block py-2 px-2.5 leading-none text-center 
+        class="absolute cursor-pointer right-6 top-8 z-20 text-sm inline-block py-2 px-2.5 leading-none text-center 
       whitespace-nowrap align-baseline font-bold bg-red-600 text-white rounded-full border-2 border-white">Острая</span>
 
       <span *ngIf="pizza.PizzaType == 2"
-        (click)="modalBtn(); openPizzaModal(pizza.PizzaId, pizza.PizzaName, pizza.UrlImg, pizza.Structure)" class="absolute cursor-pointer right-3 top-8 z-20 text-xs inline-block py-2 px-2.5 leading-none text-center 
-      whitespace-nowrap align-baseline font-bold bg-emerald-500 text-white rounded-full border-2 border-white">Без
+        (click)="modalBtn(); openPizzaModal(pizza.PizzaId, pizza.PizzaName, pizza.UrlImg, pizza.Structure)" class="absolute cursor-pointer right-6 top-8 z-20 text-sm inline-block py-2 px-2.5 leading-none text-center 
+      whitespace-nowrap align-baseline font-bold bg-red-600 text-white rounded-full border-2 border-white">Без
         мяса</span>
 
       <div class="">
@@ -93,12 +148,12 @@
             <div class="text-lg font-medium">от {{pizza.MinPrice}} ₽</div>
 
             <button (click)="modalBtn(); openPizzaModal(pizza.PizzaId, pizza.PizzaName, pizza.UrlImg, pizza.Structure)"
-              class="mx-2 my-2 bg-green-600 shadow-md
-            hover:bg-green-700 hover:shadow-lg
-            active:bg-green-800 active:shadow-lg
+              class="mx-2 my-2 bg-emerald-500 shadow-md
+            hover:bg-emerald-600 hover:shadow-lg
+            active:bg-emerald-700 active:shadow-lg
             transition duration-150
             ease-in-out rounded-md 
-            text-white text-base px-6 py-2">Выбрать</button>
+            text-white text-base font-medium px-6 py-2">Выбрать</button>
           </div>
         </div>
       </div>
@@ -147,16 +202,16 @@
                     <div class="xl:w-full xl:mx-0 h-12">
                       <ul class="flex items-center h-full text-center">
                         <li (click)="active_status = 0"
-                          [ngClass]="active_status == 0 ? 'flex-1 text-sm text-green-700 py-2 px-3 bg-white rounded font-medium shadow'
-                                   : 'flex-1 bg-gray-100 text-sm text-gray-600 py-2 px-3 font-medium hover:text-green-700 cursor-pointer'">
+                          [ngClass]="active_status == 0 ? 'flex-1 text-sm text-emerald-700 py-2 px-3 bg-white rounded font-medium shadow'
+                                   : 'flex-1 bg-gray-100 text-sm text-gray-600 py-2 px-3 font-medium hover:text-emerald-700 cursor-pointer'">
                           {{modalPizzas.sizes[0].NameSize}}</li>
                         <li (click)="active_status = 1"
-                          [ngClass]="active_status == 1 ? 'flex-1 text-sm text-green-700 py-2 px-3 bg-white rounded font-medium shadow' 
-                                  : 'flex-1 bg-gray-100 text-sm text-gray-600 py-2 px-3 font-medium hover:text-green-700 cursor-pointer'">
+                          [ngClass]="active_status == 1 ? 'flex-1 text-sm text-emerald-700 py-2 px-3 bg-white rounded font-medium shadow' 
+                                  : 'flex-1 bg-gray-100 text-sm text-gray-600 py-2 px-3 font-medium hover:text-emerald-700 cursor-pointer'">
                           {{modalPizzas.sizes[1].NameSize}}</li>
                         <li (click)="active_status = 2"
-                          [ngClass]="active_status == 2 ? 'flex-1 text-sm text-green-700 py-2 px-3 bg-white rounded font-medium shadow' 
-                                  : 'flex-1 bg-gray-100 text-sm text-gray-600 py-2 px-3 font-medium hover:text-green-700 cursor-pointer'">
+                          [ngClass]="active_status == 2 ? 'flex-1 text-sm text-emerald-700 py-2 px-3 bg-white rounded font-medium shadow' 
+                                  : 'flex-1 bg-gray-100 text-sm text-gray-600 py-2 px-3 font-medium hover:text-emerald-700 cursor-pointer'">
                           {{modalPizzas.sizes[2].NameSize}}</li>
 
                       </ul>
@@ -168,16 +223,16 @@
                     <div class="xl:w-full xl:mx-0 h-12">
                       <ul class="flex items-center h-full text-center">
                         <li (click)="active_status = 0"
-                          [ngClass]="active_status == 0 ? 'flex-1 text-sm text-green-700 font-medium py-2 px-2 bg-white rounded shadow' 
-                                  : 'flex-1 bg-gray-100 text-sm text-gray-600 py-2 px-2 font-normal hover:text-green-700 cursor-pointer'">
+                          [ngClass]="active_status == 0 ? 'flex-1 text-sm text-emerald-700 font-medium py-2 px-2 bg-white rounded shadow' 
+                                  : 'flex-1 bg-gray-100 text-sm text-gray-600 py-2 px-2 font-normal hover:text-emerald-700 cursor-pointer'">
                           25 см.</li>
                         <li (click)="active_status = 1"
-                          [ngClass]="active_status == 1 ? 'flex-1 text-sm text-green-700 font-medium py-2 px-2 bg-white rounded shadow' 
-                                  : 'flex-1 bg-gray-100 text-sm text-gray-600 py-2 px-2 font-normal hover:text-green-700 cursor-pointer'">
+                          [ngClass]="active_status == 1 ? 'flex-1 text-sm text-emerald-700 font-medium py-2 px-2 bg-white rounded shadow' 
+                                  : 'flex-1 bg-gray-100 text-sm text-gray-600 py-2 px-2 font-normal hover:text-emerald-700 cursor-pointer'">
                           35 см.</li>
                         <li (click)="active_status = 2"
-                          [ngClass]="active_status == 2 ? 'flex-1 text-sm text-green-700 font-medium py-2 px-2 bg-white rounded shadow' 
-                                  : 'flex-1 bg-gray-100 text-sm text-gray-600 py-2 px-2 font-normal hover:text-green-700 cursor-pointer'">
+                          [ngClass]="active_status == 2 ? 'flex-1 text-sm text-emerald-700 font-medium py-2 px-2 bg-white rounded shadow' 
+                                  : 'flex-1 bg-gray-100 text-sm text-gray-600 py-2 px-2 font-normal hover:text-emerald-700 cursor-pointer'">
                           41 см.</li>
 
                       </ul>
@@ -214,22 +269,22 @@
                 </div>
 
                 <div class="mx-auto md:hidden">
-                  <button (click)="addToCart()" class="mx-0 my-2 bg-green-600 shadow-md
-                  hover:bg-green-700 hover:shadow-lg
-                  active:bg-green-800 active:shadow-lg
+                  <button (click)="addToCart()" class="mx-0 my-2 bg-emerald-500 shadow-md
+                  hover:bg-emerald-600 hover:shadow-lg
+                  active:bg-emerald-700 active:shadow-lg
                   transition duration-150
                   ease-in-out rounded-md 
-                   text-white text-base px-2 py-2 w-56">В корзину за {{plusIngrPrice +
+                   text-white text-base font-medium px-2 py-2 w-56">В корзину за {{plusIngrPrice +
                     modalPizzas.sizes[active_status].Price * countModal | number: '.0-2' }} ₽</button>
                 </div>
 
                 <div class="hidden md:block">
-                  <button (click)="addToCart()" class="mx-0 my-2 bg-green-600 shadow-md
-                  hover:bg-green-700 hover:shadow-lg
-                  active:bg-green-800 active:shadow-lg
+                  <button (click)="addToCart()" class="mx-0 my-2 bg-emerald-500 shadow-md
+                  hover:bg-emerald-600 hover:shadow-lg
+                  active:bg-emerald-700 active:shadow-lg
                   transition duration-150
                   ease-in-out rounded-md 
-                   text-white text-base px-2 py-2 w-56">В корзину за {{plusIngrPrice +
+                   text-white text-base font-medium px-2 py-2 w-56">В корзину за {{plusIngrPrice +
                     modalPizzas.sizes[active_status].Price * countModal | number: '.0-2' }} ₽</button>
                 </div>
 

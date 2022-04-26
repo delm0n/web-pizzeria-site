@@ -77,31 +77,43 @@ namespace serverPart.RouterModule
             };
 
 
-            Get["/filter/{pizza_type}&&{order_filter}", runAsync: true] = async (x, token) =>
+            Get["/filter/{pizza_type}&&{pizza_sorted}", runAsync: true] = async (x, token) =>
             {
                 int pizza_type = x.pizza_type;
-                int order_filter = x.order_filter;
+                int pizza_sorted = x.pizza_sorted;
 
                 List<Pizza> pizzas = new List<Pizza>();
 
                 using (var dbContext = new ApplicationContext())
                 {
-                    if (pizza_type == 0)
+                    
+                    if (pizza_sorted != 0)
                     {
-                        if (order_filter == 1)
-                            pizzas = await dbContext.Pizzas.OrderBy(p => p.MinPrice).ToListAsync();
-                        
-                        else
-                            pizzas = await dbContext.Pizzas.OrderBy(p => p.Rating).ToListAsync();
-                        
+                        if (pizza_type != 0) //острая или без мяса
+                        {
+                            //по рейтингу - 1
+                            if (pizza_sorted == 1)
+                                pizzas = await dbContext.Pizzas.Where(p => p.PizzaType == (Pizza.TypesPizzaEnum)pizza_type).OrderBy(p => p.Rating).ToListAsync();
+
+                            //по популярности - 2
+                            else pizzas = await dbContext.Pizzas.Where(p => p.PizzaType == (Pizza.TypesPizzaEnum)pizza_type).OrderBy(p => p.countOrder).ToListAsync();
+                        }
+                        else //если все, то без where
+                        {
+                            //по рейтингу - 1
+                            if (pizza_sorted == 1)
+                                pizzas = await dbContext.Pizzas.OrderBy(p => p.Rating).ToListAsync();
+
+                            //по популярности - 2
+                            else pizzas = await dbContext.Pizzas.OrderBy(p => p.countOrder).ToListAsync();
+                        }
+
                     }
-                    else
-                    {
-                        if (order_filter == 1)
+                    else { 
+                        if (pizza_type != 0)
                             pizzas = await dbContext.Pizzas.Where(p => p.PizzaType == (Pizza.TypesPizzaEnum)pizza_type).OrderBy(p => p.MinPrice).ToListAsync();
 
-                        else
-                            pizzas = await dbContext.Pizzas.Where(p => p.PizzaType == (Pizza.TypesPizzaEnum)pizza_type).OrderBy(p => p.Rating).ToListAsync();
+                        else pizzas = await dbContext.Pizzas.OrderBy(p => p.MinPrice).ToListAsync();
                     }
                 }
 

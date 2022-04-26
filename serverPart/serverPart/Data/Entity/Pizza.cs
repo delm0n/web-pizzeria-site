@@ -36,5 +36,7 @@ namespace serverPart.Data.Entity
             Meatless = 2,
         }
 
+        public int? countOrder { get; set; } = 0;
+
     }
 }

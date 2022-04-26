@@ -14,5 +14,5 @@ export enum TypesEnum
     Drinks = 0,
     Desserts = 1,
     Snacks = 2,
-    Salads = 3
+    Rolls = 3
 }

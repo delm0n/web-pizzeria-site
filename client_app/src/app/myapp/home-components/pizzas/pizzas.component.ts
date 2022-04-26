@@ -280,34 +280,12 @@ export class PizzasComponent implements OnInit {
 
   }
 
-  filter_status: number = 0;
-  dropdown_status: boolean = false;
-
-  dropdown_active = {
-    id: 1, 
-    name: "По стоимости"
-  };
-
-  dropdown_array = [{
-    id: 1, 
-    name: "По стоимости"
-  },
-  {
-    id: 2, 
-    name: "По рейтингу"
-  }
-]
-
-  dropdownClick() {
-    this.dropdown_status = !this.dropdown_status
-  }
-
-  changeDropdownActive(id_:number) {
-    this.dropdown_active = this.dropdown_array.find(dd => dd.id == id_)!
-  }
+  sorted_status: number = 0;
+  show_filter: boolean = false;
+  filter_type_pizza: number = 0;
 
   getPizzasFilter() {
-    axios.get('http://localhost:1234/filter/' + this.filter_status + '&&' + this.dropdown_active.id)
+    axios.get('http://localhost:1234/filter/' + this.filter_type_pizza + '&&' + this.sorted_status)
       .then((res) => {
         this.pizzas = JSON.parse(res.headers['pizzas']);
       })
@@ -316,6 +294,7 @@ export class PizzasComponent implements OnInit {
       });
   }
 
+  
 
 
   ngOnInit(): void {

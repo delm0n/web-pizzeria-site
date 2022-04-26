@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NgxMaskModule, IConfig } from 'ngx-mask'
@@ -28,6 +28,8 @@ import { NotFoundPageComponent } from './myapp/not-found-page/not-found-page.com
 import { CartPageComponent } from './myapp/cart-page/cart-page.component';
 import { DesertsComponent } from './myapp/home-components/deserts/deserts.component';
 import { DrinksComponent } from './myapp/home-components/drinks/drinks.component';
+import { SnacksComponent } from './myapp/home-components/snacks/snacks.component';
+import { RollsComponent } from './myapp/home-components/rolls/rolls.component';
 //import { DrinksComponent } from './myapp/home-components/drinks/drinks/drinks.component';
 
 
@@ -46,6 +48,8 @@ import { DrinksComponent } from './myapp/home-components/drinks/drinks.component
     CartPageComponent,
     DesertsComponent,
     DrinksComponent,
+    SnacksComponent,
+    RollsComponent,
        
   ],
   imports: [
@@ -55,6 +59,7 @@ import { DrinksComponent } from './myapp/home-components/drinks/drinks.component
     NgbModule,
     FormsModule,
     NgxMaskModule.forRoot(maskConfig),
+    NgxUsefulSwiperModule
   ],
   providers: [ModalPizzaService, ClientService],
   bootstrap: [AppComponent]
