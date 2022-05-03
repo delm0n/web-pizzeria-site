@@ -1,11 +1,11 @@
 import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { CartService } from '../../myservices/cart/cart.service'
 import { ClientService } from '../../myservices/account/client.service'
-import { PizzaCartClass } from '../../models/PizzaCartClass'
+import { PizzaCartClass, Size } from '../../models/PizzaCartClass'
 import { DishesClass } from '../../models/DishClass'
 import { DishesCartClass } from '../../models/DishCartClass'
 import { DishesService } from 'src/app/myservices/dishes/dishes.service';
-
+import { IngredientClass } from 'src/app/models/IngredientClass';
 
 
 @Component({
@@ -38,67 +38,87 @@ export class CartPageComponent implements OnInit {
 
   constructor(private cdref: ChangeDetectorRef, private cartService: CartService, private clientService:ClientService,
     private dishesService: DishesService) { 
+
     this.pizzasCartView = cartService.pizzasInCart;
-    this.dishCartView = dishesService.dishesCart;  
-      
+    this.dishCartView = dishesService.dishesCart; 
+    
   }
 
 
   ngOnInit(): void {
+
+    //вызываю автообновление 
+    if (this.clientService.autorizationFlug) {
+      this.cartService.getPizzasFromCartServer(this.clientService.client.clientId, this.clientService.client.firstName)
+      }
   }
 
   decrement_pizza(index: number) {
+
     if (this.cartService.pizzasInCart[index].Count > 1) {
       this.cartService.pizzasInCart[index].Count--; 
 
+
       if(this.clientService.autorizationFlug) {
-        this.cartService.counterMinusPizzaInCartServer(this.clientService.client.clientId, index)   
+
+        this.cartService.counterPizzaInCartServer(this.clientService.client.clientId, 
+          this.cartService.pizzasInCart[index].PizzaId, this.cartService.pizzasInCart[index].Size, 
+          this.cartService.pizzasInCart[index].Ingredients, this.cartService.pizzasInCart[index].Count);
+
+        //this.cartService.counterMinusPizzaInCartServer(this.clientService.client.clientId, index)   
       } 
     } 
+    
     else {
       this.deletePizzaFromCart(index);
     }
   }       
 
   increment_pizza(index: number) {
-    if (this.cartService.pizzasInCart[index].Count < 11) {
+    if (this.cartService.pizzasInCart[index].Count < 16) {
       this.cartService.pizzasInCart[index].Count++;
 
       if(this.clientService.autorizationFlug) {
-        this.cartService.counterPlusPizzaInCartServer(this.clientService.client.clientId, index)   
-      }   
+
+        this.cartService.counterPizzaInCartServer(this.clientService.client.clientId, 
+          this.cartService.pizzasInCart[index].PizzaId, this.cartService.pizzasInCart[index].Size, 
+          this.cartService.pizzasInCart[index].Ingredients, this.cartService.pizzasInCart[index].Count);
+
+      }     
     }
   }
 
   getIngredientsMass(index: number) {
     let ingrMass: number = 0;
-    for(let i = 0; i < this.cartService.pizzasInCart[index].Ingredients.length; i++) {
-      ingrMass += this.cartService.pizzasInCart[index].Ingredients[i].Mass;
+    for(let i = 0; i < this.pizzasCartView[index].Ingredients.length; i++) {
+      ingrMass += this.pizzasCartView[index].Ingredients[i].Mass;
     }
     return ingrMass;
   }
 
   getIngredientsPrice(index: number) {
     let ingrPrice: number = 0;
-    for(let i = 0; i < this.cartService.pizzasInCart[index].Ingredients.length; i++) {
-      ingrPrice += this.cartService.pizzasInCart[index].Ingredients[i].Price;
+    for(let i = 0; i < this.pizzasCartView[index].Ingredients.length; i++) {
+      ingrPrice += this.pizzasCartView[index].Ingredients[i].Price;
     }
     return ingrPrice;
   }
 
-  deletePizzaFromCart(index: number) {
-    
+  deletePizzaFromCart(index: number) {    
+
+    // this.cartService.pizzasInCart = this.cartService.pizzasInCart.slice(index, 1);
     this.cartService.pizzasInCart = this.cartService.pizzasInCart.slice(0, index)
       .concat(this.cartService.pizzasInCart.slice(index + 1, this.cartService.pizzasInCart.length))
 
-    this.pizzasCartView = this.cartService.pizzasInCart;
-
     //вызвать функцию удаления из бд
-    if(this.clientService.autorizationFlug) {
-      this.cartService.deletePizzaFromCartServer(this.clientService.client.clientId, index);
+    if(this.clientService.autorizationFlug)   
+    {
+      this.cartService.deletePizzaFromCartServer(this.clientService.client.clientId, 
+        this.pizzasCartView[index].PizzaId, this.pizzasCartView[index].Size, 
+        this.pizzasCartView[index].Ingredients, this.pizzasCartView[index].Count);
     }
-  }
 
+  }
 
 
   decrement_addish(id: number) {
@@ -153,6 +173,8 @@ export class CartPageComponent implements OnInit {
   ngAfterContentChecked() {
     this.cdref.detectChanges();    
     this.getCartPrice();
+
+    this.pizzasCartView = this.cartService.pizzasInCart;
 
   }
 

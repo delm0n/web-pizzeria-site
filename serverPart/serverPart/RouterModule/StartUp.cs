@@ -19,7 +19,9 @@ namespace serverPart.RouterModule
             {
                 using (var dbContext = new ApplicationContext())
                 {
-                    dbContext.Dishes.Add(new Dish
+                       
+
+                    /*dbContext.Dishes.Add(new Dish
                     {
                         Name = "Чиз ролл",
                         UrlImg = "/assets/img/ch_roll.jpg",

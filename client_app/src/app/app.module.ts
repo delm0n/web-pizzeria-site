@@ -26,11 +26,8 @@ import { RegistrationComponent } from './myapp/account/registration/registration
 import { ClientPageComponent } from './myapp/account/client-page/client-page.component';
 import { NotFoundPageComponent } from './myapp/not-found-page/not-found-page.component';
 import { CartPageComponent } from './myapp/cart-page/cart-page.component';
-import { DesertsComponent } from './myapp/home-components/deserts/deserts.component';
-import { DrinksComponent } from './myapp/home-components/drinks/drinks.component';
-import { SnacksComponent } from './myapp/home-components/snacks/snacks.component';
-import { RollsComponent } from './myapp/home-components/rolls/rolls.component';
-//import { DrinksComponent } from './myapp/home-components/drinks/drinks/drinks.component';
+import { DishesComponent } from './myapp/home-components/dishes/dishes.component';
+
 
 
 @NgModule({
@@ -46,10 +43,7 @@ import { RollsComponent } from './myapp/home-components/rolls/rolls.component';
     ClientPageComponent,
     NotFoundPageComponent,
     CartPageComponent,
-    DesertsComponent,
-    DrinksComponent,
-    SnacksComponent,
-    RollsComponent,
+    DishesComponent,
        
   ],
   imports: [

@@ -18,6 +18,7 @@ namespace serverPart.RouterModule
     {
         public CartService()
         {
+            
             Post["/add-pizza-in-cart/{id_client}", runAsync: true] = async (x, token) =>
             {
                 PizzaCart pizzaCart = this.Bind<PizzaCart>();
@@ -48,14 +49,56 @@ namespace serverPart.RouterModule
                                 countPizzas.AddRange(JsonConvert.DeserializeObject<List<int>>(cart.PizzaCount));
                             }
 
-                            idPizzas.Add(pizzaCart.PizzaId);
-                            idSizePizzas.Add(pizzaCart.Size.PizzaSizeId);
-                            countPizzas.Add(pizzaCart.Count);
 
-                            for (int i = 0; i < pizzaCart.Ingredients.Count; i++)
-                                subIngr.Add(pizzaCart.Ingredients[i].IngredientId);
-                            ingredients_array.Add(subIngr);
+                            //перед тем, как добавлять, надо проверить на совпадение пицц здесь и увеличить количество
+                            bool no_exist = true;
 
+                            for (int i = 0; i < idPizzas.Count; i++)
+                            {
+                                if (idPizzas[i] == pizzaCart.PizzaId && idSizePizzas[i] == pizzaCart.Size.PizzaSizeId
+                                && ingredients_array[i].Count == pizzaCart.Ingredients.Count)
+                                {
+                                    bool check_ingr = true;
+
+                                    for (int j = 0; j < ingredients_array[i].Count; j++)
+                                    {
+
+                                        if (pizzaCart.Ingredients[j].IngredientId == ingredients_array[i][j])
+                                        {
+                                            //один из элементов совпал
+                                        }
+
+                                        else
+                                        {
+                                            check_ingr = false;
+                                        }
+                                    }
+
+                                    if (check_ingr)
+                                    {
+                                        countPizzas[i] = countPizzas[i] + pizzaCart.Count;
+                                        no_exist = false;
+                                        break;
+                                    }
+
+                                }
+
+                            }
+
+                            //если такой пиццы нет, то добавляем её
+                            if (no_exist)
+                            {
+                                idPizzas.Add(pizzaCart.PizzaId);
+                                idSizePizzas.Add(pizzaCart.Size.PizzaSizeId);
+                                countPizzas.Add(pizzaCart.Count);
+
+                                for (int i = 0; i < pizzaCart.Ingredients.Count; i++)
+                                    subIngr.Add(pizzaCart.Ingredients[i].IngredientId);
+                                ingredients_array.Add(subIngr);
+                            }
+
+
+                            //и сохраняем в бд
                             cart.PizzaIngredientIdJson = JsonConvert.SerializeObject(ingredients_array);
                             cart.PizzaIdJson = JsonConvert.SerializeObject(idPizzas);
                             cart.PizzaSizeIdJson = JsonConvert.SerializeObject(idSizePizzas);
@@ -63,7 +106,8 @@ namespace serverPart.RouterModule
 
                             await dbContext.SaveChangesAsync();
 
-                            return new Response { StatusCode = HttpStatusCode.OK };
+                            return new Response() { StatusCode = HttpStatusCode.OK};
+
                         }
 
                         else
@@ -76,11 +120,11 @@ namespace serverPart.RouterModule
             };
 
 
-            Get["/delete-pizza-from-cart/{id_client}&&{index_array}", runAsync: true] = async (x, token) =>
+            Post["/re-counter-pizza-from-cart/{id_client}", runAsync: true] = async (x, token) =>
             {
 
+                PizzaCart pizzaCart = this.Bind<PizzaCart>();
                 int id_client = x.id_client;
-                int index_array = x.index_array;
                 string token_headers = Request.Headers["Authorization"].FirstOrDefault();
 
                 if (token_headers == PersonalToken.getToken())
@@ -106,14 +150,36 @@ namespace serverPart.RouterModule
                                 countPizzas.AddRange(JsonConvert.DeserializeObject<List<int>>(cart.PizzaCount));
                             }
 
-                            idPizzas.RemoveAt(index_array);
-                            idSizePizzas.RemoveAt(index_array);
-                            countPizzas.RemoveAt(index_array);
-                            ingredients_array.RemoveAt(index_array);
+                            for (int i = 0; i < idPizzas.Count; i++)
+                            {
+                                if (idPizzas[i] == pizzaCart.PizzaId && idSizePizzas[i] == pizzaCart.Size.PizzaSizeId
+                                && ingredients_array[i].Count == pizzaCart.Ingredients.Count)
+                                {
+                                    bool check_ingr = true;
 
-                            cart.PizzaIngredientIdJson = JsonConvert.SerializeObject(ingredients_array);
-                            cart.PizzaIdJson = JsonConvert.SerializeObject(idPizzas);
-                            cart.PizzaSizeIdJson = JsonConvert.SerializeObject(idSizePizzas);
+                                    for (int j = 0; j < ingredients_array[i].Count; j++)
+                                    {
+
+                                        if (pizzaCart.Ingredients[j].IngredientId == ingredients_array[i][j])
+                                        {
+                                            //один из элементов совпал
+                                        }
+
+                                        else
+                                        {
+                                            check_ingr = false;
+                                        }
+                                    }
+
+                                    if (check_ingr)
+                                    {
+                                        countPizzas[i] = pizzaCart.Count;
+                                        break;
+                                    }
+
+                                }
+                            }
+
                             cart.PizzaCount = JsonConvert.SerializeObject(countPizzas);
 
                             await dbContext.SaveChangesAsync();
@@ -131,11 +197,11 @@ namespace serverPart.RouterModule
             };
 
 
-            Get["/plus-counter-pizza-in-cart/{id_client}&&{index_array}", runAsync: true] = async (x, token) =>
+            Post["/delete-pizza-from-cart/{id_client}", runAsync: true] = async (x, token) =>
             {
 
+                PizzaCart pizzaCart = this.Bind<PizzaCart>();
                 int id_client = x.id_client;
-                int index_array = x.index_array;
                 string token_headers = Request.Headers["Authorization"].FirstOrDefault();
 
                 if (token_headers == PersonalToken.getToken())
@@ -147,59 +213,57 @@ namespace serverPart.RouterModule
 
                         if (cart != null)
                         {
-                            List<int> idPizzas = new List<int>(); List<int> countPizzas = new List<int>();
+                            List<int> idPizzas = new List<int>(); List<int> idSizePizzas = new List<int>(); List<int> countPizzas = new List<int>();
+
+                            List<List<int>> ingredients_array = new List<List<int>>();
+                            List<int> subIngr = new List<int>();
 
 
                             if (JsonConvert.DeserializeObject<List<int>>(cart.PizzaIdJson) != null)
                             {
+                                ingredients_array.AddRange(JsonConvert.DeserializeObject<List<List<int>>>(cart.PizzaIngredientIdJson));
+                                idPizzas.AddRange(JsonConvert.DeserializeObject<List<int>>(cart.PizzaIdJson));
+                                idSizePizzas.AddRange(JsonConvert.DeserializeObject<List<int>>(cart.PizzaSizeIdJson));
                                 countPizzas.AddRange(JsonConvert.DeserializeObject<List<int>>(cart.PizzaCount));
                             }
 
-                            countPizzas[index_array] = countPizzas[index_array] + 1;
-
-                            cart.PizzaCount = JsonConvert.SerializeObject(countPizzas);
-
-                            await dbContext.SaveChangesAsync();
-
-                            return new Response { StatusCode = HttpStatusCode.OK };
-                        }
-
-                        else
-                        {
-                            return new Response { StatusCode = HttpStatusCode.NotFound };
-                        }
-                    }
-                }
-                else return new Response { StatusCode = HttpStatusCode.NotFound };
-            }; 
-
-
-            Get["/minus-counter-pizza-in-cart/{id_client}&&{index_array}", runAsync: true] = async (x, token) =>
-            {
-
-                int id_client = x.id_client;
-                int index_array = x.index_array;
-                string token_headers = Request.Headers["Authorization"].FirstOrDefault();
-
-                if (token_headers == PersonalToken.getToken())
-                {
-                    using (var dbContext = new ApplicationContext())
-                    {
-
-                        Cart cart = await dbContext.Carts.Where(c => c.ClientId == id_client).FirstOrDefaultAsync();
-
-                        if (cart != null)
-                        {
-                            List<int> idPizzas = new List<int>(); List<int> countPizzas = new List<int>();
-
-
-                            if (JsonConvert.DeserializeObject<List<int>>(cart.PizzaIdJson) != null)
+                            for (int i = 0; i < idPizzas.Count; i++)
                             {
-                                countPizzas.AddRange(JsonConvert.DeserializeObject<List<int>>(cart.PizzaCount));
-                            }
+                                if (idPizzas[i] == pizzaCart.PizzaId && idSizePizzas[i] == pizzaCart.Size.PizzaSizeId
+                                && ingredients_array[i].Count == pizzaCart.Ingredients.Count)
+                                {
+                                    bool check_ingr = true;
 
-                            countPizzas[index_array] = countPizzas[index_array] - 1;
+                                    for (int j = 0; j < ingredients_array[i].Count; j++)
+                                    {
 
+                                        if (pizzaCart.Ingredients[j].IngredientId == ingredients_array[i][j])
+                                        {
+                                            //один из элементов совпал
+                                        }
+
+                                        else
+                                        {
+                                            check_ingr = false;
+                                        }
+                                    }
+
+                                    if (check_ingr)
+                                    {
+                                        idPizzas.RemoveAt(i);
+                                        idSizePizzas.RemoveAt(i);
+                                        countPizzas.RemoveAt(i);
+                                        ingredients_array.RemoveAt(i);
+
+                                        break;
+                                    }
+
+                                }
+                            }           
+
+                            cart.PizzaIngredientIdJson = JsonConvert.SerializeObject(ingredients_array);
+                            cart.PizzaIdJson = JsonConvert.SerializeObject(idPizzas);
+                            cart.PizzaSizeIdJson = JsonConvert.SerializeObject(idSizePizzas);
                             cart.PizzaCount = JsonConvert.SerializeObject(countPizzas);
 
                             await dbContext.SaveChangesAsync();
@@ -301,7 +365,7 @@ namespace serverPart.RouterModule
 
 
 
-
+            //====================
 
 
             Post["/add-dish-in-cart/{id_client}", runAsync: true] = async (x, token) =>
@@ -559,6 +623,54 @@ namespace serverPart.RouterModule
                 }
                 else return new Response { StatusCode = HttpStatusCode.NotFound };
             };
+
+            //попробовать без этого
+            Post["/counter-dish-from-cart/{id_client}", runAsync: true] = async (x, token) =>
+            {
+
+                DishCart dish = this.Bind<DishCart>();
+
+                int id_client = x.id_client;
+
+                string token_headers = Request.Headers["Authorization"].FirstOrDefault();
+
+                if (token_headers == PersonalToken.getToken())
+                {
+                    using (var dbContext = new ApplicationContext())
+                    {
+
+                        Cart cart = await dbContext.Carts.Where(c => c.ClientId == id_client).FirstOrDefaultAsync();
+
+                        if (cart != null)
+                        {
+                            List<int> idDishes = new List<int>(); List<int> countDishes = new List<int>();
+
+                            if (JsonConvert.DeserializeObject<List<int>>(cart.DishIdJson) != null)
+                            {
+                                idDishes.AddRange(JsonConvert.DeserializeObject<List<int>>(cart.DishIdJson));
+                                countDishes.AddRange(JsonConvert.DeserializeObject<List<int>>(cart.DishCount));
+                            }
+
+                            for (int i = 0; i < idDishes.Count; i++)
+                                if (idDishes[i] == dish.DishId)
+                                    countDishes[i] = dish.Count;
+
+                            cart.DishCount = JsonConvert.SerializeObject(countDishes);
+
+                            await dbContext.SaveChangesAsync();
+
+                            return new Response { StatusCode = HttpStatusCode.OK };
+                        }
+
+                        else
+                        {
+                            return new Response { StatusCode = HttpStatusCode.NotFound };
+                        }
+                    }
+                }
+                else return new Response { StatusCode = HttpStatusCode.NotFound };
+            };
+
 
         }
     }

@@ -5,13 +5,7 @@ export class PizzaCartClass  {
     PizzaName!: string;
     UrlImg!: string;
     Structure!: string;
-    Size!: {
-    PizzaSizeId: number;
-    NameSize: string; //имя размера
-    Price: number;
-    Mass: number;
-    //Pizza: null;
-  };
+    Size!: Size;
     PizzaType!: TypesPizzaEnum;
     Ingredients!: IngredientClass[]; 
     Count!: number;

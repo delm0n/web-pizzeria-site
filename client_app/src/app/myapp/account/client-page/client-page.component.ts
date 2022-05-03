@@ -56,7 +56,7 @@ export class ClientPageComponent implements OnInit {
     firstName : "",
     telephone : "",
     password : "",
-    //pizzaCartJson : ""
+    email : ""
   }
 
   emptyError : boolean = false;

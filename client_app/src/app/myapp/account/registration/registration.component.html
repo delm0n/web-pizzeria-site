@@ -17,7 +17,7 @@
                                     class="block mb-2 text-sm font-semibold text-red-600">
                                     Это поле обязательно!
                                 </div>
-                                
+
                             </div>
                         </div>
                         <input [(ngModel)]="person.firstName" type="tel" name="firstName" #firstName="ngModel"
@@ -48,13 +48,52 @@
                             ? 'w-full px-3 py-2 placeholder-gray-300 rounded-md focus:outline-none focus:ring focus:ring-green-200 focus:border-green-300 border-red-500 ' 
                             : 'w-full px-3 py-2 placeholder-gray-300 border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-green-200 focus:border-green-300'" />
                     </div>
-                    
+
                     <div *ngIf="telephone.touched && person.telephone.length != 10" [@alertsAnimation]
-                    class="bg-red-100 rounded-lg py-2 px-6 mb-4 text-base text-red-700 mb-3 inline-flex items-center w-full">
-                    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times-circle" class="w-4 h-4 mr-2 fill-current" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                        <path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm121.6 313.1c4.7 4.7 4.7 12.3 0 17L338 377.6c-4.7 4.7-12.3 4.7-17 0L256 312l-65.1 65.6c-4.7 4.7-12.3 4.7-17 0L134.4 338c-4.7-4.7-4.7-12.3 0-17l65.6-65-65.6-65.1c-4.7-4.7-4.7-12.3 0-17l39.6-39.6c4.7-4.7 12.3-4.7 17 0l65 65.7 65.1-65.6c4.7-4.7 12.3-4.7 17 0l39.6 39.6c4.7 4.7 4.7 12.3 0 17L312 256l65.6 65.1z"></path>
-                      </svg>
+                        class="bg-red-100 rounded-lg py-2 px-6 mb-4 text-base text-red-700 mb-3 inline-flex items-center w-full">
+                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times-circle"
+                            class="w-4 h-4 mr-2 fill-current" role="img" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 512 512">
+                            <path fill="currentColor"
+                                d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm121.6 313.1c4.7 4.7 4.7 12.3 0 17L338 377.6c-4.7 4.7-12.3 4.7-17 0L256 312l-65.1 65.6c-4.7 4.7-12.3 4.7-17 0L134.4 338c-4.7-4.7-4.7-12.3 0-17l65.6-65-65.6-65.1c-4.7-4.7-4.7-12.3 0-17l39.6-39.6c4.7-4.7 12.3-4.7 17 0l65 65.7 65.1-65.6c4.7-4.7 12.3-4.7 17 0l39.6 39.6c4.7 4.7 4.7 12.3 0 17L312 256l65.6 65.1z">
+                            </path>
+                        </svg>
                         Неверный формат номера телефона!
+                    </div>
+
+                    <!-- почта  -->
+                    <div class="mb-6">
+                        <div class="flex flex-row items-center justify-between">
+                            <label for="email"
+                                class="block mb-2 text-sm font-semibold text-gray-600 dark:text-gray-400">Почта mail.ru</label>
+                            <div *ngIf="email.invalid && (email.dirty || email.touched)">
+                                <div *ngIf="email.errors?.['required']"
+                                    class="block mb-2 text-sm font-semibold text-red-600">
+                                    Это поле обязательно!
+                                </div>
+                                <div *ngIf="email.errors?.['pattern'] && email.errors?.['maxlength']"
+                                    class="block mb-2 text-sm font-semibold text-red-600">
+                                    Введите адрес почты!
+                                </div>
+                            </div>
+                        </div>
+                        <input [(ngModel)]="person.email" type="email" name="email" #email="ngModel"
+                             required placeholder="Ваша почта mail.ru" email="true"
+                            [ngClass]="email.invalid && (email.dirty || email.touched) && email.errors?.['required'] || (email.touched && person.email.length < 6)
+                            ? 'w-full px-3 py-2 placeholder-gray-300 rounded-md focus:outline-none focus:ring focus:ring-green-200 focus:border-green-300 border-red-500 ' 
+                            : 'w-full px-3 py-2 placeholder-gray-300 border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-green-200 focus:border-green-300'" />
+                    </div>
+
+                    <div *ngIf="(email.touched && person.email.length < 6) || (email.touched && email.errors)" [@alertsAnimation]
+                        class="bg-red-100 rounded-lg py-2 px-6 mb-4 text-base text-red-700 mb-3 inline-flex items-center w-full">
+                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times-circle"
+                            class="w-4 h-4 mr-2 fill-current" role="img" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 512 512">
+                            <path fill="currentColor"
+                                d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm121.6 313.1c4.7 4.7 4.7 12.3 0 17L338 377.6c-4.7 4.7-12.3 4.7-17 0L256 312l-65.1 65.6c-4.7 4.7-12.3 4.7-17 0L134.4 338c-4.7-4.7-4.7-12.3 0-17l65.6-65-65.6-65.1c-4.7-4.7-4.7-12.3 0-17l39.6-39.6c4.7-4.7 12.3-4.7 17 0l65 65.7 65.1-65.6c4.7-4.7 12.3-4.7 17 0l39.6 39.6c4.7 4.7 4.7 12.3 0 17L312 256l65.6 65.1z">
+                            </path>
+                        </svg>
+                        Неверный формат адреса почты!
                     </div>
 
                     <div class="mb-6">
@@ -78,36 +117,58 @@
                     <div class="mb-6">
                         <div class="flex flex-row items-center justify-between">
                             <label for="password_confirm"
-                                class="block mb-2 text-sm font-semibold text-gray-600 dark:text-gray-400">Пароль</label>
-                            <div *ngIf="password_confirm.invalid && (password_confirm.dirty || password_confirm.touched)">
+                                class="block mb-2 text-sm font-semibold text-gray-600 dark:text-gray-400">Подтвердите пароль</label>
+                            <div
+                                *ngIf="password_confirm.invalid && (password_confirm.dirty || password_confirm.touched)">
                                 <div *ngIf="password_confirm.errors?.['required']"
                                     class="block mb-2 text-sm font-semibold text-red-500">
                                     Это поле обязательно!
                                 </div>
                             </div>
                         </div>
-                        <input [(ngModel)]="person.password_confirm" type="password" name="password_confirm" #password_confirm="ngModel"
-                            placeholder="Повторите пароль" required
+                        <input [(ngModel)]="person.password_confirm" type="password" name="password_confirm"
+                            #password_confirm="ngModel" placeholder="Повторите пароль" required
                             [ngClass]="(password_confirm.invalid && (password_confirm.dirty || password_confirm.touched) && password_confirm.errors?.['required']) || (password.valid && password_confirm.valid && person.password_confirm != person.password)
                             ? 'w-full px-3 py-2 placeholder-gray-300 rounded-md focus:outline-none focus:ring focus:ring-green-200 focus:border-green-300 border-red-500 ' 
                             : 'w-full px-3 py-2 placeholder-gray-300 border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-green-200 focus:border-green-300'" />
                         <!-- <a href="#!" class="mb-2 text-sm text-green-400 focus:outline-none focus:text-green-500 hover:text-green-500 dark:hover:text-green-300">Забыли пароль?</a> -->
                     </div>
 
-                    <div *ngIf="password.valid && password_confirm.valid && person.password_confirm != person.password" [@alertsAnimation]
-                    class="bg-red-100 rounded-lg py-2 px-6 mb-4 text-base text-red-700 mb-3 inline-flex items-center w-full">
-                    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times-circle" class="w-4 h-4 mr-2 fill-current" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                        <path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm121.6 313.1c4.7 4.7 4.7 12.3 0 17L338 377.6c-4.7 4.7-12.3 4.7-17 0L256 312l-65.1 65.6c-4.7 4.7-12.3 4.7-17 0L134.4 338c-4.7-4.7-4.7-12.3 0-17l65.6-65-65.6-65.1c-4.7-4.7-4.7-12.3 0-17l39.6-39.6c4.7-4.7 12.3-4.7 17 0l65 65.7 65.1-65.6c4.7-4.7 12.3-4.7 17 0l39.6 39.6c4.7 4.7 4.7 12.3 0 17L312 256l65.6 65.1z"></path>
-                      </svg>
+                    <div *ngIf="password.valid && password_confirm.valid && person.password_confirm != person.password"
+                        [@alertsAnimation]
+                        class="bg-red-100 rounded-lg py-2 px-6 mb-4 text-base text-red-700 mb-3 inline-flex items-center w-full">
+                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times-circle"
+                            class="w-4 h-4 mr-2 fill-current" role="img" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 512 512">
+                            <path fill="currentColor"
+                                d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm121.6 313.1c4.7 4.7 4.7 12.3 0 17L338 377.6c-4.7 4.7-12.3 4.7-17 0L256 312l-65.1 65.6c-4.7 4.7-12.3 4.7-17 0L134.4 338c-4.7-4.7-4.7-12.3 0-17l65.6-65-65.6-65.1c-4.7-4.7-4.7-12.3 0-17l39.6-39.6c4.7-4.7 12.3-4.7 17 0l65 65.7 65.1-65.6c4.7-4.7 12.3-4.7 17 0l39.6 39.6c4.7 4.7 4.7 12.3 0 17L312 256l65.6 65.1z">
+                            </path>
+                        </svg>
                         Пароли не совпадают
                     </div>
 
-                    <div *ngIf="invalidPersonServer" [@alertsAnimation]
-                    class="bg-red-100 rounded-lg py-2 px-6 mb-4 text-base text-red-700 mb-3 inline-flex items-center w-full">
-                    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times-circle" class="w-4 h-4 mr-2 fill-current" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                        <path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm121.6 313.1c4.7 4.7 4.7 12.3 0 17L338 377.6c-4.7 4.7-12.3 4.7-17 0L256 312l-65.1 65.6c-4.7 4.7-12.3 4.7-17 0L134.4 338c-4.7-4.7-4.7-12.3 0-17l65.6-65-65.6-65.1c-4.7-4.7-4.7-12.3 0-17l39.6-39.6c4.7-4.7 12.3-4.7 17 0l65 65.7 65.1-65.6c4.7-4.7 12.3-4.7 17 0l39.6 39.6c4.7 4.7 4.7 12.3 0 17L312 256l65.6 65.1z"></path>
-                      </svg>
+                    <div *ngIf="invalidPersonTel" [@alertsAnimation]
+                        class="bg-red-100 rounded-lg py-2 px-6 mb-4 text-base text-red-700 mb-3 inline-flex items-center w-full">
+                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times-circle"
+                            class="w-4 h-4 mr-2 fill-current" role="img" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 512 512">
+                            <path fill="currentColor"
+                                d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm121.6 313.1c4.7 4.7 4.7 12.3 0 17L338 377.6c-4.7 4.7-12.3 4.7-17 0L256 312l-65.1 65.6c-4.7 4.7-12.3 4.7-17 0L134.4 338c-4.7-4.7-4.7-12.3 0-17l65.6-65-65.6-65.1c-4.7-4.7-4.7-12.3 0-17l39.6-39.6c4.7-4.7 12.3-4.7 17 0l65 65.7 65.1-65.6c4.7-4.7 12.3-4.7 17 0l39.6 39.6c4.7 4.7 4.7 12.3 0 17L312 256l65.6 65.1z">
+                            </path>
+                        </svg>
                         Пользователь с таким номером уже есть!
+                    </div>
+
+                    <div *ngIf="invalidPersonEmail" [@alertsAnimation]
+                        class="bg-red-100 rounded-lg py-2 px-6 mb-4 text-base text-red-700 mb-3 inline-flex items-center w-full">
+                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times-circle"
+                            class="w-4 h-4 mr-2 fill-current" role="img" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 512 512">
+                            <path fill="currentColor"
+                                d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm121.6 313.1c4.7 4.7 4.7 12.3 0 17L338 377.6c-4.7 4.7-12.3 4.7-17 0L256 312l-65.1 65.6c-4.7 4.7-12.3 4.7-17 0L134.4 338c-4.7-4.7-4.7-12.3 0-17l65.6-65-65.6-65.1c-4.7-4.7-4.7-12.3 0-17l39.6-39.6c4.7-4.7 12.3-4.7 17 0l65 65.7 65.1-65.6c4.7-4.7 12.3-4.7 17 0l39.6 39.6c4.7 4.7 4.7 12.3 0 17L312 256l65.6 65.1z">
+                            </path>
+                        </svg>
+                        Пользователь с такой почтой уже есть!
                     </div>
 
                     <div class="flex flex-row items-center mb-6">
@@ -115,7 +176,8 @@
                             <input type="checkbox" [value]="checkedPolicy" (change)="changeCheckedPolicy()"
                                 class="form-checkbox h-5 w-5 text-emerald-600">
                         </div>
-                        <div class="text-sm ml-3 text-gray-500">Настоящим вы соглашаетесь <span class="text-emerald-400 cursor-pointer">с
+                        <div class="text-sm ml-3 text-gray-500">Настоящим вы соглашаетесь <span
+                                class="text-emerald-400 cursor-pointer">с
                                 политикой конфиденциальности</span> и даете согласие на
                             обработку своих персональных данных.</div>
                     </div>

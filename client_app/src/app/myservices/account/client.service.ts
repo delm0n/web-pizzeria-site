@@ -16,7 +16,7 @@ export class ClientService {
     firstName : "",
     telephone : "",
     password : "",
-    //pizzaCartJson : ""
+    email : ""
   }
 
   enterClient(entity: any) {
@@ -25,12 +25,13 @@ export class ClientService {
     this.client.firstName = entity["FirstName"];
     this.client.telephone = entity["Telephone"];
     this.client.password = entity["Password"];
-    //this.client.pizzaCartJson = entity["PizzaCartJson"];
+    this.client.email = entity["Email"];
     
     this.autorizationFlug = true;
     
     //получаем корзину с пиццами клиента 
-    this.cartService.getPizzasFromCartServer(this.client.clientId, this.client.firstName);
+    this.cartService.getPizzasFromCartServer_enter(this.client.clientId, this.client.firstName);
+
     //получаем корзину с допами клиента
     this.dishesService.getDishFromCartServer(this.client.clientId, this.client.firstName);
 
@@ -42,6 +43,7 @@ export class ClientService {
       firstName : "",
       telephone : "",
       password : "",
+      email: ""
     }
 
     this.autorizationFlug = false;

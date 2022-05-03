@@ -4,5 +4,6 @@ export class ClientClass {
     firstName! : string;
     telephone! : string;
     password! : string;
+    email!: string;
     //pizzaCartJson! : string;
 }

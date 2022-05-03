@@ -190,22 +190,37 @@ export class PizzasComponent implements OnInit {
     }
     ingredientArray.sort((a, b) => a.IngredientId - b.IngredientId);
 
-
-
-
     if (this.checkPizzasInCart(this.modalPizzas.pizzaId, this.modalPizzas.sizes[this.active_status].PizzaSizeId, ingredientArray) != null) {
-      console.log("такая пицца уже есть, её надо +1");
 
       //получаем индекс пиццы для её увеличения
 
       this.cartService.pizzasInCart[this.cartService.pizzasInCart
-        .findIndex(i => i == this.checkPizzasInCart(this.modalPizzas.pizzaId, 
-          this.modalPizzas.sizes[this.active_status].PizzaSizeId, ingredientArray))].Count++;
-
+        .findIndex(i => i == this.checkPizzasInCart(this.modalPizzas.pizzaId,
+          this.modalPizzas.sizes[this.active_status].PizzaSizeId, ingredientArray))].Count =
+        this.cartService.pizzasInCart[this.cartService.pizzasInCart
+          .findIndex(i => i == this.checkPizzasInCart(this.modalPizzas.pizzaId,
+            this.modalPizzas.sizes[this.active_status].PizzaSizeId, ingredientArray))].Count
+        + this.countModal;
+ 
+      //работа с сохранением на сервере
       if (this.clientService.autorizationFlug) {
-        this.cartService.counterPlusPizzaInCartServer(this.clientService.client.clientId, this.cartService.pizzasInCart
-          .findIndex(i => i == this.checkPizzasInCart(this.modalPizzas.pizzaId, 
-            this.modalPizzas.sizes[this.active_status].PizzaSizeId, ingredientArray)) )
+        this.cartService.counterPizzaInCartServer(this.clientService.client.clientId,
+
+          this.cartService.pizzasInCart[this.cartService.pizzasInCart
+            .findIndex(i => i == this.checkPizzasInCart(this.modalPizzas.pizzaId,
+              this.modalPizzas.sizes[this.active_status].PizzaSizeId, ingredientArray))].PizzaId,
+
+          this.cartService.pizzasInCart[this.cartService.pizzasInCart
+            .findIndex(i => i == this.checkPizzasInCart(this.modalPizzas.pizzaId,
+              this.modalPizzas.sizes[this.active_status].PizzaSizeId, ingredientArray))].Size,
+
+          this.cartService.pizzasInCart[this.cartService.pizzasInCart
+            .findIndex(i => i == this.checkPizzasInCart(this.modalPizzas.pizzaId,
+              this.modalPizzas.sizes[this.active_status].PizzaSizeId, ingredientArray))].Ingredients,
+
+          this.cartService.pizzasInCart[this.cartService.pizzasInCart
+            .findIndex(i => i == this.checkPizzasInCart(this.modalPizzas.pizzaId,
+              this.modalPizzas.sizes[this.active_status].PizzaSizeId, ingredientArray))].Count)
       }
 
     }
@@ -221,10 +236,12 @@ export class PizzasComponent implements OnInit {
         Count: this.countModal
       })
 
-
+      //работа с сохранением на сервере
       if (this.clientService.autorizationFlug) {
-        this.cartService.addPizzaInCartServer(this.clientService.client.clientId);
+        this.cartService.addPizzaInCartServer(this.clientService.client.clientId, this.clientService.client.firstName,
+          this.modalPizzas.pizzaId, this.modalPizzas.sizes[this.active_status], ingredientArray, this.countModal);
       }
+
     }
 
     //закрыть модальное окно
@@ -294,7 +311,7 @@ export class PizzasComponent implements OnInit {
       });
   }
 
-  
+
 
 
   ngOnInit(): void {

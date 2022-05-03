@@ -25,7 +25,7 @@
 
     <div class="">
 
-      <div class="border-2 rounded-full my-auto transition duration-150 ease-in-out p-2.5" style="max-width: 49px;"
+      <div class="cursor-pointer border-2 rounded-full my-auto transition duration-150 ease-in-out p-2.5" style="max-width: 49px;"
         (click)="show_filter = !show_filter" data-bs-toggle="collapse" data-bs-target="#collapseExample"
         aria-expanded="false" aria-controls="collapseExample"
         [ngClass]="show_filter ? 'bg-white text-red-600 border-red-300':' text-gray-500 border-gray-300'">
@@ -169,6 +169,7 @@
     <div class="flex items-center justify-center h-full w-full">
       <div id="modalMobile"
         class="bg-white rounded-md shadow fixed overflow-y-auto sm:h-auto w-10/12 md:w-10/12 lg:max-w-4xl ">
+        
         <div
           class="bg-gray-100 rounded-tl-md rounded-tr-md px-4 py-3 md:px-8 md:py-4 md:py-7 flex items-center justify-between">
           <p class="text-base font-semibold text-gray-900">{{modalPizzas.pizzaName}} пицца</p>
@@ -182,6 +183,8 @@
             </svg>
           </button>
         </div>
+
+
         <div class="px-4 md:px-10 py-3 md:py-6 ">
           <div class="flex flex-col sm:flex-row">
             <div class="sm:h-max-31 my-auto flex-initial">

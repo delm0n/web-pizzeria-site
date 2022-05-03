@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 
+
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
@@ -10,7 +11,17 @@ export class HomePageComponent implements OnInit {
 
   constructor() { }
 
+  Drinks = 0;
+  DrinksTitle = "Напитки"
 
+  Desserts = 1;
+  DessertsTitle = "Дессерты"
+
+  Snacks = 2;
+  SnacksTitle = "Закуски"
+
+  Rolls = 3;
+  RollsTitle = "Роллы"
   
   ngOnInit(): void {
   }

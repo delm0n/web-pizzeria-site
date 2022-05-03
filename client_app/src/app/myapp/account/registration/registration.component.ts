@@ -37,7 +37,6 @@ import {
                   style({ height: 0, opacity: 0 }))
         ]
       )
-
     ]
     )
   ]
@@ -47,15 +46,24 @@ export class RegistrationComponent implements OnInit {
   person = {
     firstName: "",
     telephone: "",
+    email: "",
     password: "",
     password_confirm: ""
   }
 
-  invalidPersonServer: boolean = false
+  invalidPersonTel: boolean = false
   existTelClient() {
-    this.invalidPersonServer = true;
+    this.invalidPersonTel = true;
     setTimeout(() =>{
-      this.invalidPersonServer = false;;
+      this.invalidPersonTel = false;;
+    }, 6000);
+  }
+
+  invalidPersonEmail: boolean = false
+  existEmClient() {
+    this.invalidPersonEmail = true;
+    setTimeout(() =>{
+      this.invalidPersonEmail = false;;
     }, 6000);
   }
 
@@ -67,35 +75,33 @@ export class RegistrationComponent implements OnInit {
   constructor(private clientService: ClientService, private router: Router) { }
 
   registration() {
-
-    //let token = this.person.telephone + ':' + this.person.password + ':' + new Date().toLocaleDateString();
     
     axios.post('http://localhost:1234/registr', 
     {  
       Telephone: this.person.telephone,
       Password: this.person.password,
-      FirstName: this.person.firstName
+      FirstName: this.person.firstName,
+      Email: this.person.email
     },
-    // {    
-
-    //   headers: {
-    //     'Authorization':  token,
-    //   }
-    // }
     )
     .then(res => {
 
-        if(res.data == "Not") {
+        if(res.data == "Tel") {
           //если такого пользователя нет
           this.existTelClient();
         }
 
         else {
-            
+
+          if(res.data == "Tel") {
+            this.existEmClient();
+          }
+          
+          else { 
             this.clientService.enterClient(JSON.parse(res.headers["client"]));
             this.router.navigate(['/']);
             sessionStorage.setItem('token', res.headers["token"]);
-
+          }
         } 
       }
 

@@ -119,6 +119,7 @@ namespace serverPart.RouterModule
                 x = this.Bind<Client>();
 
                 string tel = x.Telephone;
+                string email = x.Email;
                 //string passw = x.Password;
                 //string firstn = x.FirstName;
 
@@ -128,7 +129,12 @@ namespace serverPart.RouterModule
                 {
                     if (await dbContext.Clients.Where(c => c.Telephone == tel).FirstOrDefaultAsync() != null)
                     {
-                        return "Not";
+                        return "Tel";
+                    }
+
+                    if (await dbContext.Clients.Where(c => c.Email == email).FirstOrDefaultAsync() != null)
+                    {
+                        return "Em";
                     }
 
                     else
@@ -137,9 +143,10 @@ namespace serverPart.RouterModule
                         client.Telephone = x.Telephone;
                         client.FirstName = x.FirstName;
                         client.Password = x.Password;
-
+                        client.Email = x.Email;
 
                         dbContext.Clients.Add(client);
+
                         await dbContext.SaveChangesAsync();
 
                         Cart cart = new Cart() { Client = await dbContext.Clients.Where(c => c.Telephone == tel).FirstOrDefaultAsync() };
