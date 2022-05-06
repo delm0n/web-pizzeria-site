@@ -16,12 +16,13 @@
       <div class="hidden sm:inline flex-grow ml-8">
         <ul class="flex text-lg md:text-xl my-2 justify-end">
 
-          <li class="mx-4 px-2">
-            <a [routerLink]="['/test']" class="
+          <li class="mx-4 px-2 flex-1">
+            <!-- <a [routerLink]="['/test']" class="
                   px-3 pb-1 rounded-md text-shadow text-center cursor-pointer
                   hover:text-emerald-700 font-medium">
               test
-            </a>
+            </a> -->
+            <app-menu-nav></app-menu-nav>
           </li>
 
           <li class="mx-4 px-2" *ngIf="!autorizationFlugView">
@@ -35,9 +36,6 @@
                 <path
                   d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
               </svg>
-              <!-- <svg xmlns="http://www.w3.org/2000/svg"width="1.5em" height="1.5em" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
-                  <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                </svg> -->
               <div class="ml-2 my-auto text-base font-medium">Войти</div>
 
             </a>
@@ -49,9 +47,6 @@
                   hover:text-emerald-700 font-medium text-base
                   flex flex-row
                   ">
-              <!-- <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
-                  <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
-                </svg> -->
               <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
                 class="bi bi-person-fill" viewBox="0 0 16 16">
                 <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
@@ -66,17 +61,26 @@
 
       <!-- вход в аккаунт -->
       <div class="flex flex-grow justify-end sm:hidden mt-1">
-        <a [routerLink]="['/log-in']" class="
-                  px-2 rounded-md text-shadow text-center cursor-pointer
+        <a [routerLink]="['/log-in']" *ngIf="!autorizationFlugView" class="px-2 rounded-md text-shadow text-center cursor-pointer
                   hover:text-emerald-600 font-medium text-base
                   flex flex-row transition duration-150 ease-in-out
                   ">
-              <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" fill="currentColor"
-                class="bi bi-person-fill my-auto" viewBox="0 0 16 16">
-                <path
-                  d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
-              </svg>
-            </a>
+          <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" fill="currentColor"
+            class="bi bi-person-fill my-auto" viewBox="0 0 16 16">
+            <path
+              d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+          </svg>
+        </a>
+
+        <a [routerLink]="['/client']" *ngIf="autorizationFlugView" class="px-2 rounded-md text-shadow text-center cursor-pointer
+                  hover:text-emerald-600 font-medium text-base
+                  flex flex-row transition duration-150 ease-in-out
+                  ">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-fill  my-auto"
+            viewBox="0 0 16 16">
+            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+          </svg>
+        </a>
       </div>
 
       <!-- кнопка корзины -->

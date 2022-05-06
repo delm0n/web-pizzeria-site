@@ -27,6 +27,8 @@ import { ClientPageComponent } from './myapp/account/client-page/client-page.com
 import { NotFoundPageComponent } from './myapp/not-found-page/not-found-page.component';
 import { CartPageComponent } from './myapp/cart-page/cart-page.component';
 import { DishesComponent } from './myapp/home-components/dishes/dishes.component';
+import { OrderPageComponent } from './myapp/order-page/order-page.component';
+import { MenuNavComponent } from './myapp/menu-nav/menu-nav.component';
 
 
 
@@ -44,6 +46,8 @@ import { DishesComponent } from './myapp/home-components/dishes/dishes.component
     NotFoundPageComponent,
     CartPageComponent,
     DishesComponent,
+    OrderPageComponent,
+    MenuNavComponent,
        
   ],
   imports: [

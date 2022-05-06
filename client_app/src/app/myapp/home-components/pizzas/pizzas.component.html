@@ -53,21 +53,21 @@
   <div class="px-4 pt-2 rounded">
 
     <!-- между планшетом и телефоном -->
-    <div class="hidden sm:flex flex-row my-auto gap-x-3 mb-2 sm:my-2 md:hidden">
+    <div class=" flex flex-col sm:flex-row my-auto gap-x-3 mb-2 sm:my-2 md:hidden">
 
-      <button class="text-center px-8 py-2 text-base font-medium 
+      <button class="text-center px-8 py-2 text-base font-medium mb-2
       rounded-md border-2 transition duration-150 ease-in-out" (click)="sorted_status = 0; getPizzasFilter()"
         [ngClass]="sorted_status == 0 ? 'bg-white text-red-600 border-red-500':'text-gray-600 border-gray-300'">
         По цене
       </button>
 
-      <button class="text-center px-8 py-2 text-base font-medium 
+      <button class="text-center px-8 py-2 text-base font-medium mb-2
       rounded-md border-2 transition duration-150 ease-in-out" (click)="sorted_status = 1; getPizzasFilter()"
         [ngClass]="sorted_status == 1 ? 'bg-white text-red-600 border-red-500':'text-gray-600 border-gray-300'">
         По рейтингу
       </button>
 
-      <button class="text-center px-8 py-2 text-base font-medium 
+      <button class="text-center px-8 py-2 text-base font-medium mb-2
       rounded-md border-2 transition duration-150 ease-in-out" (click)="sorted_status = 2; getPizzasFilter()"
         [ngClass]="sorted_status == 2 ? 'bg-white text-red-600 border-red-500':'text-gray-600 border-gray-300'">
         По популярности
@@ -76,33 +76,27 @@
     </div>
 
     <!-- между телефоном и компьютером -->
-    <div class="hidden sm:flex flex-row my-auto gap-x-3 mb-2 sm:my-2">
+    <div class=" flex flex-col sm:flex-row my-auto gap-x-3 mb-2 sm:my-2">
 
-      <button class="text-center px-8 py-2 text-base font-medium 
+      <button class="text-center px-8 py-2 text-base font-medium mb-2
       rounded-md border-2 transition duration-150 ease-in-out" (click)="filter_type_pizza = 0; getPizzasFilter()"
         [ngClass]="filter_type_pizza == 0 ? 'bg-white text-red-600 border-red-500':'text-gray-600 border-gray-300'">
         Все
       </button>
 
-      <button class="text-center px-8 py-2 text-base font-medium 
+      <button class="text-center px-8 py-2 text-base font-medium mb-2
       rounded-md border-2 transition duration-150 ease-in-out" (click)="filter_type_pizza = 1; getPizzasFilter()"
         [ngClass]="filter_type_pizza == 1 ? 'bg-white text-red-600 border-red-500':'text-gray-600 border-gray-300'">
         Острые
       </button>
 
-      <button class="text-center px-8 py-2 text-base font-medium 
+      <button class="text-center px-8 py-2 text-base font-medium mb-2
       rounded-md border-2 transition duration-150 ease-in-out" (click)="filter_type_pizza = 2; getPizzasFilter()"
         [ngClass]="filter_type_pizza == 2 ? 'bg-white text-red-600 border-red-500':'text-gray-600 border-gray-300'">
         Без мяса
       </button>
     
     </div>
-
-    <!-- телефон -->
-    <div class="sm:hidden">
-      привет
-    </div>
-
   </div>
 </div>
 

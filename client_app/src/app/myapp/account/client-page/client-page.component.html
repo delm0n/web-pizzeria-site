@@ -4,9 +4,9 @@
         <div class="max-w-xl mx-auto p-1 sm:p-4 ">
             <div class="mt-4 my-2 sm:mx-7 flex flex-row items-center justify-between">
                 <h1 class="font-bold text-3xl text-gray-700">Личный кабинет</h1>
-                <span *ngIf="cartContainFlugView" type="button" class="font-semibold text-sm text-green-600 cursor-pointer" data-bs-toggle="modal"
+                <span *ngIf="cartContainFlugView" type="button" class="font-semibold text-sm text-emerald-600 cursor-pointer" data-bs-toggle="modal"
                     data-bs-target="#exampleModal">Выход</span>
-                <span *ngIf="!cartContainFlugView" (click)="exitUser__save()" type="button" class="font-semibold text-sm text-green-600 cursor-pointer">Выход</span>    
+                <span *ngIf="!cartContainFlugView" (click)="exitUser__save()" type="button" class="font-semibold text-sm text-emerald-600 cursor-pointer">Выход</span>    
             </div>
         </div>
     </div>
@@ -17,13 +17,13 @@
                 <div class="xl:w-full xl:mx-0 h-12 ">
                     <div class="justify-between flex-wrap sm:block rounded ">
                         <ul class="flex items-center h-full text-center px-0  sm:p-2 mx-auto">
-                            <li (click)="active_status = 0"
-                                [ngClass]="active_status == 0 ? 'flex-1 text-sm text-green-700 py-2 px-3 rounded font-medium shadow'
-                                     : 'flex-1  text-sm text-gray-600 py-2 px-3 font-medium hover:text-green-700 cursor-pointer'">
-                                Личные данные</li>
                             <li (click)="active_status = 1"
-                                [ngClass]="active_status == 1 ? 'flex-1 text-sm text-green-700 py-2 px-3 rounded font-medium shadow' 
-                                    : 'flex-1  text-sm text-gray-600 py-2 px-3 font-medium hover:text-green-700 cursor-pointer'">
+                                [ngClass]="active_status == 1 ? 'flex-1 text-sm text-emerald-700 py-2 px-3 rounded font-medium shadow'
+                                     : 'flex-1  text-sm text-gray-600 py-2 px-3 font-medium hover:text-emerald-700 cursor-pointer'">
+                                Личные данные</li>
+                            <li (click)="active_status = 0"
+                                [ngClass]="active_status == 0 ? 'flex-1 text-sm text-emerald-700 py-2 px-3 rounded font-medium shadow' 
+                                    : 'flex-1  text-sm text-gray-600 py-2 px-3 font-medium hover:text-emerald-700 cursor-pointer'">
                                 История заказов</li>
                         </ul>
                     </div>
@@ -32,7 +32,7 @@
         </div>
     </div>
 
-    <div *ngIf="active_status == 0">
+    <div *ngIf="active_status == 1">
         <div class="container mx-auto">
             <div class="max-w-lg mx-auto p-1 sm:p-4 ">
                 <div class="my-2 sm:mx-7">
@@ -89,7 +89,7 @@
                                         d="M3.35 5.47c-.18.16-.353.322-.518.487A13.134 13.134 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7.029 7.029 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12-.708.708z" />
                                 </svg>
                             </div>
-                            <!-- <a href="#!" class="mb-2 text-sm text-green-400 focus:outline-none focus:text-green-500 hover:text-green-500 dark:hover:text-green-300">Забыли пароль?</a> -->
+                            
                         </div>
 
                         <div *ngIf="emptyError" [@alertsAnimation]
@@ -136,11 +136,42 @@
         </div>
     </div>
 
-    <div *ngIf="active_status == 1">
+    <div *ngIf="active_status == 0">
         <div class="container mx-auto">
             <div class="max-w-xl mx-auto p-1 sm:p-4 ">
                 <div class="my-2 sm:mx-7">
-                    Заказы
+                    
+                    <div *ngFor="let ord of orders">
+                        <div class="flex flex-row text-md text-emerald-600 font-medium justify-between">
+                            <div>Номер заказа: {{ord.OrderId}}</div>
+                            <div class="cursor-pointer" (click)="sendReportToEmail(ord.OrderId)">Отправить отчёт</div>
+                        </div>
+                        
+
+                        <div class="flex flex-col sm:flex-row justify-between sm:items-center mt-3">
+                            <div class="flex flex-col text-gray-500">
+                                <div>{{ord.TypeOfPay}}</div>
+                                <div>{{ord.DateOrder}}</div>
+                            </div>
+
+                            <div class="text-gray-500">
+                                Итоговая сумма заказа: 
+                                <span class="font-semibold text-md text-emerald-600">{{ord.LastPrice}} ₽</span>
+                            </div>
+
+                        </div>
+
+                           
+
+                        
+
+                        <div style="height: 1px;" class="my-6 w-full bg-gray-100"></div>
+                    </div>
+
+                    
+
+
+
                 </div>
             </div>
         </div>

@@ -23,13 +23,15 @@ namespace serverPart.Data.Entity
 
         public string Password { get; set; }
 
-        //[ScriptIgnore]
+ 
         public Cart Cart { get; set; }
 
-        //public string PizzaCartJson { get; set; } //=""
+        public ICollection<Order> Orders { get; set; }
 
-
-        //public ICollection<Order> Orders { get; set; }
+        public Client()
+        {
+            Orders = new List<Order>();
+        }
         
         
         

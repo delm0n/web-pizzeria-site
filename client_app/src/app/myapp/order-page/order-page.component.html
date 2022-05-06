@@ -1,0 +1,70 @@
+<div class="min-h-screen bg-slate-50/50 py-20">
+    <div class="container mx-auto">
+        <div class="max-w-xl mx-auto p-1 sm:p-4 ">
+            <div class="mt-4 my-3 sm:mx-7 ">
+                <h1 class="font-bold text-3xl text-gray-700 text-center">Оформление заказа</h1>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="!autorizationFlugView" class="container mx-auto text-center text-gray-500">
+        Перед оформлением заказа обязательно
+        <a [routerLink]="['/registration']" class="font-normal   text-emerald-400 focus:outline-none focus:text-emerald-500 
+        hover:text-emerald-500 dark:hover:text-emerald-600">зарегистрируйтесь</a>
+        или <a [routerLink]="['/log-in']" class="font-normal     text-emerald-400 focus:outline-none focus:text-emerald-500 
+        hover:text-emerald-500 dark:hover:text-emerald-600">войдите в аккаунт</a>.
+    </div>
+
+    <div class="text-sm font-semibold text-gray-600 px-3 mt-8 max-w-xl mx-auto">Выберите способ оплаты:</div>
+
+    <div class="flex flex-col md:flex-row justify-between px-1 md:px-0 mt-3 max-w-xl mx-auto"> 
+        <div class="flex flex-row items-center mb-6">
+            <div>
+                <input checked type="radio" name="radio" [(ngModel)]="typeOfPay" value="Наличными при получении"
+                class="form-radio h-5 w-5 text-emerald-600 cursor-pointer text-sm ml-3  focus:ring-white">
+            </div>
+            <div class="text-sm ml-3 text-gray-500">Наличными при получении</div>
+        </div>
+
+        <div class="flex flex-row items-center mb-6">
+            <div>
+                <input checked type="radio" name="radio" [(ngModel)]="typeOfPay" value="Курьеру картой"
+                class="form-radio h-5 w-5 text-emerald-600 cursor-pointer text-sm ml-3 focus:ring-white">
+            </div>
+            <div class="text-sm ml-3 text-gray-500">Курьеру картой</div>
+        </div>
+
+        <div class="flex flex-row items-center mb-6">
+            <div>
+                <input checked type="radio" name="radio" [(ngModel)]="typeOfPay" value="Картой на сайте"
+                class="form-radio h-5 w-5 text-emerald-600 cursor-pointer text-sm ml-3 focus:ring-white">
+            </div>
+            <div class="text-sm ml-3 text-gray-500">Картой на сайте</div>
+        </div>
+
+    </div>
+
+    <div class="text-sm font-semibold text-gray-600 px-3 my-2 max-w-xl mx-auto">Итоговая сумма заказа: 
+        <span class="font-semibold text-lg text-emerald-600">{{lastprice}} ₽</span></div>
+
+    <div class="mx-auto max-w-lg p-3 flex flex-col justify-center">
+
+        <div class="flex flex-row items-center mb-6">
+            <div>
+                <input type="checkbox" [value]="checkedPolicy" (change)="changeCheckedPolicy()"
+                    class="form-checkbox h-5 w-5 text-emerald-600 focus:ring-white">
+            </div>
+            <div class="text-sm ml-3 text-gray-500">Настоящим вы соглашаетесь <span
+                    class="text-emerald-400 cursor-pointer">с
+                    политикой конфиденциальности</span> и даете согласие на
+                обработку своих персональных данных.</div>
+        </div>
+
+        <button type="button" [disabled]="autorizationFlugView && checkedPolicy && lastprice==0" (click)="sendOrder()"
+         [ngClass]="autorizationFlugView && checkedPolicy && lastprice>0 ? 
+            'text-center bg-emerald-500 shadow-md hover:bg-emerald-600 hover:shadow-lg active:bg-emerald-700 active:shadow-lg transition duration-150 ease-in-out rounded-md text-white text-base px-8 py-2 cursor-pointer text-base font-medium' 
+            : 'text-center px-8 py-2 text-gray-600 text-base font-medium bg-gray-300 rounded-md'"
+            class="mx-auto">Отправить заказ</button>
+    </div>
+
+</div>

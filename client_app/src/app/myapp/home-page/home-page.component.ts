@@ -15,7 +15,7 @@ export class HomePageComponent implements OnInit {
   DrinksTitle = "Напитки"
 
   Desserts = 1;
-  DessertsTitle = "Дессерты"
+  DessertsTitle = "Десерты"
 
   Snacks = 2;
   SnacksTitle = "Закуски"

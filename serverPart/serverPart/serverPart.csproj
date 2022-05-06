@@ -197,6 +197,18 @@
     <Compile Include="Migrations\202205031309460_add_email.designer.cs">
       <DependentUpon>202205031309460_add_email.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202205060849367_addOrder.cs" />
+    <Compile Include="Migrations\202205060849367_addOrder.designer.cs">
+      <DependentUpon>202205060849367_addOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202205061105296_re_order.cs" />
+    <Compile Include="Migrations\202205061105296_re_order.designer.cs">
+      <DependentUpon>202205061105296_re_order.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202205061446066_add_lastprice_order.cs" />
+    <Compile Include="Migrations\202205061446066_add_lastprice_order.designer.cs">
+      <DependentUpon>202205061446066_add_lastprice_order.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -278,6 +290,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202205031309460_add_email.resx">
       <DependentUpon>202205031309460_add_email.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202205060849367_addOrder.resx">
+      <DependentUpon>202205060849367_addOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202205061105296_re_order.resx">
+      <DependentUpon>202205061105296_re_order.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202205061446066_add_lastprice_order.resx">
+      <DependentUpon>202205061446066_add_lastprice_order.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

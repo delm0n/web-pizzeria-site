@@ -39,8 +39,7 @@ export class CartPageComponent implements OnInit {
   constructor(private cdref: ChangeDetectorRef, private cartService: CartService, private clientService:ClientService,
     private dishesService: DishesService) { 
 
-    this.pizzasCartView = cartService.pizzasInCart;
-    this.dishCartView = dishesService.dishesCart; 
+    
     
   }
 
@@ -51,6 +50,9 @@ export class CartPageComponent implements OnInit {
     if (this.clientService.autorizationFlug) {
       this.cartService.getPizzasFromCartServer(this.clientService.client.clientId, this.clientService.client.firstName)
       }
+
+    this.pizzasCartView = this.cartService.pizzasInCart;
+    this.dishCartView = this.dishesService.dishesCart; 
   }
 
   decrement_pizza(index: number) {
@@ -168,6 +170,10 @@ export class CartPageComponent implements OnInit {
       //складываем значения каждого допа
       this.lastPrice += this.dishesService.dishesCart[i].Price * this.dishesService.dishesCart[i].Count; 
     } 
+  }
+
+  toOrder() {
+    this.cartService.toOrderSet(this.lastPrice);
   }
 
   ngAfterContentChecked() {

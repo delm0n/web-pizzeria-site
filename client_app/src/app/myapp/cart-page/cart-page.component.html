@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-slate-50/50 pt-20">
+<div class="min-h-screen bg-slate-50/50 py-20">
     <div class="container mx-auto">
         <div *ngIf="checkLenghtPizza() || checkLenghtDish()" class="max-w-xl mx-auto p-1 sm:p-4 ">
             <div class="mt-4 my-2 sm:mx-7 ">
@@ -9,6 +9,8 @@
 
 
     <div class="container mx-auto">
+        
+        <!-- пиццы -->
         <div *ngIf="checkLenghtPizza()" class="max-w-xl mx-auto p-1 sm:p-4 ">
             <div *ngFor="let pizza of pizzasCartView; index as i" class="mt-4 mb-14 sm:mx-7">
 
@@ -23,12 +25,12 @@
                             <div class="font-semibold text-lg text-gray-900">{{pizza.PizzaName}}</div>
                             <div class="text-gray-400 pt-2 font-light">{{pizza.Size.NameSize!}}, {{pizza.Size.Mass!}}
                                 <span *ngIf="getIngredientsMass(i) != 0"
-                                    class="text-green-600">+{{getIngredientsMass(i)}}</span>
+                                    class="text-emerald-600">+{{getIngredientsMass(i)}}</span>
                                 грамм
                             </div>
                             <div class="flex flex-row flex-wrap">
                                 <div *ngFor="let ingredient of pizza.Ingredients; index as j"
-                                    class="text-sm mr-1 text-green-600">+{{ingredient.Name}}</div>
+                                    class="text-sm mr-1 text-emerald-600">+{{ingredient.Name}}</div>
                             </div>
                         </div>
 
@@ -73,7 +75,7 @@
 
         </div>
 
-        <!--  -->
+        <!-- закуски -->
         <div *ngIf="checkLenghtDish()" class="max-w-xl mx-auto p-1 sm:p-4 ">
             <div *ngFor="let dish of dishCartView; index as i" class="mt-4 mb-14 sm:mx-7">
 
@@ -135,13 +137,29 @@
             </div> 
 
         </div>
-        <!--  -->
 
-        <div *ngIf="checkLenghtPizza() || checkLenghtDish()" class="max-w-xl mx-auto flex flex-row justify-between items-center">
-            <div class="font-medium text-lg text-gray-700">Заказ на сумму:</div>
-            <div class="font-semibold text-lg text-green-600">{{lastPrice | number: '.0-2'}} ₽</div>
+
+        <!-- сумма заказа -->
+        <div *ngIf="checkLenghtPizza() || checkLenghtDish()" class="max-w-xl mx-auto ">
+            <div class="flex flex-row justify-between items-center">
+                <div class="font-medium text-lg text-gray-700">Заказ на сумму:</div>
+                <div class="font-semibold text-lg text-emerald-600">{{lastPrice | number: '.0-2'}} ₽</div>
+            </div>
+            <div class="flex justify-end">
+                <button type="button" (click)="toOrder()"
+                class="mt-6 text-center bg-emerald-500 shadow-md
+                hover:bg-emerald-600 hover:shadow-lg
+                active:bg-emerald-700 active:shadow-lg
+                transition duration-150
+                ease-in-out rounded-md 
+                text-white text-base font-medium px-6 py-2 ">
+                Оформить заказ</button>
+            </div>
         </div>
+        
 
+
+        <!-- пустая корзина -->
         <div *ngIf="!checkLenghtPizza() && !checkLenghtDish()" class="max-w-xl mt-10 mx-auto p-1 sm:p-4 text-center">
             <div>
                 <h1 class="my-3 font-bold text-3xl text-gray-700">Ваша корзина пуста!</h1>
