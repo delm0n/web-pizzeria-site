@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { CartService } from '../../myservices/cart/cart.service'
 
 
 @Component({
@@ -9,7 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomePageComponent implements OnInit {
 
-  constructor() { }
+  constructor(private cartService: CartService) {
+    cartService.startScroll();
+
+   }
+
+  
 
   Drinks = 0;
   DrinksTitle = "Напитки"
@@ -22,8 +27,9 @@ export class HomePageComponent implements OnInit {
 
   Rolls = 3;
   RollsTitle = "Роллы"
+
   
-  ngOnInit(): void {
+  ngOnInit(): void { 
   }
 
 }

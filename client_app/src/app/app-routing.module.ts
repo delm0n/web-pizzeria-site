@@ -9,6 +9,7 @@ import { ClientPageComponent } from './myapp/account/client-page/client-page.com
 import { NotFoundPageComponent } from '../app/myapp/not-found-page/not-found-page.component'
 import { CartPageComponent } from './myapp/cart-page/cart-page.component';
 import { OrderPageComponent } from './myapp/order-page/order-page.component';
+import { RatingPageComponent } from './myapp/rating-page/rating-page.component';
 
 const routes: Routes = [
   {
@@ -45,10 +46,17 @@ const routes: Routes = [
     path: 'cart',
     component: CartPageComponent
   },
+
   {
     path: 'order',
     component: OrderPageComponent
+  },
+
+  {
+    path: 'rating',
+    component: RatingPageComponent
   }
+
 ];
 
 @NgModule({

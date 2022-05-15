@@ -242,6 +242,27 @@ export class CartService {
     //console.log(this.lastprice);
   }
 
+  flugScroll: boolean = false;
+  href: string = "";
+  setHref(dish:string) {
+    this.href = dish;
+  }
+
+  startScroll() {
+    
+    if(this.flugScroll) {
+      setTimeout( () => {
+
+        let theElement = document.getElementById(this.href)!;
+                
+        window.scrollTo(0, theElement.getBoundingClientRect().top + scrollY - 20);
+        this.href = "";
+      }, 2000);
+
+      this.flugScroll = false;
+    }
+  }
+
   toOrderGet() {
     return this.lastprice;
   }

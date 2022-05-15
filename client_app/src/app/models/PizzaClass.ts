@@ -5,6 +5,7 @@ export class PizzaClass {
     Structure!: string;
     MinPrice!: number;
     Rating!: number;
+    //countRate!: number;
     PizzaType!: TypesPizzaEnum;
     CountOrder!: number
 }

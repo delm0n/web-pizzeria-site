@@ -34,14 +34,5 @@ export class ModalPizzaService {
     }   
   }
 
-  // step :number = 0
-  // setBooler_step() { //если мы уже открывали модальное окно - чтобы лишний раз не обращаться к серверу
-  //   for(let i = 0; i < this.step; i++) {
-  //     this.boolArrayServ[i] = false;
-  //   }   
-  // }
-
-
-
   constructor() { }
 }

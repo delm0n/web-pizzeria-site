@@ -93,19 +93,19 @@ namespace serverPart.RouterModule
                         {
                             //по рейтингу - 1
                             if (pizza_sorted == 1)
-                                pizzas = await dbContext.Pizzas.Where(p => p.PizzaType == (Pizza.TypesPizzaEnum)pizza_type).OrderBy(p => p.Rating).ToListAsync();
+                                pizzas = await dbContext.Pizzas.Where(p => p.PizzaType == (Pizza.TypesPizzaEnum)pizza_type).OrderByDescending(p => p.Rating).ToListAsync();
 
                             //по популярности - 2
-                            else pizzas = await dbContext.Pizzas.Where(p => p.PizzaType == (Pizza.TypesPizzaEnum)pizza_type).OrderBy(p => p.countOrder).ToListAsync();
+                            else pizzas = await dbContext.Pizzas.Where(p => p.PizzaType == (Pizza.TypesPizzaEnum)pizza_type).OrderByDescending(p => p.СountOrder).ToListAsync();
                         }
                         else //если все, то без where
                         {
                             //по рейтингу - 1
                             if (pizza_sorted == 1)
-                                pizzas = await dbContext.Pizzas.OrderBy(p => p.Rating).ToListAsync();
+                                pizzas = await dbContext.Pizzas.OrderByDescending(p => p.Rating).ToListAsync();
 
                             //по популярности - 2
-                            else pizzas = await dbContext.Pizzas.OrderBy(p => p.countOrder).ToListAsync();
+                            else pizzas = await dbContext.Pizzas.OrderByDescending(p => p.СountOrder).ToListAsync();
                         }
 
                     }

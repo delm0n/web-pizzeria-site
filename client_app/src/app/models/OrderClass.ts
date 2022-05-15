@@ -3,4 +3,5 @@ export class OrderClass {
     TypeOfPay!: string;
     DateOrder!: string;
     LastPrice!: number;
+    PizzaIdJson!: number[];
 }

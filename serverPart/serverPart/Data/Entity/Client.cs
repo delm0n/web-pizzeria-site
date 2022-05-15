@@ -23,7 +23,9 @@ namespace serverPart.Data.Entity
 
         public string Password { get; set; }
 
- 
+        public string PizzaOrderJson { get; set; } = ""; //пиццы, которые заказывал клиент
+        //public string PizzaRateJson { get; set; } = "";
+
         public Cart Cart { get; set; }
 
         public ICollection<Order> Orders { get; set; }

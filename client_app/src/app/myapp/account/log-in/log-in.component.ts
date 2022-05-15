@@ -84,9 +84,11 @@ export class LogInComponent implements OnInit {
         }
 
         else {
-            this.clientService.enterClient(JSON.parse(res.headers["client"]));
-            this.router.navigate(['/']);
-            sessionStorage.setItem('token', res.headers["token"]);
+          
+          sessionStorage.setItem('token', res.headers["token"]);
+          this.clientService.enterClient(JSON.parse(res.headers["client"]));
+          this.router.navigate(['/']);
+            
         } 
       }
       

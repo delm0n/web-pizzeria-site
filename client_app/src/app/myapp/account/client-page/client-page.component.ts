@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterContentChecked, ChangeDetectorRef } from '@angular/core';
 import axios from 'axios';
 import { ClientService } from '../../../myservices/account/client.service';
 import { Router } from '@angular/router';
@@ -42,13 +42,97 @@ import { DishesService } from 'src/app/myservices/dishes/dishes.service';
       )
 
     ]
+    ),
+    trigger(
+      'ngifAnimation', [
+
+      transition(
+        ':enter',
+        [
+          style({ height: 0, opacity: 0 }),
+          animate('0.4s ease-out',
+            style({ height: 24, opacity: 1 }))
+        ]
+      ),
+      transition(
+        ':leave',
+        [
+          style({ height: 24, opacity: 1, display: 'none' }),
+          animate('0s ease-out',
+            style({ height: 0, opacity: 0 }))
+        ]
+      )
+    ]
     )
   ]
 })
 export class ClientPageComponent implements OnInit {
 
   active_status = 0;
-  orders: OrderClass[] = []
+  orders: OrderClass[] = [];
+  orders_click: boolean[] = [];
+
+  date = {
+    before: Date,
+    after: Date
+  }
+
+  var_successBetween:boolean = false
+  successBetween(){
+    this.date = {
+      before: Date,
+      after: Date
+    }
+    this.var_successBetween = true;
+    setTimeout(() => {
+      this.var_successBetween = false;
+    }, 6000);
+
+  }
+
+  sendOrderBetween() {
+
+    //если клиент перепутал поля
+    if (this.date.before > this.date.after) {
+      let date_ = this.date.before;
+      this.date.before = this.date.after;
+      this.date.after = date_;
+    }
+
+    axios.post('http://localhost:1234/send-report-to-email-between/',
+    {
+      ClientId: this.clientService.client.clientId, 
+      DataBefore: this.date.before,
+      DataAfter: this.date.after 
+    },
+    {
+      headers: {
+        'Authorization': sessionStorage.getItem('token')!,
+      }
+    })
+    .then((res) => {
+      if (res.status == 404) {
+        this.router.navigate(['/404'])
+      }
+      else {
+
+        if (res.status == 200) {
+          
+          this.successBetween();
+
+        }
+
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    
+  }
+
+  isValidDate(d: any){
+    return !isNaN((new Date(d)).getTime());
+}
 
   client: ClientClass = {
     clientId: 0,
@@ -96,7 +180,7 @@ export class ClientPageComponent implements OnInit {
   }
 
   constructor(private clientService: ClientService, private router: Router,
-    private cartService: CartService, private dishesService: DishesService) { }
+    private cartService: CartService, private dishesService: DishesService, private cdref: ChangeDetectorRef) { }
 
   updateClient(firstname: String, password: String, id: number) {
 
@@ -131,8 +215,7 @@ export class ClientPageComponent implements OnInit {
   }
 
 
-  sendReportToEmail(OrderId: number) {
-    //send-report-to-email/{id_client}&&{id_order}
+  sendReportToEmail(OrderId: number, index: number) {
 
     axios.get('http://localhost:1234/send-report-to-email/' + this.clientService.client.clientId + '&&' + OrderId,
         {
@@ -145,9 +228,11 @@ export class ClientPageComponent implements OnInit {
             this.router.navigate(['/404'])
           }
           else {
-            //this.clientService.enterClient(JSON.parse(res.headers["client"]));
-            console.log("готово");
-            
+
+            if (res.status == 200) {
+              this.orders_click[index] = true;
+            }
+
           }
         })
         .catch((err) => {
@@ -155,46 +240,29 @@ export class ClientPageComponent implements OnInit {
         })
   }
 
+  setOrders() {
+    this.orders = this.clientService.orders;
+    this.orders_click = [];
+    for(let i = 0; i < this.clientService.orders.length; i++) {
+      this.orders_click.push(false);
+    }
+  }
 
   ngOnInit(): void {
     this.client = this.clientService.client;
     this.checkContainCart();
 
     if (this.clientService.autorizationFlug) {
-      axios.get('http://localhost:1234/get-orders/' + this.clientService.client.clientId,
-        {
-          headers: {
-            'Authorization': sessionStorage.getItem('token')!,
-          }
-        })
-        .then((res) => {
-          if (res.status == 404) {
-            this.router.navigate(['/404'])
-          }
-          else {
-            console.log();
 
-            for (let i = 0; i < JSON.parse(res.headers["order"]).length; i++) {
-
-              let ord: OrderClass = {
-                DateOrder: JSON.parse(res.headers["order"])[i].DateOrder,
-                OrderId: JSON.parse(res.headers["order"])[i].OrderId,
-                TypeOfPay: JSON.parse(res.headers["order"])[i].TypeOfPay,
-                LastPrice: JSON.parse(res.headers["order"])[i].LastPrice
-              }
-
-              this.orders.push(ord);
-            }
-
-            console.log(this.orders);
-            
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-
+      //получаем заказы
+      this.clientService.getOrders();
+      this.setOrders();
     }
+  }
+
+  ngAfterContentChecked() {
+    this.cdref.detectChanges();
+    this.orders = this.clientService.orders;
   }
 
 }

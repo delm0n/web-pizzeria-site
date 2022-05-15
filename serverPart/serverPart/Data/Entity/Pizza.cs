@@ -18,12 +18,21 @@ namespace serverPart.Data.Entity
 
         public string PizzaName { get; set; }
         
-        //состав
         public string Structure { get; set; }
 
         public decimal MinPrice { get; set;}
 
-        public double Rating { get; set; } = 5;
+        public double Rating { get; set; } = 5; //изначальный рейтинг всех пицц = 5
+
+        public int СountOrder { get; set; } = 0; //количество заказов пиццы
+
+
+
+        public string IdClientRateJson { get; set; } = ""; //id клиента, оценившего пиццу, хранится в массиве JSON
+
+        public string ClientRateJson { get; set; } = ""; //оценка клиента хранится в массиве JSON
+
+
 
         public ICollection<PizzaSize> PizzaSizes { get; set; }
 
@@ -36,7 +45,7 @@ namespace serverPart.Data.Entity
             Meatless = 2,
         }
 
-        public int? countOrder { get; set; } = 0;
+        
 
     }
 }

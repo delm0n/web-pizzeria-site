@@ -29,6 +29,7 @@ import { CartPageComponent } from './myapp/cart-page/cart-page.component';
 import { DishesComponent } from './myapp/home-components/dishes/dishes.component';
 import { OrderPageComponent } from './myapp/order-page/order-page.component';
 import { MenuNavComponent } from './myapp/menu-nav/menu-nav.component';
+import { RatingPageComponent } from './myapp/rating-page/rating-page.component';
 
 
 
@@ -48,6 +49,7 @@ import { MenuNavComponent } from './myapp/menu-nav/menu-nav.component';
     DishesComponent,
     OrderPageComponent,
     MenuNavComponent,
+    RatingPageComponent,
        
   ],
   imports: [

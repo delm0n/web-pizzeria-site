@@ -3,6 +3,7 @@ using Nancy.ModelBinding;
 using Newtonsoft.Json;
 using serverPart.Data;
 using serverPart.Data.Entity;
+using serverPart.Data.Helper;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -12,6 +13,7 @@ using System.Net.Mail;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace serverPart.RouterModule
 {
@@ -188,8 +190,8 @@ namespace serverPart.RouterModule
 
                     using (var dbContext = new ApplicationContext())
                     {
+                        //очистим корзину
                         Cart cart = await dbContext.Carts.Where(c => c.ClientId == id_client).FirstOrDefaultAsync();
-
                         cart.PizzaIdJson = "";
                         cart.PizzaSizeIdJson = "";
                         cart.PizzaIngredientIdJson = "";
@@ -199,6 +201,55 @@ namespace serverPart.RouterModule
 
                         dbContext.Orders.Add(order);
                         await dbContext.SaveChangesAsync();
+
+                        List<int> idPizzas = new List<int>(); List<int> countPizzas = new List<int>();
+
+                        if (JsonConvert.DeserializeObject<List<int>>(order.PizzaIdJson) != null)
+                        {
+                            idPizzas.AddRange(JsonConvert.DeserializeObject<List<int>>(order.PizzaIdJson));
+                            countPizzas.AddRange(JsonConvert.DeserializeObject<List<int>>(order.PizzaCount));
+                        }
+
+                        for (int i = 0; i < idPizzas.Count; i++)
+                        {
+                            int idPizza_dynamic = idPizzas[i];
+                            Pizza pizza = await dbContext.Pizzas.FirstOrDefaultAsync(p => p.PizzaId == idPizza_dynamic);
+                            pizza.СountOrder = pizza.СountOrder + countPizzas[i];
+
+
+                            Client client = await dbContext.Clients.Where(c => c.ClientId == id_client).FirstOrDefaultAsync();
+                            List<int> idPizzasClient = new List<int>(); //List<int> ratePizzasClient = new List<int>();
+                            if (JsonConvert.DeserializeObject<List<int>>(client.PizzaOrderJson) != null)
+                            {
+                                idPizzasClient.AddRange(JsonConvert.DeserializeObject<List<int>>(client.PizzaOrderJson));
+                                //ratePizzasClient.AddRange(JsonConvert.DeserializeObject<List<int>>(client.PizzaRateJson));
+                            }
+
+                            //проверить, есть ли уже такая пицца
+                            bool nocontain = true;
+                            for (int j = 0; j < idPizzasClient.Count; j++)
+                            {
+                                if (idPizzasClient[j] == idPizza_dynamic)
+                                {
+                                    nocontain = false;
+                                    break;
+                                }
+                            }
+
+
+                            if (nocontain)
+                            {
+                                idPizzasClient.Add(idPizza_dynamic);
+                                //ratePizzasClient.Add(0);
+                            }
+
+
+                            client.PizzaOrderJson = JsonConvert.SerializeObject(idPizzasClient);
+                            //client.PizzaRateJson = JsonConvert.SerializeObject(ratePizzasClient);
+
+                            await dbContext.SaveChangesAsync();
+
+                        }
 
                         return new Response { StatusCode = Nancy.HttpStatusCode.OK};
                     }
@@ -290,11 +341,11 @@ namespace serverPart.RouterModule
                             MailMessage m = new MailMessage(from, to);
 
                             // тема письма
-                            m.Subject = "Отчёт о покупке";
+                            m.Subject = "Отчёт о покупке №" + orderId;
                             m.IsBodyHtml = true;
                             m.Body = "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"margin: 0; padding: 0\">" +
 
-                            "<tr><td style=\"padding: 10px; \"><a href=\"http://localhost:4200\" style=\"color: #00dab6; line-height: 30px; -webkit-text-size-adjust:none; display: block;\" target=\"_blank\">Закажите пиццу на нашем сайте</a><td></tr>";
+                            "<tr><td style=\"padding: 10px; \"></td><td style=\"padding: 10px; \"><a href=\"http://localhost:4200\" style=\"color: #00dab6; line-height: 30px; -webkit-text-size-adjust:none; display: block;\" target=\"_blank\">Закажите пиццу на нашем сайте</a><td></tr>";
 
                             for (int i = 0; i < idPizzas.Count; i++)
                             {
@@ -368,6 +419,139 @@ namespace serverPart.RouterModule
 
 
             };
+
+
+            Post["/send-report-to-email-between", runAsync: true] = async (x, token) =>
+            {
+                string token_headers = Request.Headers["Authorization"].FirstOrDefault();
+                
+
+                if (token_headers == PersonalToken.getToken())
+                {
+                    EmailBetween emailBetween = this.Bind<EmailBetween>();
+
+                    int clientId = emailBetween.ClientID;
+                    DateTime bfre = emailBetween.DataBefore;
+                    DateTime aftr = emailBetween.DataAfter;
+                    //int orderId = x.id_order;
+
+                    using (var dbContext = new ApplicationContext())
+                    {
+
+                        List<Order> orders = await dbContext.Orders
+                        .Where(o => o.ClientId == clientId)
+                        .ToListAsync();
+
+
+                        Client client = await dbContext.Clients.Where(c => c.ClientId == clientId).FirstOrDefaultAsync();
+
+                        MailAddress from = new MailAddress("delm0n@mail.ru", "Pizzeria");
+                        MailAddress to = new MailAddress(client.Email);
+                        MailMessage m = new MailMessage(from, to);
+
+                        // тема письма
+                        m.Subject = "Отчёт о покупках c " + emailBetween.DataBefore.ToString("dd/MM/yyyy") + " по " + emailBetween.DataAfter.ToString("dd/MM/yyyy");
+                        m.IsBodyHtml = true;
+                        m.Body = "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"margin: 0; padding: 0\">" +
+
+                        "<tr><td style=\"padding: 10px; \"></td><td style=\"padding: 10px; \"><a href=\"http://localhost:4200\" style=\"color: #00dab6; line-height: 30px; -webkit-text-size-adjust:none; display: block;\" target=\"_blank\">Закажите пиццу на нашем сайте</a><td></tr>";
+
+
+                        foreach (Order order in orders)
+                        {
+                            if (DateTime.Parse(order.DateOrder) >= bfre && DateTime.Parse(order.DateOrder) <= aftr)
+                            {
+
+                                List<int> idDishes = new List<int>(); List<int> countDishes = new List<int>();
+                                if (JsonConvert.DeserializeObject<List<int>>(order.DishIdJson) != null)
+                                {
+                                    countDishes.AddRange(JsonConvert.DeserializeObject<List<int>>(order.DishCount));
+                                    idDishes.AddRange(JsonConvert.DeserializeObject<List<int>>(order.DishIdJson));
+                                }
+
+
+                                List<int> idPizzas = new List<int>(); List<int> idSizePizzas = new List<int>(); List<int> countPizzas = new List<int>();
+                                List<List<int>> ingredients_array = new List<List<int>>();
+                                if (JsonConvert.DeserializeObject<List<int>>(order.PizzaIdJson) != null)
+                                {
+                                    ingredients_array.AddRange(JsonConvert.DeserializeObject<List<List<int>>>(order.PizzaIngredientIdJson));
+                                    idPizzas.AddRange(JsonConvert.DeserializeObject<List<int>>(order.PizzaIdJson));
+                                    idSizePizzas.AddRange(JsonConvert.DeserializeObject<List<int>>(order.PizzaSizeIdJson));
+                                    countPizzas.AddRange(JsonConvert.DeserializeObject<List<int>>(order.PizzaCount));
+                                }
+
+                                m.Body += "<tr><td style=\"padding: 10px; \"></td></tr>";
+                                m.Body += "<tr><td style=\"padding: 10px; \"></td><td style=\"padding: 10px; \"><b>Заказ №" + order.OrderId + "</b></td><td style=\"padding: 10px; \"></td></tr>";
+
+                                for (int i = 0; i < idPizzas.Count; i++)
+                                {
+                                    int idPizza_dynamic = idPizzas[i];
+                                    Pizza pizza = await dbContext.Pizzas.FirstOrDefaultAsync(p => p.PizzaId == idPizza_dynamic);
+
+                                    int idPizzaSize_dynamic = idSizePizzas[i];
+                                    PizzaSize pizzaSize = await dbContext.PizzaSizes.FirstOrDefaultAsync(s => s.PizzaSizeId == idPizzaSize_dynamic);
+
+                                    m.Body += "<tr>";
+                                    m.Body += "<td style=\"padding: 10px; \"><i><b>" + pizza.PizzaName + "</b> - " + pizzaSize.NameSize + "</i></td>";
+                                    //m.Body += "<td style=\"padding: 10px; \"><i>" + pizzaSize.NameSize + "</i></td>";
+                                    m.Body += "<td style=\"padding: 10px; \"><i>" + pizzaSize.Price * countPizzas[i] + " рублей" + "</i></td>";
+                                    m.Body += "<td style=\"padding: 10px; \"><i>" + countPizzas[i] + " шт." + "</i></td>";
+                                    m.Body += "</tr>";
+
+
+                                    for (int j = 0; j < ingredients_array[i].Count; j++)
+                                    {
+                                        int idIngr_dynamic = ingredients_array[i][j];
+                                        Ingredient ingredient = await dbContext.Ingredients.FirstOrDefaultAsync(ing => ing.IngredientId == idIngr_dynamic);
+
+                                        //m.Body += "<tr><td style=\"padding: 10px; \"></td>";
+                                        m.Body += "<td style=\"padding: 10px; \"><i>" + ingredient.Name + "</i></td>";
+                                        m.Body += "<td style=\"padding: 10px; \"><i>" + ingredient.Price + " рублей" + "</i></td>";
+                                        m.Body += "</tr>";
+                                    }
+
+                                }
+
+                                for (int i = 0; i < idDishes.Count; i++)
+                                {
+                                    int idDish_dynamic = idDishes[i];
+                                    Dish dish = await dbContext.Dishes.FirstOrDefaultAsync(d => d.DishId == idDish_dynamic);
+
+                                    m.Body += "<tr>";
+                                    m.Body += "<td style=\"padding: 10px; \"><b><i>" + dish.Name + "</i></b></td>";
+                                    //m.Body += "<td style=\"padding: 10px; \"><i>" + dish.Price + "</i></td>";
+                                    m.Body += "<td style=\"padding: 10px; \"><i>" + dish.Price * countDishes[i] + " ₽" + "</i></td>";
+                                    m.Body += "<td style=\"padding: 10px; \"><i>" + countDishes[i] + " шт." + "</i></td>";
+                                    m.Body += "</tr>";
+
+                                }
+
+                                m.Body += "<tr><td style=\"padding: 10px; \">Тип оплаты: " + order.TypeOfPay + "</td></tr>";
+                                m.Body += "<tr><td style=\"padding: 10px; \">Дата: " + order.DateOrder + "</td></tr>";
+                                m.Body += "<tr><td style=\"padding: 10px; \"><b>Итоговая сумма заказа: " + order.LastPrice + " ₽</b></td></tr>";
+
+                            }
+                        }
+
+                        m.Body += "</table>";
+
+                        SmtpClient smtp = new SmtpClient("smtp.mail.ru", 587);
+
+                        smtp.Credentials = new NetworkCredential("delm0n@mail.ru", "e0LEpm1e731bLGYjvu3Q");
+                        smtp.EnableSsl = true;
+                        smtp.Send(m);
+
+                        return new Response { StatusCode = Nancy.HttpStatusCode.OK };
+                    }
+
+                }
+                else
+                {
+                    return new Response() { StatusCode = Nancy.HttpStatusCode.NotFound };
+                }
+
+            };
+            
         }
     }
 }

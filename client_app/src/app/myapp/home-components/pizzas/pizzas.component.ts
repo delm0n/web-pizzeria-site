@@ -312,8 +312,6 @@ export class PizzasComponent implements OnInit {
   }
 
 
-
-
   ngOnInit(): void {
 
     axios.get('http://localhost:1234/pizza')

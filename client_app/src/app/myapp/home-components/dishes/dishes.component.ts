@@ -118,9 +118,6 @@ export class DishesComponent implements OnInit {
 
     addToCart(id: number) {   
 
-      console.log(this.dishesService.dishesCart);
-      
-
       //при первом добавлении
       if (this.dishesService.dishesCart.find(d => d.DishId == id) == undefined ) {
         let dish: DishesCartClass = {

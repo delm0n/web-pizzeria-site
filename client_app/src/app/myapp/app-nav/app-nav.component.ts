@@ -3,6 +3,8 @@ import { DishesService } from 'src/app/myservices/dishes/dishes.service';
 import { ClientService } from '../../myservices/account/client.service';
 import { CartService } from '../../myservices/cart/cart.service'
 
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-app-nav',
   templateUrl: './app-nav.component.html',
@@ -31,9 +33,10 @@ export class AppNavComponent implements OnInit, AfterContentChecked {
   }
 
   constructor(private cdref: ChangeDetectorRef, private clientService: ClientService, 
-    private cartService: CartService, private dishesService: DishesService) { 
+    private cartService: CartService, private dishesService: DishesService, private router: Router) { 
     
   }
+
 
   ngOnInit(): void {
   }
