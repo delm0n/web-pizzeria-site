@@ -31,13 +31,11 @@ export class DishesService {
       }
     )
       .then((res) => {
-        if (res.status == 404) {
-          this.router.navigate(['/404']);
-        }
+
 
       })
       .catch((err) => {
-        console.log(err);
+        this.router.navigate(['/404']);
       })
   }
 
@@ -49,10 +47,7 @@ export class DishesService {
         }
       })
       .then((res) => {
-        if (res.status == 404) {
-          this.router.navigate(['/404']);
-        }
-        else {
+
           if (res.status != 204) {
             //количество допов в корзине до входа в аккаунт
             let length_before = this.dishesCart.length;
@@ -70,13 +65,12 @@ export class DishesService {
                 //но пришло с сервера
                 this.notifyClient(name_client);
                 this.dishesCart = this.dishesCart_server;
-                //console.log("до входа в корзине ничего не было, но пришло с сервера");
-
+                
               }
 
               else {
                 //если не пришло, то не делаем ничего
-                //console.log("Корзина пуста");
+
               }
             }
             else {
@@ -91,7 +85,6 @@ export class DishesService {
 
               if (this.dishesCart_server.length == 0) {
                 //а на сервере оказалось пусто
-                //console.log("в корзине что-то было до входа в аккаунт, а на сервере оказалось пусто");
 
                 for (let i = 0; i < this.dishesCart.length; i++) {
 
@@ -108,16 +101,13 @@ export class DishesService {
                     }
                   )
                     .then((res) => {
-                      if (res.status == 404) {
-                        this.router.navigate(['/404']);
-                      }
-                      else {
+                      if (res.status == 200) {
                         this.dishesCart = this.dishesCart_server;
                       }
 
                     })
                     .catch((err) => {
-                      console.log(err);
+                      this.router.navigate(['/404']);
 
                     })
                 }
@@ -153,13 +143,11 @@ export class DishesService {
                       }
                     )
                       .then((res) => {
-                        if (res.status == 404) {
-                          this.router.navigate(['/404']);
-                        }
+
 
                       })
                       .catch((err) => {
-                        console.log(err);
+                        this.router.navigate(['/404']);
 
                       })
 
@@ -171,10 +159,10 @@ export class DishesService {
               }
             }
           }
-        }
+        
       })
       .catch((err) => {
-        console.log(err);
+        this.router.navigate(['/404']);
       })
   }
 
@@ -190,13 +178,11 @@ export class DishesService {
       }
     )
       .then((res) => {
-        if (res.status == 404) {
-          this.router.navigate(['/404']);
-        }
+
 
       })
       .catch((err) => {
-        console.log(err);
+        this.router.navigate(['/404']);
 
       })
 
@@ -213,13 +199,11 @@ export class DishesService {
       }
     )
       .then((res) => {
-        if (res.status == 404) {
-          this.router.navigate(['/404']);
-        }
+
 
       })
       .catch((err) => {
-        console.log(err);
+        this.router.navigate(['/404']);
 
       })
   }
@@ -235,13 +219,11 @@ export class DishesService {
       }
     )
       .then((res) => {
-        if (res.status == 404) {
-          this.router.navigate(['/404']);
-        }
+
 
       })
       .catch((err) => {
-        console.log(err);
+        this.router.navigate(['/404']);
 
       })
   }
@@ -258,13 +240,11 @@ export class DishesService {
       }
     )
       .then((res) => {
-        if (res.status == 404) {
-          this.router.navigate(['/404']);
-        }
+
 
       })
       .catch((err) => {
-        console.log(err);
+        this.router.navigate(['/404']);
 
       })
   }

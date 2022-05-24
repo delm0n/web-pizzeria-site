@@ -66,10 +66,7 @@ export class ClientService {
           }
         })
         .then((res) => {
-          if (res.status == 404) {
-            this.router.navigate(['/404'])
-          }
-          else {
+          if (res.status == 200) {
             //console.log();
             this.orders=[]
             for (let i = 0; i < JSON.parse(res.headers["order"]).length; i++) {
@@ -84,13 +81,10 @@ export class ClientService {
               this.orders.push(ord);
               
             }
-
-            //console.log(this.orders);
-            
           }
         })
         .catch((err) => {
-          console.log(err);
+          this.router.navigate(['/404']);
         })
   }
 

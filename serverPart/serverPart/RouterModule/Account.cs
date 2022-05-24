@@ -64,7 +64,7 @@ namespace serverPart.RouterModule
                 }
                 else
                 {
-                    return new Response() { StatusCode = Nancy.HttpStatusCode.NotFound };
+                    return new Response() { StatusCode = Nancy.HttpStatusCode.Unauthorized };
                 }
             };
 
@@ -257,7 +257,7 @@ namespace serverPart.RouterModule
                 }
                 else
                 {
-                    return new Response() { StatusCode = Nancy.HttpStatusCode.NotFound };
+                    return new Response() { StatusCode = Nancy.HttpStatusCode.Unauthorized };
                 }
 
 
@@ -294,7 +294,7 @@ namespace serverPart.RouterModule
                 }
                 else
                 {
-                    return new Response() { StatusCode = Nancy.HttpStatusCode.NotFound };
+                    return new Response() { StatusCode = Nancy.HttpStatusCode.Unauthorized };
                 }
 
 
@@ -414,7 +414,7 @@ namespace serverPart.RouterModule
                 }
                 else
                 {
-                    return new Response() { StatusCode = Nancy.HttpStatusCode.NotFound };
+                    return new Response() { StatusCode = Nancy.HttpStatusCode.Unauthorized };
                 }
 
 
@@ -547,7 +547,7 @@ namespace serverPart.RouterModule
                 }
                 else
                 {
-                    return new Response() { StatusCode = Nancy.HttpStatusCode.NotFound };
+                    return new Response() { StatusCode = Nancy.HttpStatusCode.Unauthorized };
                 }
 
             };

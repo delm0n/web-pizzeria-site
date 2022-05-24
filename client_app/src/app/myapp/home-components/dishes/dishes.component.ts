@@ -13,6 +13,7 @@ import {
   transition,
   keyframes
 } from '@angular/animations';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dishes',
@@ -105,7 +106,7 @@ export class DishesComponent implements OnInit {
     }
   }
 
-  constructor(private clientService: ClientService, private cartService: CartService,
+  constructor(private clientService: ClientService, private router: Router,
     private dishesService: DishesService) {  
       this.getIdDishInCart();
     }
@@ -159,13 +160,20 @@ export class DishesComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    axios.get('http://localhost:1234/dishes/' + this.typesEnum)
-    .then((res) => { 
-      this.dish_component = JSON.parse(res.headers['dishes']);     
-    })
-    .catch((err: any) => {
-      console.log(err);
-    });
+
+    setTimeout(() =>{
+      axios.get('http://localhost:1234/dishes/' + this.typesEnum)
+      .then((res) => { 
+
+        this.dish_component = JSON.parse(res.headers['dishes']);  
+          
+      })
+      .catch((err: any) => {
+        console.log(err);
+        
+      });
+    }, 1000);
+    
   }
 
 }

@@ -1,0 +1,14 @@
+#modalNotMobile_search {
+    height: 610px;
+}
+
+#modalMobile_search {
+    height: 95%;
+}
+
+@media (min-width: 1024px) {
+    #modalMobile_search {
+        height: 85%;
+        /* max-height: auto; */
+    }
+}

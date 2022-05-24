@@ -94,7 +94,7 @@ export class LogInComponent implements OnInit {
       
     )
     .catch((err) => {
-      console.log(err);
+      this.router.navigate(['/404']);
     })
   }
 

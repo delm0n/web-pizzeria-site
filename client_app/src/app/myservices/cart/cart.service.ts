@@ -14,7 +14,7 @@ export class CartService {
   pizzasInCart_server: PizzaCartClass[] = [];
 
 
-  counterPizzaInCartServer(id_client: number,  PizzaId: number, Size: Size, Ingredients: IngredientClass[], Count: number) {
+  counterPizzaInCartServer(id_client: number, PizzaId: number, Size: Size, Ingredients: IngredientClass[], Count: number) {
 
     axios.post('http://localhost:1234/re-counter-pizza-from-cart/' + id_client, {
       pizzaId: PizzaId,
@@ -28,13 +28,11 @@ export class CartService {
         }
       })
       .then((res) => {
-        if (res.status == 404) {
-          this.router.navigate(['/404']);
-        }
+
 
       })
       .catch((err) => {
-        console.log(err);
+        this.router.navigate(['/404']);
       })
 
   }
@@ -56,15 +54,10 @@ export class CartService {
       }
     )
       .then((res) => {
-        if (res.status != 404) {
 
-        }
-        else {
-          this.router.navigate(['/404']);
-        }
       })
       .catch((err) => {
-        console.log(err);
+        this.router.navigate(['/404']);
 
       })
   }
@@ -78,23 +71,18 @@ export class CartService {
         }
       })
       .then((res) => {
-        if (res.status == 404) {
-          this.router.navigate(['/404']);
-        }
-        else {
-          if (res.status != 204) {
-            //console.log("присваивание");
-            
 
-            this.pizzasInCart = [];
+        if (res.status != 204) {
 
-            for (let i = 0; i < JSON.parse(res.headers["pizzas"]).length; i++) {
-              this.pizzasInCart.push(JSON.parse(res.headers["pizzas"])[i]);
-            }
+          this.pizzasInCart = [];
+
+          for (let i = 0; i < JSON.parse(res.headers["pizzas"]).length; i++) {
+            this.pizzasInCart.push(JSON.parse(res.headers["pizzas"])[i]);
           }
         }
+
       })
-      .catch((err) => console.log(err)
+      .catch((err) => this.router.navigate(['/404'])
       )
   }
 
@@ -108,75 +96,70 @@ export class CartService {
         }
       })
       .then((res) => {
-        if (res.status == 404) {
-          this.router.navigate(['/404']);
-        }
-        else {
-          if (res.status != 204) {
 
-            for (let i = 0; i < JSON.parse(res.headers["pizzas"]).length; i++) {
-              this.pizzasInCart_server.push(JSON.parse(res.headers["pizzas"])[i]);
-            }
+        if (res.status != 204) {
 
-            //дальше функцию проверки на совпадение пицц
-            //console.log(this.pizzasInCart_server);
-
-            if (this.pizzasInCart.length == 0) {
-              //если до входа в корзине ничего не было
-
-              if (this.pizzasInCart_server.length > 0) {
-                //но пришло с сервера
-                this.notifyClient(name_client);
-                this.pizzasInCart = this.pizzasInCart_server;
-                console.log("до входа в корзине ничего не было, но пришло с сервера");
-
-              }
-
-              else {
-                //если не пришло, то не делаем ничего
-                //console.log("Корзина пуста");
-              }
-            }
-            else {
-              //если в корзине что-то было до входа в аккаунт
-
-              if (this.pizzasInCart_server.length == 0) {
-                //а на сервере оказалось пусто
-                console.log("в корзине что-то было до входа в аккаунт, а на сервере оказалось пусто");
-
-                for (let i = 0; i < this.pizzasInCart.length; i++) {
-
-                  //отправляем все пиццы, выбранные до входа на сервер
-                  this.addPizzaInCartServer(id_client, name_client, this.pizzasInCart[i].PizzaId, this.pizzasInCart[i].Size,
-                    this.pizzasInCart[i].Ingredients, this.pizzasInCart[i].Count)
-
-                  //this.getPizzasFromCartServer(id_client, name_client);
-
-                }
-
-              }
-
-              else { //самая сложная ситуация
-                //если с сервера что-то пришло
-                this.notifyClient(name_client);
-
-                //добавляем пиццы на сервер
-                for (let i = 0; i < this.pizzasInCart.length; i++) {
-
-                  this.addPizzaInCartServer(id_client, name_client, this.pizzasInCart[i].PizzaId, this.pizzasInCart[i].Size,
-                    this.pizzasInCart[i].Ingredients, this.pizzasInCart[i].Count)
-
-                    //this.getPizzasFromCartServer(id_client, name_client);
-
-                }
-              }
-            }
-
+          for (let i = 0; i < JSON.parse(res.headers["pizzas"]).length; i++) {
+            this.pizzasInCart_server.push(JSON.parse(res.headers["pizzas"])[i]);
           }
+
+          //дальше функцию проверки на совпадение пицц
+
+          if (this.pizzasInCart.length == 0) {
+            //если до входа в корзине ничего не было
+
+            if (this.pizzasInCart_server.length > 0) {
+              //но пришло с сервера
+              this.notifyClient(name_client);
+              this.pizzasInCart = this.pizzasInCart_server;
+              
+
+            }
+
+            else {
+              //если не пришло, то не делаем ничего
+
+            }
+          }
+          else {
+            //если в корзине что-то было до входа в аккаунт
+
+            if (this.pizzasInCart_server.length == 0) {
+              //а на сервере оказалось пусто
+
+              for (let i = 0; i < this.pizzasInCart.length; i++) {
+
+                //отправляем все пиццы, выбранные до входа на сервер
+                this.addPizzaInCartServer(id_client, name_client, this.pizzasInCart[i].PizzaId, this.pizzasInCart[i].Size,
+                  this.pizzasInCart[i].Ingredients, this.pizzasInCart[i].Count)
+
+                //this.getPizzasFromCartServer(id_client, name_client);
+
+              }
+
+            }
+
+            else { //самая сложная ситуация
+              //если с сервера что-то пришло
+              this.notifyClient(name_client);
+
+              //добавляем пиццы на сервер
+              for (let i = 0; i < this.pizzasInCart.length; i++) {
+
+                this.addPizzaInCartServer(id_client, name_client, this.pizzasInCart[i].PizzaId, this.pizzasInCart[i].Size,
+                  this.pizzasInCart[i].Ingredients, this.pizzasInCart[i].Count)
+
+                //this.getPizzasFromCartServer(id_client, name_client);
+
+              }
+            }
+          }
+
         }
+
       })
       .catch((err) => {
-        console.log(err);
+        this.router.navigate(['/404']);
       })
   }
 
@@ -223,13 +206,11 @@ export class CartService {
         }
       })
       .then((res) => {
-        if (res.status == 404) {
-          this.router.navigate(['/404']);
-        }
+
 
       })
       .catch((err) => {
-        console.log(err);
+        this.router.navigate(['/404']);
 
       })
 
@@ -239,25 +220,25 @@ export class CartService {
   toOrderSet(price: number) {
     this.lastprice = price;
     this.router.navigate(['/order']);
-    //console.log(this.lastprice);
+
   }
 
   flugScroll: boolean = false;
   href: string = "";
-  setHref(dish:string) {
+  setHref(dish: string) {
     this.href = dish;
   }
 
   startScroll() {
-    
-    if(this.flugScroll) {
-      setTimeout( () => {
+
+    if (this.flugScroll) {
+      setTimeout(() => {
 
         let theElement = document.getElementById(this.href)!;
-                
+
         window.scrollTo(0, theElement.getBoundingClientRect().top + scrollY - 20);
         this.href = "";
-      }, 2000);
+      }, 1000);
 
       this.flugScroll = false;
     }

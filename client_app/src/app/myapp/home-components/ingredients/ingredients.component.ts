@@ -3,6 +3,7 @@ import axios from 'axios';
 //import { ModalPizzaService } from '../../../modal-pizza.service';
 import { ModalPizzaService } from '../../../myservices/modal-pizza/modal-pizza.service';
 import { IngredientClass } from 'src/app/models/IngredientClass';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ingredients',
@@ -14,7 +15,7 @@ export class IngredientsComponent implements OnInit {
   ingreds: IngredientClass[] = [];
   boolArrayView: boolean[] = []; //выделение выбранных допов - массив true/false
 
-  constructor(private pizzaService: ModalPizzaService) { }
+  constructor(private pizzaService: ModalPizzaService, private router: Router,) { }
 
   addIngred(id: number, index: number) {
 
@@ -30,8 +31,12 @@ export class IngredientsComponent implements OnInit {
     }   
   }
 
+  have_been_received: boolean = false;
+
   ngOnInit(): void {
-    axios.get('http://localhost:1234/ingredients')
+
+    //if(this.have_been_received) {
+      axios.get('http://localhost:1234/ingredients')
       .then((res) => {
       
       this.pizzaService.ingredientArray = JSON.parse(res.headers['ingredients']);
@@ -41,10 +46,14 @@ export class IngredientsComponent implements OnInit {
       this.boolArrayView = this.pizzaService.boolArrayServ;
       this.ingreds = this.pizzaService.ingredientArray;
       
+      //this.have_been_received=true;
            
       })
       .catch((err: any) => {
         console.log(err);
       });
+    //}
+
+    
   }
 }

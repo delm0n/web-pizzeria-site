@@ -1,15 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import axios from "axios";
-
-import { IngredientClass } from '../../../models/IngredientClass'
-import { ModalPizzaService } from '../../../myservices/modal-pizza/modal-pizza.service';
-import { CartService } from '../../../myservices/cart/cart.service';
-import { ClientService } from '../../../myservices/account/client.service';
-import { DishesService } from '../../../myservices/dishes/dishes.service';
-
+import axios from 'axios';
 import { PizzaClass } from 'src/app/models/PizzaClass';
-import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
-
 import {
   trigger,
   state,
@@ -18,14 +9,20 @@ import {
   transition,
   keyframes
 } from '@angular/animations';
-import { PizzaCartClass, Size } from 'src/app/models/PizzaCartClass';
-import { Router } from '@angular/router';
+import { IngredientClass } from 'src/app/models/IngredientClass';
+import { CartService } from 'src/app/myservices/cart/cart.service';
+import { Router } from '@angular/router'
+import { ModalPizzaService } from 'src/app/myservices/modal-pizza/modal-pizza.service';
+import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
+import { DishesService } from 'src/app/myservices/dishes/dishes.service';
+import { ClientService } from 'src/app/myservices/account/client.service';
+import { DishesClass, TypesEnum } from 'src/app/models/DishClass';
+import { DishesCartClass } from 'src/app/models/DishCartClass';
 
 @Component({
-  selector: 'app-pizzas',
-  templateUrl: './pizzas.component.html',
-  styleUrls: ['./pizzas.component.css'],
-  providers: [NgbRatingConfig],
+  selector: 'app-searh-block',
+  templateUrl: './searh-block.component.html',
+  styleUrls: ['./searh-block.component.css'],
   animations: [
     trigger('openClose', [
       state('block', style({
@@ -49,14 +46,59 @@ import { Router } from '@angular/router';
           ])
         )
       ]),
-    ]),
+    ])
+
   ],
 })
+export class SearhBlockComponent implements OnInit {
 
-export class PizzasComponent implements OnInit {
+
+  isCollapsed = true;
+  inputSearch = "";
+
+  search() {
+
+    if (this.inputSearch.length >= 3) {
+
+      //console.log(this.inputSearch);  
+
+      axios.get('http://localhost:1234/search/' + this.inputSearch)
+        .then((res) => {
+          this.pizzasSearch = JSON.parse(res.headers['pizzas']);
+          this.dishesSearch = JSON.parse(res.headers['dishes']);
+
+          this.checkResult();
+        })
+        .catch((err: any) => {
+          //this.router.navigate(['/404']);
+          console.log(err);
+
+        });
+    }
+  }
+
+  pizzasSearch: PizzaClass[] = [];
+  dishesSearch: DishesClass[] = [];
+  resulerMsg: string = "";
+
+  checkResult() {
+    if (this.pizzasSearch.length > 0 || this.dishesSearch.length > 0) {
+      this.isCollapsed = false;
+      let summa = this.pizzasSearch.length + this.dishesSearch.length;
+      this.resulerMsg = "Найдено " + summa + " результатов по запросу \"" + this.inputSearch + "\"";
+
+      if (this.dishesSearch.length > 0) {
+        this.getIdDishInCart();
+      }
+
+    }
+    else {
+      this.resulerMsg = "Ничего не найдено"
+    }
+  }
 
 
-  pizzas: PizzaClass[] = [];
+  // ====================== ПИЦЦЫ ======================
 
   modalPizzas = {
     pizzaId: 0,
@@ -84,16 +126,14 @@ export class PizzasComponent implements OnInit {
     }
     ]
   }
+  active_status_Pizza = 0 //выбранный размер
+  countModal_Pizza = 1 //количество выбранных пицц
+  modal_Pizza: boolean = true; //флаг на модальное окно
+  modalBtn_Pizza() {
 
-  active_status = 0 //выбранный размер
-  countModal = 1 //количество выбранных пицц
-  modal: boolean = true; //флаг на модальное окно
-
-  modalBtn() {
-
-    this.modal = !this.modal;
-    this.countModal = 1 //устанавливаем количество выбранных на 1
-    this.active_status = 0; //устанавливаем на маленький размер
+    this.modal_Pizza = !this.modal_Pizza;
+    this.countModal_Pizza = 1 //устанавливаем количество выбранных на 1
+    this.active_status_Pizza = 0; //устанавливаем на маленький размер
 
     this.pizzaService.clearPrice(); //очищаем добавленные ингредиенты с предыдущего модального окна
 
@@ -133,7 +173,6 @@ export class PizzasComponent implements OnInit {
       ]
     };
   }
-
   openPizzaModal(i: any, i_name: string, i_url: string, i_struct: string) {
     axios.get('http://localhost:1234//sizeofasync/' + i)
       .then((res) => {
@@ -151,7 +190,6 @@ export class PizzasComponent implements OnInit {
         console.log(err);
       });
   }
-
   plusIngrPrice: number = 0
   constructor(private pizzaService: ModalPizzaService, private router: Router,
     private cartService: CartService, private clientService: ClientService,
@@ -160,27 +198,21 @@ export class PizzasComponent implements OnInit {
     config.max = 5;
     config.readonly = true;
   }
-
   checkIngredients() { //в переменную, отвечающую за демонстрацию, 
     //присваиваем актуальное значение цены за дополнительные ингредиенты
     this.plusIngrPrice = this.pizzaService.priceOfIngreds
   }
-
-
-  decrement(active: number) {
-    if (this.countModal > 1) {
-      this.countModal--;
+  decrement_Pizza(active: number) {
+    if (this.countModal_Pizza > 1) {
+      this.countModal_Pizza--;
     }
   }
-
-  increment(active: number) {
-    if (this.countModal < 11) {
-      this.countModal++;
+  increment_Pizza(active: number) {
+    if (this.countModal_Pizza < 11) {
+      this.countModal_Pizza++;
     }
   }
-
-
-  addToCart() {
+  addToCart_Pizza() {
 
     // массив с выбранными ингредиентами
     let ingredientArray: IngredientClass[] = [];
@@ -191,37 +223,37 @@ export class PizzasComponent implements OnInit {
     }
     ingredientArray.sort((a, b) => a.IngredientId - b.IngredientId);
 
-    if (this.checkPizzasInCart(this.modalPizzas.pizzaId, this.modalPizzas.sizes[this.active_status].PizzaSizeId, ingredientArray) != null) {
+    if (this.checkPizzasInCart(this.modalPizzas.pizzaId, this.modalPizzas.sizes[this.active_status_Pizza].PizzaSizeId, ingredientArray) != null) {
 
       //получаем индекс пиццы для её увеличения
 
       this.cartService.pizzasInCart[this.cartService.pizzasInCart
         .findIndex(i => i == this.checkPizzasInCart(this.modalPizzas.pizzaId,
-          this.modalPizzas.sizes[this.active_status].PizzaSizeId, ingredientArray))].Count =
+          this.modalPizzas.sizes[this.active_status_Pizza].PizzaSizeId, ingredientArray))].Count =
         this.cartService.pizzasInCart[this.cartService.pizzasInCart
           .findIndex(i => i == this.checkPizzasInCart(this.modalPizzas.pizzaId,
-            this.modalPizzas.sizes[this.active_status].PizzaSizeId, ingredientArray))].Count
-        + this.countModal;
- 
+            this.modalPizzas.sizes[this.active_status_Pizza].PizzaSizeId, ingredientArray))].Count
+        + this.countModal_Pizza;
+
       //работа с сохранением на сервере
       if (this.clientService.autorizationFlug) {
         this.cartService.counterPizzaInCartServer(this.clientService.client.clientId,
 
           this.cartService.pizzasInCart[this.cartService.pizzasInCart
             .findIndex(i => i == this.checkPizzasInCart(this.modalPizzas.pizzaId,
-              this.modalPizzas.sizes[this.active_status].PizzaSizeId, ingredientArray))].PizzaId,
+              this.modalPizzas.sizes[this.active_status_Pizza].PizzaSizeId, ingredientArray))].PizzaId,
 
           this.cartService.pizzasInCart[this.cartService.pizzasInCart
             .findIndex(i => i == this.checkPizzasInCart(this.modalPizzas.pizzaId,
-              this.modalPizzas.sizes[this.active_status].PizzaSizeId, ingredientArray))].Size,
+              this.modalPizzas.sizes[this.active_status_Pizza].PizzaSizeId, ingredientArray))].Size,
 
           this.cartService.pizzasInCart[this.cartService.pizzasInCart
             .findIndex(i => i == this.checkPizzasInCart(this.modalPizzas.pizzaId,
-              this.modalPizzas.sizes[this.active_status].PizzaSizeId, ingredientArray))].Ingredients,
+              this.modalPizzas.sizes[this.active_status_Pizza].PizzaSizeId, ingredientArray))].Ingredients,
 
           this.cartService.pizzasInCart[this.cartService.pizzasInCart
             .findIndex(i => i == this.checkPizzasInCart(this.modalPizzas.pizzaId,
-              this.modalPizzas.sizes[this.active_status].PizzaSizeId, ingredientArray))].Count)
+              this.modalPizzas.sizes[this.active_status_Pizza].PizzaSizeId, ingredientArray))].Count)
       }
 
     }
@@ -232,25 +264,23 @@ export class PizzasComponent implements OnInit {
         UrlImg: this.modalPizzas.urlImg,
         Structure: this.modalPizzas.structure,
         PizzaType: this.modalPizzas.pizzaType,
-        Size: this.modalPizzas.sizes[this.active_status],
+        Size: this.modalPizzas.sizes[this.active_status_Pizza],
         Ingredients: ingredientArray,
-        Count: this.countModal
+        Count: this.countModal_Pizza
       })
 
       //работа с сохранением на сервере
       if (this.clientService.autorizationFlug) {
         this.cartService.addPizzaInCartServer(this.clientService.client.clientId, this.clientService.client.firstName,
-          this.modalPizzas.pizzaId, this.modalPizzas.sizes[this.active_status], ingredientArray, this.countModal);
+          this.modalPizzas.pizzaId, this.modalPizzas.sizes[this.active_status_Pizza], ingredientArray, this.countModal_Pizza);
       }
 
     }
 
     //закрыть модальное окно
-    this.modalBtn();
+    this.modalBtn_Pizza();
 
   }
-
-
   checkPizzasInCart(id_pizza: number, id_size: number, ingredient_array: IngredientClass[]) {
 
     let checkerEntity = this.cartService.pizzasInCart.filter(p => p.PizzaId == id_pizza && p.Size.PizzaSizeId == id_size
@@ -285,7 +315,6 @@ export class PizzasComponent implements OnInit {
     else return null;
 
   }
-
   checkIngredientsInPizzasInCart(ingredients_array: IngredientClass[], index_array: number[]) {
 
     for (let i = 0; i < ingredients_array.length; i++) {
@@ -298,35 +327,109 @@ export class PizzasComponent implements OnInit {
 
   }
 
-  sorted_status: number = 0;
-  show_filter: boolean = false;
-  filter_type_pizza: number = 0;
-
-  getPizzasFilter() {
-    axios.get('http://localhost:1234/filter/' + this.filter_type_pizza + '&&' + this.sorted_status)
-      .then((res) => {
-        this.pizzas = JSON.parse(res.headers['pizzas']);
-      })
-      .catch((err: any) => {
-        this.router.navigate(['/404']);
-      });
+  // ====================== ДОПОЛНИТЕЛЬНЫЕ БЛЮДА ======================
+  dish_modal: DishesClass = {
+    DishId: 0,
+    Name: '',
+    UrlImg: '',
+    Price: 0,
+    Mass: 0,
+    Structure: '',
+    DishType: TypesEnum.Snacks
   }
 
+  dishes_InCartID: number[] = [];
+
+  countModal = 1 //количество выбранных пицц
+  modal: boolean = true; //флаг на модальное окно
+  modalBtn(id: number) {
+    this.modal = !this.modal;
+
+    //махинации с прокруткой
+    document.body.style.overflow = 'hidden';
+
+
+    this.dish_modal = this.dishesSearch.find(d => d.DishId == id)!
+  }
+
+  modalBtn_close() {
+    this.modal = !this.modal;
+    document.body.style.overflow = 'visible';
+    this.countModal = 1;
+
+    this.dish_modal = {
+      DishId: 0,
+      Name: '',
+      UrlImg: '',
+      Price: 0,
+      Mass: 0,
+      Structure: '',
+      DishType: TypesEnum.Snacks
+    }
+
+  }
+
+  decrement() {
+    if (this.countModal > 1) {
+      this.countModal--;
+    }
+  }
+
+  increment() {
+    if (this.countModal < 11) {
+      this.countModal++;
+    }
+  }
+
+  getIdDishInCart() {
+    for (let i = 0; i < this.dishesService.dishesCart.length; i++) {
+      this.dishes_InCartID.push(this.dishesService.dishesCart[i].DishId);
+    }
+  }
+
+  addToCart(id: number) {
+
+    //при первом добавлении
+    if (this.dishesService.dishesCart.find(d => d.DishId == id) == undefined) {
+      let dish: DishesCartClass = {
+        DishId: id,
+        Name: this.dish_modal.Name,
+        UrlImg: this.dish_modal.UrlImg,
+        Price: this.dish_modal.Price,
+        Mass: this.dish_modal.Mass,
+        DishType: this.dish_modal.DishType,
+        Structure: this.dish_modal.Structure,
+        Count: this.countModal
+      }
+
+      this.dishesService.dishesCart.push(dish);
+      this.getIdDishInCart();
+
+      //при входе в аккаунт
+      if (this.clientService.autorizationFlug) {
+        this.dishesService.addDishInCartServer(this.clientService.client.clientId)
+      }
+
+    }
+    else {
+      //иначе просто увеличиваем количество
+      this.dishesService.dishesCart.find(d => d.DishId == id)!.Count = this.countModal + this.dishesService.dishesCart.find(d => d.DishId == id)!.Count;
+
+      if (this.clientService.autorizationFlug) {
+        this.dishesService.CounterDishInCartServer(this.clientService.client.clientId, id, this.dishesService.dishesCart.find(d => d.DishId == id)!.Count)
+      }
+    }
+
+
+    // //при входе в аккаунт
+    // if(this.clientService.autorizationFlug) {
+    //   this.dishesService.addDishInCartServer(this.clientService.client.clientId)
+    // }
+
+    this.modalBtn_close();
+  }
 
   ngOnInit(): void {
-
-    axios.get('http://localhost:1234/pizza')
-      .then((res) => {
-        this.pizzas = JSON.parse(res.headers['pizzas']);
-      })
-      .catch((err: any) => {
-        console.log(err);
-        
-        //this.router.navigate(['/404']);
-      });
-
   }
 
 }
-
-

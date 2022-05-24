@@ -125,7 +125,7 @@ export class ClientPageComponent implements OnInit {
       }
     })
     .catch((err) => {
-      console.log(err);
+      this.router.navigate(['/404']);
     })
     
   }
@@ -201,19 +201,18 @@ export class ClientPageComponent implements OnInit {
           }
         })
         .then((res) => {
-          if (res.status == 404) {
-            this.router.navigate(['/404'])
-          }
-          else {
+          if (res.status == 200) {
             this.clientService.enterClient(JSON.parse(res.headers["client"]));
           }
+
+          this.doneChange()
+          
         })
         .catch((err) => {
-          console.log(err);
+          this.router.navigate(['/404']);
         })
     }
   }
-
 
   sendReportToEmail(OrderId: number, index: number) {
 
@@ -224,19 +223,14 @@ export class ClientPageComponent implements OnInit {
           }
         })
         .then((res) => {
-          if (res.status == 404) {
-            this.router.navigate(['/404'])
-          }
-          else {
+
 
             if (res.status == 200) {
               this.orders_click[index] = true;
             }
-
-          }
         })
         .catch((err) => {
-          console.log(err);
+          this.router.navigate(['/404']);
         })
   }
 

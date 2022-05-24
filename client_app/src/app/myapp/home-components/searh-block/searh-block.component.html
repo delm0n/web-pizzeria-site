@@ -1,0 +1,358 @@
+<div class="flex justify-center">
+    <div class="sm:px-4 w-full">
+      <div class="input-group relative flex flex-wrap items-stretch w-full mb-4 px-2" (keydown.enter)="search()">
+        <input type="search" [(ngModel)]="inputSearch"
+        class="form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal 
+        text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded-l-md transition ease-in-out m-0 
+        placeholder-gray-300 border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-green-200 focus:border-green-300" 
+        placeholder="Введите минимум 3 символа" aria-label="Search" aria-describedby="button-addon3">
+
+        <button 
+        
+        class="btn inline-block px-8 py-2 text-base font-medium disabled:text-gray-600  disabled:border-gray-300
+        rounded-md border-2 transition duration-150 ease-in-out focus:outline-none focus:ring focus:ring-red-200 focus:border-red-300"
+        [disabled]="inputSearch.length < 3"
+        (click)="search()" 
+        [ngClass]="inputSearch.length >= 3 ? 'bg-white text-red-600 hover:text-red-600 border-red-500':'text-gray-600 border-gray-300'" 
+        type="button" id="button-addon3">Поиск
+        </button>
+      </div>
+
+      <div class="px-2 text-gray-400 font-light">{{resulerMsg}}</div>
+
+      <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed"
+       class="grid grid-cols-1 gap-0 lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-2 ">
+
+        <div *ngFor="let pizza of pizzasSearch; index as i;" class="w-full p-2 lg:px-0">
+          <div class="p-3 bg-white rounded relative">
+      
+            <span *ngIf="pizza.PizzaType == 1"
+              (click)="modalBtn_Pizza(); openPizzaModal(pizza.PizzaId, pizza.PizzaName, pizza.UrlImg, pizza.Structure)"
+              class="absolute cursor-pointer right-6 top-8 z-20 text-sm inline-block py-2 px-2.5 leading-none text-center 
+            whitespace-nowrap align-baseline font-bold bg-red-600 text-white rounded-full border-2 border-white">Острая</span>
+      
+            <span *ngIf="pizza.PizzaType == 2"
+              (click)="modalBtn_Pizza(); openPizzaModal(pizza.PizzaId, pizza.PizzaName, pizza.UrlImg, pizza.Structure)" class="absolute cursor-pointer right-6 top-8 z-20 text-sm inline-block py-2 px-2.5 leading-none text-center 
+            whitespace-nowrap align-baseline font-bold bg-red-600 text-white rounded-full border-2 border-white">Без
+              мяса</span>
+      
+            <div class="">
+              <div class="relative max-w-full mb-3 h-62 lg:mb-0 max-w-xs mx-auto flex-initial">
+                <img [src]="pizza.UrlImg"
+                  (click)="modalBtn_Pizza(); openPizzaModal(pizza.PizzaId, pizza.PizzaName, pizza.UrlImg, pizza.Structure)"
+                  alt="Just a flower"
+                  class="object-fill w-full h-full rounded opacity-95 cursor-pointer hover:translate-y-1 transition duration-150 ease-in-out">
+              </div>
+              <div class="flex-auto p-2 justify-evenly">
+                <div class="flex flex-wrap ">
+                  <div class="flex flex-row items-center justify-between w-full min-w-0 ">
+                    <h2 class="font-semibold mr-auto text-xl text-gray-900">
+                      {{pizza.PizzaName}}
+                    </h2>
+      
+                    <ngb-rating [rate]="pizza.Rating"></ngb-rating>
+      
+                  </div>
+                </div>
+                <div class="flex flex-wrap ">
+                  <div class="flex items-center justify-between w-full min-w-0 text-gray-400 pt-2 pb-4 font-light "
+                    style="height: 120px;">
+                    <p>{{pizza.Structure}}</p>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between w-full min-w-0 ">
+                  <div class="text-lg font-medium">от {{pizza.MinPrice}} ₽</div>
+      
+                  <button (click)="modalBtn_Pizza(); openPizzaModal(pizza.PizzaId, pizza.PizzaName, pizza.UrlImg, pizza.Structure)"
+                    class="mx-2 my-2 bg-emerald-500 shadow-md
+                  hover:bg-emerald-600 hover:shadow-lg
+                  active:bg-emerald-700 active:shadow-lg
+                  transition duration-150
+                  ease-in-out rounded-md 
+                  text-white text-base font-medium px-6 py-2">Выбрать</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngFor="let dish of dishesSearch; index as i;" class="w-full p-2 lg:px-0">
+          <div class="bg-white rounded p-3">
+            <div>
+              <div class="max-w-full mb-3 h-62 lg:mb-0 max-w-xs mx-auto flex-initial">
+                <img [src]="dish.UrlImg" (click)="modalBtn(dish.DishId)" alt="Just a flower"
+                  class="object-fill w-full h-full rounded opacity-95 cursor-pointer hover:translate-y-1 transition duration-150 ease-in-out">
+              </div>
+              <div class="flex-auto p-2 justify-evenly">
+                <div class="flex flex-wrap ">
+                  <div class="flex flex-row items-center justify-between w-full min-w-0 ">
+                    <h2 class="font-semibold mr-auto text-xl text-gray-900">
+                      {{dish.Name}}
+                    </h2>
+                  </div>
+                </div>
+                <div class="flex flex-wrap ">
+                  <div class="flex items-center justify-between w-full min-w-0 text-gray-400 pt-2 pb-4 font-light "
+                    style="height: 120px;">
+                    <p *ngIf="dish.DishType != 0">{{dish.Structure}}</p>
+                    <p *ngIf="dish.DishType == 0">{{dish.Mass / 1000}} л</p>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between w-full min-w-0 ">
+                  <div class="text-lg font-medium">{{dish.Price}} ₽</div>
+      
+                  <button *ngIf="!dishes_InCartID.includes(dish.DishId)" (click)="modalBtn(dish.DishId)" class="mx-2 my-2 bg-emerald-500 shadow-md
+                    hover:bg-emerald-600 hover:shadow-lg
+                    active:bg-emerald-700 active:shadow-lg
+                        transition duration-150
+                        ease-in-out rounded-md 
+                        text-white text-base font-medium px-6 py-2">
+                    Выбрать
+                  </button>
+      
+                  <button *ngIf="dishes_InCartID.includes(dish.DishId)" (click)="modalBtn(dish.DishId)" 
+                  class="mx-2 my-2 bg-emerald-500 shadow-md
+                    hover:bg-emerald-600 hover:shadow-lg
+                    active:bg-emerald-700 active:shadow-lg
+                        transition duration-150
+                        ease-in-out rounded-md 
+                        text-white text-base font-medium px-6 py-2">Добавить ещё</button>
+      
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- модальное окно пицц -->
+<div [ngClass]="'z-50 fixed w-full flex justify-center inset-0 ' + (modal_Pizza ? 'hidden' : 'block')">
+  <div (click)="modalBtn_Pizza()" class="w-full h-full opacity-40 bg-gray-900 z-0 absolute inset-0"></div>
+  <div class="mx-auto container" [@openClose]="modal_Pizza ? 'hidden' : 'block'">
+    <div class="flex items-center justify-center h-full w-full">
+      <div id="modalMobile_search"
+        class="bg-white rounded-md shadow fixed overflow-y-auto sm:h-auto w-10/12 md:w-10/12 lg:max-w-4xl ">
+        
+        <div
+          class="bg-gray-100 rounded-tl-md rounded-tr-md px-4 py-3 md:px-8 md:py-4 md:py-7 flex items-center justify-between">
+          <p class="text-base font-semibold text-gray-900">{{modalPizzas.pizzaName}} пицца</p>
+          <button role="button" aria-label="close label" (click)="modalBtn_Pizza()" class="">
+            <svg xmlns="http://www.w3.org/2000/svg" width="1.3em" height="1.3em" fill="currentColor"
+              class="bi bi-x-lg font-semibold text-gray-400 hover:text-gray-700" viewBox="0 0 16 16">
+              <path fill-rule="evenodd"
+                d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z" />
+              <path fill-rule="evenodd"
+                d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z" />
+            </svg>
+          </button>
+        </div>
+
+
+        <div class="px-4 md:px-10 py-3 md:py-6 ">
+          <div class="flex flex-col sm:flex-row">
+            <div class="sm:h-max-31 my-auto flex-initial">
+              <img [src]="modalPizzas.urlImg" alt="" class="object-fill w-full h-full rounded">
+            </div>
+
+            <div id="modalNotMobile_search" class=" ml-0 sm:ml-2 pr-2">
+              <div class="w-full min-w-0 text-gray-400 py-2">
+                <p>Состав: {{modalPizzas.structure}}</p>
+              </div>
+
+
+              <div class="flex-col">
+                <!-- <h3 class="">Размер:</h3> -->
+
+                <div class="xl:w-full xl:mx-0 h-12 hidden sm:block bg-white rounded ">
+                  <div class="justify-between flex-wrap sm:block bg-white rounded">
+                    <div class="xl:w-full xl:mx-0 h-12">
+                      <ul class="flex items-center h-full text-center">
+                        <li (click)="active_status_Pizza = 0"
+                          [ngClass]="active_status_Pizza == 0 ? 'flex-1 text-sm text-emerald-700 py-2 px-3 bg-white rounded font-medium shadow'
+                                   : 'flex-1 bg-gray-100 text-sm text-gray-600 py-2 px-3 font-medium hover:text-emerald-700 cursor-pointer'">
+                          {{modalPizzas.sizes[0].NameSize}}</li>
+                        <li (click)="active_status_Pizza = 1"
+                          [ngClass]="active_status_Pizza == 1 ? 'flex-1 text-sm text-emerald-700 py-2 px-3 bg-white rounded font-medium shadow' 
+                                  : 'flex-1 bg-gray-100 text-sm text-gray-600 py-2 px-3 font-medium hover:text-emerald-700 cursor-pointer'">
+                          {{modalPizzas.sizes[1].NameSize}}</li>
+                        <li (click)="active_status_Pizza = 2"
+                          [ngClass]="active_status_Pizza == 2 ? 'flex-1 text-sm text-emerald-700 py-2 px-3 bg-white rounded font-medium shadow' 
+                                  : 'flex-1 bg-gray-100 text-sm text-gray-600 py-2 px-3 font-medium hover:text-emerald-700 cursor-pointer'">
+                          {{modalPizzas.sizes[2].NameSize}}</li>
+
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="h-12 sm:hidden bg-white rounded ">
+                  <div class="justify-between flex-wrap sm:block bg-white rounded">
+                    <div class="xl:w-full xl:mx-0 h-12">
+                      <ul class="flex items-center h-full text-center">
+                        <li (click)="active_status_Pizza = 0"
+                          [ngClass]="active_status_Pizza == 0 ? 'flex-1 text-sm text-emerald-700 font-medium py-2 px-2 bg-white rounded shadow' 
+                                  : 'flex-1 bg-gray-100 text-sm text-gray-600 py-2 px-2 font-normal hover:text-emerald-700 cursor-pointer'">
+                          25 см.</li>
+                        <li (click)="active_status_Pizza = 1"
+                          [ngClass]="active_status_Pizza == 1 ? 'flex-1 text-sm text-emerald-700 font-medium py-2 px-2 bg-white rounded shadow' 
+                                  : 'flex-1 bg-gray-100 text-sm text-gray-600 py-2 px-2 font-normal hover:text-emerald-700 cursor-pointer'">
+                          35 см.</li>
+                        <li (click)="active_status_Pizza = 2"
+                          [ngClass]="active_status_Pizza == 2 ? 'flex-1 text-sm text-emerald-700 font-medium py-2 px-2 bg-white rounded shadow' 
+                                  : 'flex-1 bg-gray-100 text-sm text-gray-600 py-2 px-2 font-normal hover:text-emerald-700 cursor-pointer'">
+                          41 см.</li>
+
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div (click)="checkIngredients()" class="py-2">
+                <app-ingredients></app-ingredients>
+              </div>
+
+              <div class="text-sm font-semibold py-2">Выбрано:</div>
+              <div class="flex flex-col md:flex-row py-2 justify-between">
+
+                <div class="md:hidden flex flex-row items-center justify-evenly mb-3">
+                  <div><button (click)="decrement_Pizza(active_status_Pizza)"
+                      class="px-3 py-1 text-2xl font-bold rounded bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold cursor-pointer">-</button>
+                  </div>
+                  <div class="px-3 text-xl font-semibold">{{countModal_Pizza}}</div>
+                  <div><button (click)="increment_Pizza(active_status_Pizza)"
+                      class="px-3 py-1 text-2xl font-bold rounded bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold cursor-pointer">+</button>
+                  </div>
+                </div>
+
+                <div class="hidden md:flex flex-row items-center ">
+                  <div><button (click)="decrement_Pizza(active_status_Pizza)"
+                      class="px-2 rounded bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold cursor-pointer">-</button>
+                  </div>
+                  <div class="px-3">{{countModal_Pizza}}</div>
+                  <div><button (click)="increment_Pizza(active_status_Pizza)"
+                      class="px-2 rounded bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold cursor-pointer">+</button>
+                  </div>
+                </div>
+
+                <div class="mx-auto md:hidden">
+                  <button (click)="addToCart_Pizza()" class="mx-0 my-2 bg-emerald-500 shadow-md
+                  hover:bg-emerald-600 hover:shadow-lg
+                  active:bg-emerald-700 active:shadow-lg
+                  transition duration-150
+                  ease-in-out rounded-md 
+                   text-white text-base font-medium px-2 py-2 w-56">В корзину за {{plusIngrPrice +
+                    modalPizzas.sizes[active_status_Pizza].Price * countModal_Pizza | number: '.0-2' }} ₽</button>
+                </div>
+
+                <div class="hidden md:block">
+                  <button (click)="addToCart_Pizza()" class="mx-0 my-2 bg-emerald-500 shadow-md
+                  hover:bg-emerald-600 hover:shadow-lg
+                  active:bg-emerald-700 active:shadow-lg
+                  transition duration-150
+                  ease-in-out rounded-md 
+                   text-white text-base font-medium px-2 py-2 w-56">В корзину за {{plusIngrPrice +
+                    modalPizzas.sizes[active_status_Pizza].Price * countModal_Pizza | number: '.0-2' }} ₽</button>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+  <!-- модальное окно доп блюд -->
+  <div [ngClass]="'z-50 fixed w-full flex justify-center inset-0 ' + (modal ? 'hidden' : 'block')">
+    <div (click)="modalBtn_close()" class="w-full h-full opacity-40 bg-gray-900 z-0 absolute inset-0"></div>
+    <div class="mx-auto container" [@openClose]="modal ? 'hidden' : 'block'">
+      <div class="flex items-center justify-center h-full w-full">
+  
+        <div class="bg-white rounded-md shadow fixed overflow-y-auto sm:h-auto w-10/12 md:w-10/12 lg:max-w-3xl ">
+  
+          <div
+            class="bg-gray-100 rounded-tl-md rounded-tr-md px-4 py-3 md:px-8 md:py-4 md:py-7 flex items-center justify-between">
+            <p class="text-base font-semibold text-gray-900">{{dish_modal.Name}}</p>
+            <button role="button" aria-label="close label" (click)="modalBtn_close()" class="">
+              <svg xmlns="http://www.w3.org/2000/svg" width="1.3em" height="1.3em" fill="currentColor"
+                class="bi bi-x-lg font-semibold text-gray-400 hover:text-gray-700" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z" />
+                <path fill-rule="evenodd"
+                  d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z" />
+              </svg>
+            </button>
+          </div>
+  
+          <div class="px-4 md:px-10 py-3 md:py-6 ">
+            <div class="flex flex-col sm:flex-row">
+              <div class="sm:h-max-31 my-auto" style="max-width: 260px;">
+                <img [src]="dish_modal.UrlImg" alt="" class="object-fill w-full h-full rounded">
+              </div>
+  
+              <div class="flex-1 ml-0 sm:ml-2 pr-2">
+                <div class="w-full min-w-0 text-gray-400 py-2">
+                  <p>{{dish_modal.Structure}}</p>
+                </div>
+  
+                <div class="text-sm mt-4 font-semibold py-2">Выбрано:</div>
+                <div class="flex flex-col md:flex-row py-2 justify-between">
+  
+                  <div class="md:hidden flex flex-row items-center justify-evenly mb-3">
+                    <div><button (click)="decrement()"
+                        class="px-3 py-1 text-2xl font-bold rounded bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold cursor-pointer">-</button>
+                    </div>
+                    <div class="px-3 text-xl font-semibold">{{countModal}}</div>
+                    <div><button (click)="increment()"
+                        class="px-3 py-1 text-2xl font-bold rounded bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold cursor-pointer">+</button>
+                    </div>
+                  </div>
+  
+                  <div class="hidden md:flex flex-row items-center ">
+                    <div><button (click)="decrement()"
+                        class="px-2 rounded bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold cursor-pointer">-</button>
+                    </div>
+                    <div class="px-3">{{countModal}}</div>
+                    <div><button (click)="increment()"
+                        class="px-2 rounded bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold cursor-pointer">+</button>
+                    </div>
+                  </div>
+  
+                  <div class="mx-auto sm:hidden">
+                    <button (click)="addToCart(dish_modal.DishId)" class="mx-0 my-2 bg-emerald-500 shadow-md
+                    hover:bg-emerald-600 hover:shadow-lg
+                    active:bg-emerald-700 active:shadow-lg
+                    transition duration-150
+                    ease-in-out rounded-md 
+                     text-white text-base font-medium px-4 py-2 max-w-56">В корзину за
+                      {{dish_modal.Price * countModal | number: '.0-2' }} ₽</button>
+                  </div>
+  
+                  <div class="hidden sm:flex justify-center ">
+                    <button (click)="addToCart(dish_modal.DishId)" class="mx-0 my-2 bg-emerald-500 shadow-md
+                    hover:bg-emerald-600 hover:shadow-lg
+                    active:bg-emerald-700 active:shadow-lg
+                    transition duration-150
+                    ease-in-out rounded-md 
+                     text-white text-base font-medium px-2 py-2 w-56">В корзину за
+                      {{dish_modal.Price * countModal | number: '.0-2' }} ₽</button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -93,7 +93,7 @@ export class RegistrationComponent implements OnInit {
 
         else {
 
-          if(res.data == "Tel") {
+          if(res.data == "Em") {
             this.existEmClient();
           }
           
@@ -106,7 +106,7 @@ export class RegistrationComponent implements OnInit {
       }
 
     )
-    .catch(errors => console.log(errors));
+    .catch(errors => this.router.navigate(['/404']));
   }
 
   ngOnInit(): void {

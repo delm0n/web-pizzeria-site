@@ -242,6 +242,7 @@
     <Compile Include="RouterModule\CartService.cs" />
     <Compile Include="RouterModule\PizzaService.cs" />
     <Compile Include="PersonalToken.cs" />
+    <Compile Include="RouterModule\Search.cs" />
     <Compile Include="Test-conn.cs" />
   </ItemGroup>
   <ItemGroup>
