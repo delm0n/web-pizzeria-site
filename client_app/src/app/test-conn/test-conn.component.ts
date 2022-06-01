@@ -12,8 +12,6 @@ export class TestConnComponent implements OnInit {
 
   constructor() { }
 
-
-
   btnClick() {
     axios.get('http://localhost:1234/email')
       .then((res) => {
@@ -56,6 +54,20 @@ export class TestConnComponent implements OnInit {
       });
     }
   }
+
+  sendExel() {
+    axios.get('http://localhost:1234/exelorder')
+      .then((res) => {
+        console.log(res.status);
+
+      })
+      .catch((err) => {
+        console.log(err);
+
+      })
+  }
+
+  
 
   //chrome.exe --disable-web-security --disable-gpu --allow-file-access-from-files --user-data-dir=C:\temp\
   ngOnInit(): void {

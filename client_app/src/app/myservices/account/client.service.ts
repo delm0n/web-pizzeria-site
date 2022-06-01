@@ -37,9 +37,16 @@ export class ClientService {
 
     //получаем корзину с допами клиента
     this.dishesService.getDishFromCartServer(this.client.clientId, this.client.firstName);
+  }
 
+  registClient(entity: any) {
+    this.client.clientId = entity["ClientId"];
+    this.client.firstName = entity["FirstName"];
+    this.client.telephone = entity["Telephone"];
+    this.client.password = entity["Password"];
+    this.client.email = entity["Email"];
     
-
+    this.autorizationFlug = true;
   }
 
   exitClient() {

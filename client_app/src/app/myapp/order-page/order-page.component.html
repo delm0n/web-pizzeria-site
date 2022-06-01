@@ -23,7 +23,7 @@
                 <input checked type="radio" name="radio" [(ngModel)]="typeOfPay" value="Наличными при получении"
                     class="form-radio h-5 w-5 text-emerald-600 cursor-pointer text-sm ml-3  focus:ring-white">
             </div>
-            <div class="text-sm ml-3 text-gray-500" (click)="typeOfPay = 'Наличными при получении' " >Наличными при получении</div>
+            <div class="text-sm ml-3 text-gray-500 cursor-pointer" (click)="typeOfPay = 'Наличными при получении' " >Наличными при получении</div>
         </div>
 
         <div class="flex flex-row items-center mb-6">
@@ -31,7 +31,7 @@
                 <input checked type="radio" name="radio" [(ngModel)]="typeOfPay" value="Курьеру картой"
                     class="form-radio h-5 w-5 text-emerald-600 cursor-pointer text-sm ml-3 focus:ring-white">
             </div>
-            <div class="text-sm ml-3 text-gray-500" (click)="typeOfPay = 'Курьеру картой' " >Курьеру картой</div>
+            <div class="text-sm ml-3 text-gray-500 cursor-pointer" (click)="typeOfPay = 'Курьеру картой' " >Курьеру картой</div>
         </div>
 
         <div class="flex flex-row items-center mb-6">
@@ -39,17 +39,17 @@
                 <input checked type="radio" name="radio" [(ngModel)]="typeOfPay" value="Картой на сайте"
                     class="form-radio h-5 w-5 text-emerald-600 cursor-pointer text-sm ml-3 focus:ring-white">
             </div>
-            <div class="text-sm ml-3 text-gray-500" (click)="typeOfPay = 'Картой на сайте' " >Картой на сайте</div>
+            <div class="text-sm ml-3 text-gray-500 cursor-pointer" (click)="typeOfPay = 'Картой на сайте' " >Картой на сайте</div>
         </div>
 
     </div>
 
     
-    <div *ngIf="typeOfPay == 'Картой на сайте' " class="md:px-0 mx-auto mt-4 max-w-xl px-3" [@cardAnimation]>
+    <div *ngIf="typeOfPay == 'Картой на сайте' " class="md:px-0 mx-auto mt-3 max-w-lg px-3" [@cardAnimation]>
 
         <div class="mb-4">
 
-            <div class="p-4 shadow rounded-md col-span-2 z-10 bg-emerald-100/50">
+            <div class="p-4 shadow rounded-md">
                 <div class="flex flex-row w-full justify-evenly">
                     <div>
                         <img class="img-cards" src="../../../assets/img/card_mir.png" alt="">
@@ -71,7 +71,7 @@
                         class="mt-4 block mb-2 text-sm font-semibold text-gray-600 dark:text-gray-400">Номер
                         карты</label>
                     <input [(ngModel)]="numberCard" type="tel" name="numberCard" placeholder="0000 0000 0000 0000"
-                        mask="0000 0000 0000 0000" [showMaskTyped]="true" class="w-full mx-auto appearance-none placeholder-gray-300 border-gray-300 rounded-md 
+                        mask="0000   0000   0000   0000" [showMaskTyped]="true" class="w-full md:w-3/4 mx-auto appearance-none placeholder-gray-300 border-gray-300 rounded-md 
                 focus:outline-none focus:ring focus:ring-green-200 focus:border-green-300" />
                 </div>
                 <div class="flex flex-row justify-between">

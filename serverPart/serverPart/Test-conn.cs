@@ -13,6 +13,8 @@ using System.Threading.Tasks;
 using System.Net;
 using System.IO;
 using System.Net.Mail;
+using NPOI.XSSF.UserModel;
+using NPOI.SS.UserModel;
 
 namespace serverPart
 {
@@ -66,6 +68,83 @@ namespace serverPart
 
                 return new Response { StatusCode = Nancy.HttpStatusCode.OK };
 
+            };
+
+
+            Get["/exelorder", runAsync: true] = async (x, token) =>
+            {
+                IWorkbook workbook = new XSSFWorkbook();
+                ISheet sheet = workbook.CreateSheet("test");
+
+                ICellStyle style = workbook.CreateCellStyle();
+                // Устанавливаем стиль ячейки: выравниваем по горизонтали и по центру
+                style.Alignment = HorizontalAlignment.Center;
+                IFont font = workbook.CreateFont();
+                // Устанавливаем жирный шрифт
+                font.IsBold = true;
+                //font.Boldweight = short.MaxValue;
+                // Используйте метод SetFont, чтобы добавить стиль шрифта к стилю ячейки 
+                style.SetFont(font);
+                sheet.SetColumnWidth(1, 30 * 256);
+                sheet.SetColumnWidth(2, 30 * 256);
+                sheet.SetColumnWidth(3, 30 * 256);
+                sheet.SetColumnWidth(4, 30 * 256);
+
+                IRow row = sheet.CreateRow(0);
+                ICell cell = row.CreateCell(0);
+                cell.SetCellValue("№ заказа");
+
+                cell = row.CreateCell(1); cell.CellStyle = style;
+                cell.SetCellValue("Клиент");
+
+                cell = row.CreateCell(2); cell.CellStyle = style;
+                cell.SetCellValue("Оплата");
+
+                cell = row.CreateCell(3); cell.CellStyle = style;
+                cell.SetCellValue("Дата заказа");
+
+                cell = row.CreateCell(4); cell.CellStyle = style;
+                cell.SetCellValue("Итоговая стоимость");
+
+                List<Order> orders = new List<Order>();
+                using (var dbContext = new ApplicationContext())
+                {
+                    orders = await dbContext.Orders.OrderBy(o => o.OrderId).ToListAsync();
+
+
+                    for (int i = 0; i < orders.Count; i++)
+                    {
+                        row = sheet.CreateRow(i+1);
+
+
+                        cell = row.CreateCell(0);
+                        cell.SetCellValue(orders[i].OrderId);
+
+                        cell = row.CreateCell(1);
+                        int? client = orders[i].ClientId;
+                        Client clientName = await dbContext.Clients.Where(c => c.ClientId == client).FirstOrDefaultAsync();
+                        cell.SetCellValue(clientName.FirstName + " (" + clientName.Telephone + ")");
+
+                        cell = row.CreateCell(2);
+                        cell.SetCellValue(orders[i].TypeOfPay);
+
+                        cell = row.CreateCell(3);
+                        cell.SetCellValue(orders[i].DateOrder);
+
+                        cell = row.CreateCell(4);
+                        cell.SetCellValue(orders[i].LastPrice + " руб.");
+                    }
+                }
+
+
+                
+
+                using (var fileData = new FileStream("C:/csharpLabs/test.xlsx", FileMode.Create))
+                {
+                    workbook.Write(fileData);
+                }
+
+                return new Response { StatusCode = Nancy.HttpStatusCode.OK };
             };
 
             Get["/start", runAsync: true] = async (x, token) =>
@@ -686,6 +765,8 @@ namespace serverPart
 
                 return 0;
             };
+
+
         }
     }
 }
