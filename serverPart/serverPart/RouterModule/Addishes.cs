@@ -23,7 +23,8 @@ namespace serverPart.RouterModule
 
                 using (var dbContext = new ApplicationContext())
                 {
-                    dishes = await dbContext.Dishes.Where(dish => ((int)dish.DishType) == enumer).OrderBy(d=> d.Name).ToListAsync();
+                    dishes = await dbContext.Dishes.Where(dish => ((int)dish.DishType) == enumer)
+                    .OrderBy(d=> d.Name).ToListAsync();
                 }
 
                 var response = new Response();

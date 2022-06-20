@@ -30,16 +30,12 @@ namespace serverPart
                 {
                     Send(System.Text.Json.JsonSerializer.Serialize(db.Pizzas.OrderBy(p => p.PizzaId).ToList()));
                 }
-
-                Console.WriteLine("Соединение установлено, отправлены данные с БД и получен токен");
             }
 
             else
             {
                 Sessions.CloseSession(ID);
-                Console.WriteLine("Токен не прошёл проверку");
             }
-
         }
 
         protected override async void OnMessage(MessageEventArgs e)
@@ -53,7 +49,6 @@ namespace serverPart
                 if (pizza != null)
                 {
                     List<int> IdsClientRate = new List<int>(); List<int> ClientRates = new List<int>();
-
                     if (JsonConvert.DeserializeObject<List<int>>(pizza.IdClientRateJson) != null)
                     {
                         IdsClientRate.AddRange(JsonConvert.DeserializeObject<List<int>>(pizza.IdClientRateJson));
@@ -66,8 +61,7 @@ namespace serverPart
                         if(pizzaRate.ClientId == IdsClientRate[i])
                         {
                             //такой клиент уж оценивал эту пиццу
-                            ClientRates[i] = pizzaRate.Rating;
-                            client_notrated = false;
+                            ClientRates[i] = pizzaRate.Rating;  client_notrated = false;
                             break;
                         }
                     }
@@ -75,28 +69,21 @@ namespace serverPart
                     //если не оценивал, то добавляем
                     if (client_notrated)
                     {
-                        IdsClientRate.Add(pizzaRate.ClientId);
-                        ClientRates.Add(pizzaRate.Rating);
+                        IdsClientRate.Add(pizzaRate.ClientId); ClientRates.Add(pizzaRate.Rating);
                     }
-
 
                     double summary_rating = 5; //изначально 5 от пиццерии
                     //пересчёт рейтинга - среднее арифметическое
                     for (int i = 0; i < IdsClientRate.Count; i++)
                         summary_rating += ClientRates[i];
                      
-
-                    //pizza.Rating =  summary_rating / (IdsClientRate.Count + 1);
                     pizza.Rating = Math.Round( (summary_rating / (IdsClientRate.Count + 1)), 2);// изначально 5 от пиццерии ( + 1 )
                     pizza.IdClientRateJson = JsonConvert.SerializeObject(IdsClientRate);
                     pizza.ClientRateJson = JsonConvert.SerializeObject(ClientRates);
                     await db.SaveChangesAsync();
-
                 }
-
                 Send(System.Text.Json.JsonSerializer.Serialize(db.Pizzas.OrderBy(p => p.PizzaId).ToList()));
             }
-            Console.WriteLine("передано значение " + e.Data);
         }
     }
 

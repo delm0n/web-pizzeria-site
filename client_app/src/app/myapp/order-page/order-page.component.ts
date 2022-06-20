@@ -89,20 +89,21 @@ export class OrderPageComponent implements OnInit {
 
     else {
 
-      if(this.typeOfPay == "Картой на сайте") {
-        //console.log((String)(this.dateCardMM));
-        //return  true  
-        if ((String)(this.dateCardMM).length==2 && (String)(this.dateCardYY).length==2 
-           && (String)(this.numberCard).length==16  && (String)(this.codeCard).length==3 ) {
-            return true;
-        }
-        else {
-          return false;
-        }
-      }
-      else {
-        return true;
-      }
+      return  true 
+      // if(this.typeOfPay == "Картой на сайте") {
+      //   //console.log((String)(this.dateCardMM));
+      //   return  true  
+      //   // if ((String)(this.dateCardMM).length==2 && (String)(this.dateCardYY).length==2 
+      //   //    && (String)(this.numberCard).length==16  && (String)(this.codeCard).length==3 ) {
+      //   //     return true;
+      //   // }
+      //   // else {
+      //   //   return false;
+      //   // }
+      // }
+      // else {
+      //   return true;
+      // }
     }
   }
 
@@ -128,7 +129,7 @@ export class OrderPageComponent implements OnInit {
     let PizzaCount: number[] = [];
     let DishIdJson: number[] = [];
     let DishCount: number[] = [];
-    let PizzaIngredientIdJson: number[][] = [[]];
+    let PizzaIngredientIdJson: number[][] = [];
 
     for(let i = 0; i < this.cartService.pizzasInCart.length; i++) {
       PizzaIdJson.push(this.cartService.pizzasInCart[i].PizzaId);

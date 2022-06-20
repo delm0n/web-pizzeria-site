@@ -38,18 +38,15 @@ export class CartPageComponent implements OnInit {
 
   constructor(private cdref: ChangeDetectorRef, private cartService: CartService, private clientService:ClientService,
     private dishesService: DishesService) { 
-
-    
-    
   }
 
 
   ngOnInit(): void {
 
     //вызываю автообновление 
-    if (this.clientService.autorizationFlug) {
-      this.cartService.getPizzasFromCartServer(this.clientService.client.clientId, this.clientService.client.firstName)
-      }
+    // if (this.clientService.autorizationFlug) {
+    //   this.cartService.getPizzasFromCartServer(this.clientService.client.clientId, this.clientService.client.firstName)
+    //   }
 
     this.pizzasCartView = this.cartService.pizzasInCart;
     this.dishCartView = this.dishesService.dishesCart; 
@@ -181,6 +178,7 @@ export class CartPageComponent implements OnInit {
     this.getCartPrice();
 
     this.pizzasCartView = this.cartService.pizzasInCart;
+ 
 
   }
 

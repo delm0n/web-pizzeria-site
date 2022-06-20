@@ -70,33 +70,27 @@
                     <label for="numberCard"
                         class="mt-4 block mb-2 text-sm font-semibold text-gray-600 dark:text-gray-400">Номер
                         карты</label>
-                    <input [(ngModel)]="numberCard" type="tel" name="numberCard" placeholder="0000 0000 0000 0000"
-                        mask="0000   0000   0000   0000" [showMaskTyped]="true" class="w-full md:w-3/4 mx-auto appearance-none placeholder-gray-300 border-gray-300 rounded-md 
-                focus:outline-none focus:ring focus:ring-green-200 focus:border-green-300" />
+                        0000   0000   0000   0000
                 </div>
-                <div class="flex flex-row justify-between">
+                <div>
+                    <label for="numberCard"
+                        class="mt-3 block mb-1 text-sm font-semibold text-gray-600 dark:text-gray-400">Имя владельца</label>
+                        IVANOV IVAN
+                </div>
+                <div class="flex flex-col sm:flex-row justify-between">
                     <div>
                         <label for="dateCard"
-                            class="mt-4 block mb-2 text-sm font-semibold text-gray-600 dark:text-gray-400">Действует
+                            class="mt-3 block mb-1 text-sm font-semibold text-gray-600 dark:text-gray-400">Действует
                             до</label>
 
-                        <input [(ngModel)]="dateCardMM" type="tel" name="dateCardMM" mask="00" [showMaskTyped]="true"
-                            class=" mx-auto appearance-none placeholder-gray-300 border-gray-300 rounded-md 
-                focus:outline-none focus:ring focus:ring-green-200 focus:border-green-300" style="width: 45px;" />
+                        10 / 24
 
-                        /
-
-                        <input [(ngModel)]="dateCardYY" type="tel" name="dateCardYY" mask="00" [showMaskTyped]="true"
-                            class=" mx-auto appearance-none placeholder-gray-300 border-gray-300 rounded-md 
-           focus:outline-none focus:ring focus:ring-green-200 focus:border-green-300" style="width: 45px;" />
                     </div>
 
                     <div>
                         <label for="dateCard"
-                            class="mt-4 block mb-2 text-sm font-semibold text-gray-600 dark:text-gray-400">CVV/CVC</label>
-                        <input [(ngModel)]="codeCard" type="tel" name="dateCardYY" mask="000" [showMaskTyped]="true"
-                            class="w-1/3 mx-auto appearance-none placeholder-gray-300 border-gray-300 rounded-md 
-       focus:outline-none focus:ring focus:ring-green-200 focus:border-green-300" style="width: 55px;"/>
+                            class="mt-3 block mb-1 text-sm font-semibold text-gray-600 dark:text-gray-400">CVV/CVC</label>
+                        123
                     </div>
 
                 </div>

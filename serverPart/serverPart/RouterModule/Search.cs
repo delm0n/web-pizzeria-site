@@ -19,9 +19,9 @@ namespace serverPart.RouterModule
             {
                 string input = x.input;
                 string[] words = input.Split(' ');
+
                 List<Pizza> returnPizzas = new List<Pizza>();
                 List<Dish> returnDishes = new List<Dish>();
-
 
                 using (var dbContext = new ApplicationContext())
                 {
@@ -34,7 +34,8 @@ namespace serverPart.RouterModule
                         for (int w = 0; w < words.Length; w++)
                         {
                             //если не содержит ни в описании, ни в названии, то пропускаем слово
-                            if (!pizzas[i].PizzaName.ToLower().Contains(words[w].ToLower()) && !pizzas[i].Structure.ToLower().Contains(words[w].ToLower()))
+                            if (!pizzas[i].PizzaName.ToLower().Contains(words[w].ToLower()) 
+                            && !pizzas[i].Structure.ToLower().Contains(words[w].ToLower()))
                             {
                                 addPizzaFlug = false;
                                 break;
@@ -43,19 +44,17 @@ namespace serverPart.RouterModule
 
                         if (addPizzaFlug)
                             returnPizzas.Add(pizzas[i]);
-                        
-
                     }
 
                     List<Dish> dishes = await dbContext.Dishes.OrderBy(d => d.Name).ToListAsync();
                     for (int i = 0; i < dishes.Count; i++)
                     {
                         bool addDishFlug = true;
-
                         for (int w = 0; w < words.Length; w++)
                         {
                             //если не содержит ни в описании, ни в названии, то пропускаем слово
-                            if (!dishes[i].Name.ToLower().Contains(words[w].ToLower()) && !dishes[i].Structure.ToLower().Contains(words[w].ToLower()))
+                            if (!dishes[i].Name.ToLower().Contains( words[w].ToLower()) 
+                            && !dishes[i].Structure.ToLower().Contains( words[w].ToLower()))
                             {
                                 addDishFlug = false;
                                 break;
@@ -64,23 +63,17 @@ namespace serverPart.RouterModule
 
                         if (addDishFlug) 
                             returnDishes.Add(dishes[i]);
-                       
                     }
 
-
                     var response = new Response();
-
                     response.Headers["Access-Control-Allow-Origin"] = "*";
                     response.Headers["Access-Control-Allow-Methods"] = "GET";
                     response.Headers["Content-Type"] = "application/json";
                     response.Headers["Pizzas"] = JsonSerializer.Serialize(returnPizzas);
                     response.Headers["Dishes"] = JsonSerializer.Serialize(returnDishes);
                     response.Headers["Access-Control-Expose-Headers"] = "Pizzas, Dishes";
-
-                    return response;
-                   
+                    return response;                  
                 }
-
             };
         }
     }

@@ -116,10 +116,11 @@ export class ClientPageComponent implements OnInit {
       }
       else {
 
-        if (res.status == 200) {
-          
+        if (res.status == 200) {      
           this.successBetween();
-
+        }
+        else {
+              
         }
 
       }
@@ -227,6 +228,9 @@ export class ClientPageComponent implements OnInit {
 
             if (res.status == 200) {
               this.orders_click[index] = true;
+            }
+            else {
+
             }
         })
         .catch((err) => {

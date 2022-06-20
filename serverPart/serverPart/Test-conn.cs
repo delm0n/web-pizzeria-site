@@ -151,9 +151,10 @@ namespace serverPart
             {
                 using (var dbContext = new ApplicationContext())
                 {
+                    #region added
 
-
-                    /*dbContext.Dishes.Add(new Dish
+                    /*
+                    dbContext.Dishes.Add(new Dish
                     {
                         Name = "Чиз ролл",
                         UrlImg = "/assets/img/ch_roll.jpg",
@@ -244,17 +245,17 @@ namespace serverPart
                         DishType = Dish.TypesEnum.Rolls
                     });
 
-                    await dbContext.SaveChangesAsync();
+                    
 
 
-                    /*
+                    
                     dbContext.Dishes.Add(new Dish
                     {
                         Name = "Картофель Айдахо",
                         UrlImg = "/assets/img/potato.jpg",
                         Mass = 100,
                         Price = 115,
-                        Structure = "",
+                        Structure = "Картофель в кожуре, нарезанный дольками, слегка отваренный и потом запеченный в ароматной смеси из масла, чеснока и трав",
                         DishType = Dish.TypesEnum.Snacks
                     });
 
@@ -264,17 +265,17 @@ namespace serverPart
                         UrlImg = "/assets/img/potato_2.jpg",
                         Mass = 100,
                         Price = 115,
-                        Structure = "",
+                        Structure = "Порция хрустящих, золотистых, обжаренных в растительном фритюре и слегка посоленных соломок отборного картофеля",
                         DishType = Dish.TypesEnum.Snacks
                     });
 
                     dbContext.Dishes.Add(new Dish
                     {
-                        Name = "Куриные нагетсы",
+                        Name = "Куриные наггетсы",
                         UrlImg = "/assets/img/nuggets.jpg",
                         Mass = 120,
                         Price = 150,
-                        Structure = "",
+                        Structure = "Филе куриной грудки в хрустящей панировке, обжаренной в масле",
                         DishType = Dish.TypesEnum.Snacks
                     });
 
@@ -318,8 +319,6 @@ namespace serverPart
                         Structure = "Паста, нежная свинина, ароматный бекон, моцарелла, пармезан и сливочный соус",
                         DishType = Dish.TypesEnum.Snacks
                     });
-
-                    await dbContext.SaveChangesAsync();
 
                     
                     dbContext.Dishes.Add(new Dish
@@ -402,8 +401,6 @@ namespace serverPart
                     });
 
 
-
-
                     dbContext.Dishes.Add(new Dish
                     {
                         Name = "Чизкейк",
@@ -452,12 +449,7 @@ namespace serverPart
                         Price = 50,
                         Structure = "Сочетает в себе темный и бельгийский молочный шоколад",
                         DishType = Dish.TypesEnum.Desserts
-                    }); */
-
-                    /*
-
-
-                    
+                    });
 
                     dbContext.Pizzas.Add(new Pizza
                     {
@@ -759,8 +751,70 @@ namespace serverPart
                         Price = 809,
                         Pizza = dbContext.Pizzas.Where(p => p.PizzaName == "Дьябло").FirstOrDefault(),
                     });
+                    */
+
+
+                    /*dbContext.Ingredients.Add(new Ingredient
+                    {
+                        Name = "Ветчина",
+                        Mass = 40,
+                        Price = 50,
+                        UrlImg = "/assets/img/bacon.png",
+                    });
+                    dbContext.Ingredients.Add(new Ingredient
+                    {
+                        Name = "Шампиньоны",
+                        Mass = 40,
+                        Price = 35,
+                        UrlImg = "/assets/img/champig.png"
+                    });
+                    dbContext.Ingredients.Add(new Ingredient
+                    {
+                        Name = "Красный лук",
+                        Mass = 25,
+                        Price = 30,
+                        UrlImg = "/assets/img/onion.png"
+                    });
+                    dbContext.Ingredients.Add(new Ingredient
+                    {
+                        Name = "Помидоры",
+                        Mass = 50,
+                        Price = 35,
+                        UrlImg = "/assets/img/tomato.png"
+                    });
+                    dbContext.Ingredients.Add(new Ingredient
+                    {
+                        Name = "Ананасы",
+                        Mass = 50,
+                        Price = 35,
+                        UrlImg = "/assets/img/pineapples.png"
+                    });
+                    dbContext.Ingredients.Add(new Ingredient
+                    {
+                        Name = "Огурчик",
+                        Mass = 50,
+                        Price = 35,
+                        UrlImg = "/assets/img/cucumber.png"
+                    });
+                    dbContext.Ingredients.Add(new Ingredient
+                    {
+                        Name = "Чеддер и пармезан",
+                        Mass = 50,
+                        Price = 40,
+                        UrlImg = "/assets/img/cheeses.png"
+                    });
+                    dbContext.Ingredients.Add(new Ingredient
+                    {
+                        Name = "Пепперони",
+                        Mass = 40,
+                        Price = 50,
+                        UrlImg = "/assets/img/pepperoni.png"
+                    });
+                    
 
                     await dbContext.SaveChangesAsync(); */
+
+                    #endregion
                 }
 
                 return 0;

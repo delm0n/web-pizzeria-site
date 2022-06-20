@@ -313,11 +313,13 @@ export class PizzasComponent implements OnInit {
   }
 
 
+  //axiosBool: boolean = true;
   ngOnInit(): void {
 
-    axios.get('http://localhost:1234/pizza')
+      axios.get('http://localhost:1234/pizza')
       .then((res) => {
         this.pizzas = JSON.parse(res.headers['pizzas']);
+        //this.axiosBool = false;
       })
       .catch((err: any) => {
         console.log(err);

@@ -5,6 +5,8 @@ import {Router} from '@angular/router';
 import { DishesService } from '../dishes/dishes.service';
 import { OrderClass } from 'src/app/models/OrderClass';
 import axios from 'axios';
+import { DishesCartClass } from 'src/app/models/DishCartClass';
+import { PizzaCartClass } from 'src/app/models/PizzaCartClass';
 
 @Injectable({
   providedIn: 'root'
@@ -32,11 +34,13 @@ export class ClientService {
     
     this.autorizationFlug = true;
     
-    //получаем корзину с пиццами клиента 
-    this.cartService.getPizzasFromCartServer_enter(this.client.clientId, this.client.firstName);
+    //получаем корзину с пиццами и допами клиента 
+    
+    this.synchronizationCart(this.client.clientId, this.client.firstName, 
+      this.cartService.pizzasInCart, this.dishesService.dishesCart)
 
-    //получаем корзину с допами клиента
-    this.dishesService.getDishFromCartServer(this.client.clientId, this.client.firstName);
+    // посчитать количество до и после синхронизации и вывести уведомление
+
   }
 
   registClient(entity: any) {
@@ -47,6 +51,11 @@ export class ClientService {
     this.client.email = entity["Email"];
     
     this.autorizationFlug = true;
+
+    this.synchronizationCart(this.client.clientId, this.client.firstName, 
+      this.cartService.pizzasInCart, this.dishesService.dishesCart)
+
+
   }
 
   exitClient() {
@@ -59,8 +68,8 @@ export class ClientService {
     }
 
     this.autorizationFlug = false;
-    this.cartService.pizzasInCart_server = [];
-    this.dishesService.dishesCart_server = [];
+    //this.cartService.pizzasInCart_server = [];
+    //this.dishesService.dishesCart_server = [];
     this.orders = [];
 
   }
@@ -95,9 +104,61 @@ export class ClientService {
         })
   }
 
+  synchronizationCart(id_client: number, name_client: string, pizzaCart: PizzaCartClass[], dishesCart: DishesCartClass[]) {
+    axios.post('http://localhost:1234/synchronization-cart', {
+      pizzas: JSON.stringify(pizzaCart),
+      dishes: JSON.stringify(dishesCart),
+      clientId: id_client
+    },
+      {
+        headers: {
+          'Authorization': sessionStorage.getItem('token')!,
+        }
+      })
+      .then((res) => {
+        let counterCart = this.cartService.pizzasInCart.length + this.dishesService.dishesCart.length;
+        this.cartService.pizzasInCart = JSON.parse(res.headers["pizzas"]);
+        this.dishesService.dishesCart = JSON.parse(res.headers["dishes"]);
+
+        if (counterCart < this.cartService.pizzasInCart.length + this.dishesService.dishesCart.length) {
+          this.notifyClient(name_client);
+        }
+
+      })
+      .catch((err) => {
+        console.log(err.message);
+        
+      })
+  }
 
 
+  notifyClient(name_client: string) {
+    if (!("Notification" in window)) {
+      alert("This browser does not support desktop notification");
+    }
+
+    else if (Notification.permission === "granted") {
+      // If it's okay 
+      var notification = new Notification(name_client + "!", {
+        tag: "ache-mail",
+        body: "В корзине есть блюда, добавленные ранее...",
+        icon: "https://img.icons8.com/ios-glyphs/90/000000/pizza.png"
+      });
+    }
+
+    else if (Notification.permission !== "denied") {
+      Notification.requestPermission().then((permission) => {
+        if (permission === "granted") {
+          var notification = new Notification(name_client + "!", {
+            tag: "ache-mail",
+            body: "В корзине есть блюда, добавленные ранее...",
+            icon: "https://img.icons8.com/ios-glyphs/90/000000/pizza.png"
+          });
+        }
+      });
+    }
+  }
 
   constructor(private cartService:CartService, private router: Router,
-    private dishesService:DishesService,) { }
+    private dishesService:DishesService) { }
 }

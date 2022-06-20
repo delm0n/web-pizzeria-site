@@ -5,13 +5,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 
 namespace serverPart.Data.Entity
 {
     public class Cart
     {
-        [Key]
-        [ForeignKey("Client")]
+        
+        public int CartId { get; set; }
+
         public int ClientId { get; set; }
 
         public string PizzaIdJson { get; set; } = "";
@@ -22,6 +24,5 @@ namespace serverPart.Data.Entity
         public string DishIdJson { get; set; } = "";
         public string DishCount { get; set; } = "";
 
-        public Client Client { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace serverPart.Data.Entity
@@ -15,6 +16,7 @@ namespace serverPart.Data.Entity
 
         public int PizzaId { get; set;}
 
+        [JsonIgnore]
         public Pizza Pizza { get; set; }
     }
 }

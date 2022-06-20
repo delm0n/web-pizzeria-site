@@ -16,7 +16,7 @@ export class DishesService {
   dishes: DishesClass[] = [];
 
   dishesCart: DishesCartClass[] = [];
-  dishesCart_server: DishesCartClass[] = [];
+  //dishesCart_server: DishesCartClass[] = [];
 
 
   addDishInCartServer(id_client: number) {
@@ -39,132 +39,133 @@ export class DishesService {
       })
   }
 
-  getDishFromCartServer(id_client: number, name_client: string) {
-    axios.get('http://localhost:1234//get-dish-from-cart/' + id_client,
-      {
-        headers: {
-          'Authorization': sessionStorage.getItem('token')!,
-        }
-      })
-      .then((res) => {
+  //не используется
+  // getDishFromCartServer(id_client: number, name_client: string) {
+  //   axios.get('http://localhost:1234//get-dish-from-cart/' + id_client,
+  //     {
+  //       headers: {
+  //         'Authorization': sessionStorage.getItem('token')!,
+  //       }
+  //     })
+  //     .then((res) => {
 
-          if (res.status != 204) {
-            //количество допов в корзине до входа в аккаунт
-            let length_before = this.dishesCart.length;
+  //         if (res.status != 204) {
+  //           //количество допов в корзине до входа в аккаунт
+  //           let length_before = this.dishesCart.length;
 
-            if (JSON.parse(res.headers["dishes"]).length > 0) {
-              for (let i = 0; i < JSON.parse(res.headers["dishes"]).length; i++) {
-                this.dishesCart_server.push(JSON.parse(res.headers["dishes"])[i]);
-              }
-            }
+  //           if (JSON.parse(res.headers["dishes"]).length > 0) {
+  //             for (let i = 0; i < JSON.parse(res.headers["dishes"]).length; i++) {
+  //               this.dishesCart_server.push(JSON.parse(res.headers["dishes"])[i]);
+  //             }
+  //           }
 
-            if (length_before == 0) {
-              //если до входа в корзине ничего не было
+  //           if (length_before == 0) {
+  //             //если до входа в корзине ничего не было
 
-              if (this.dishesCart_server.length > 0) {
-                //но пришло с сервера
-                this.notifyClient(name_client);
-                this.dishesCart = this.dishesCart_server;
+  //             if (this.dishesCart_server.length > 0) {
+  //               //но пришло с сервера
+  //               this.notifyClient(name_client);
+  //               this.dishesCart = this.dishesCart_server;
                 
-              }
+  //             }
 
-              else {
-                //если не пришло, то не делаем ничего
+  //             else {
+  //               //если не пришло, то не делаем ничего
 
-              }
-            }
-            else {
-              //если в корзине что-то было до входа в аккаунт
+  //             }
+  //           }
+  //           else {
+  //             //если в корзине что-то было до входа в аккаунт
 
-              //заполним массив индексами
-              let array_index = [];
-              for (let j = 0; j < this.dishesCart_server.length; j++) {
-                array_index.push(this.dishesCart_server[j].DishId)
-              }
-
-
-              if (this.dishesCart_server.length == 0) {
-                //а на сервере оказалось пусто
-
-                for (let i = 0; i < this.dishesCart.length; i++) {
-
-                  axios.post('http://localhost:1234/add-dish-in-cart/' + id_client, {
-
-                    dishId: this.dishesCart[i].DishId,
-                    count: this.dishesCart[i].Count
-
-                  },
-                    {
-                      headers: {
-                        'Authorization': sessionStorage.getItem('token')!,
-                      }
-                    }
-                  )
-                    .then((res) => {
-                      if (res.status == 200) {
-                        this.dishesCart = this.dishesCart_server;
-                      }
-
-                    })
-                    .catch((err) => {
-                      this.router.navigate(['/404']);
-
-                    })
-                }
-
-              }
-
-              else {
-                //если с сервера что-то пришло
-                this.notifyClient(name_client);
-
-                for (let i = 0; i < this.dishesCart.length; i++) {
-
-                  if (array_index.includes(this.dishesCart[i].DishId)) { //если такое id уже содержится
-
-                    this.dishesCart_server.find(d => d.DishId == this.dishesCart[i].DishId)!.Count =
-                      this.dishesCart_server.find(d => d.DishId == this.dishesCart[i].DishId)!.Count + this.dishesCart[i].Count;
-
-                    this.CounterDishInCartServer(id_client, this.dishesCart[i].DishId,
-                      this.dishesCart_server.find(d => d.DishId == this.dishesCart[i].DishId)!.Count)
+  //             //заполним массив индексами
+  //             let array_index = [];
+  //             for (let j = 0; j < this.dishesCart_server.length; j++) {
+  //               array_index.push(this.dishesCart_server[j].DishId)
+  //             }
 
 
-                  }
+  //             if (this.dishesCart_server.length == 0) {
+  //               //а на сервере оказалось пусто
 
-                  else { //если такого нет
-                    axios.post('http://localhost:1234/add-dish-in-cart/' + id_client, {
-                      dishId: this.dishesCart[i].DishId,
-                      count: this.dishesCart[i].Count
-                    },
-                      {
-                        headers: {
-                          'Authorization': sessionStorage.getItem('token')!,
-                        }
-                      }
-                    )
-                      .then((res) => {
+  //               for (let i = 0; i < this.dishesCart.length; i++) {
+
+  //                 axios.post('http://localhost:1234/add-dish-in-cart/' + id_client, {
+
+  //                   dishId: this.dishesCart[i].DishId,
+  //                   count: this.dishesCart[i].Count
+
+  //                 },
+  //                   {
+  //                     headers: {
+  //                       'Authorization': sessionStorage.getItem('token')!,
+  //                     }
+  //                   }
+  //                 )
+  //                   .then((res) => {
+  //                     if (res.status == 200) {
+  //                       this.dishesCart = this.dishesCart_server;
+  //                     }
+
+  //                   })
+  //                   .catch((err) => {
+  //                     this.router.navigate(['/404']);
+
+  //                   })
+  //               }
+
+  //             }
+
+  //             else {
+  //               //если с сервера что-то пришло
+  //               this.notifyClient(name_client);
+
+  //               for (let i = 0; i < this.dishesCart.length; i++) {
+
+  //                 if (array_index.includes(this.dishesCart[i].DishId)) { //если такое id уже содержится
+
+  //                   this.dishesCart_server.find(d => d.DishId == this.dishesCart[i].DishId)!.Count =
+  //                     this.dishesCart_server.find(d => d.DishId == this.dishesCart[i].DishId)!.Count + this.dishesCart[i].Count;
+
+  //                   this.CounterDishInCartServer(id_client, this.dishesCart[i].DishId,
+  //                     this.dishesCart_server.find(d => d.DishId == this.dishesCart[i].DishId)!.Count)
 
 
-                      })
-                      .catch((err) => {
-                        this.router.navigate(['/404']);
+  //                 }
 
-                      })
+  //                 else { //если такого нет
+  //                   axios.post('http://localhost:1234/add-dish-in-cart/' + id_client, {
+  //                     dishId: this.dishesCart[i].DishId,
+  //                     count: this.dishesCart[i].Count
+  //                   },
+  //                     {
+  //                       headers: {
+  //                         'Authorization': sessionStorage.getItem('token')!,
+  //                       }
+  //                     }
+  //                   )
+  //                     .then((res) => {
 
-                    this.dishesCart_server.push(this.dishesCart[i])
-                  }
-                }
 
-                this.dishesCart = this.dishesCart_server;
-              }
-            }
-          }
+  //                     })
+  //                     .catch((err) => {
+  //                       this.router.navigate(['/404']);
+
+  //                     })
+
+  //                   this.dishesCart_server.push(this.dishesCart[i])
+  //                 }
+  //               }
+
+  //               this.dishesCart = this.dishesCart_server;
+  //             }
+  //           }
+  //         }
         
-      })
-      .catch((err) => {
-        this.router.navigate(['/404']);
-      })
-  }
+  //     })
+  //     .catch((err) => {
+  //       this.router.navigate(['/404']);
+  //     })
+  // }
 
   deleteDishFromCartServer(id_client: number, id_dish: number) {
 
@@ -247,33 +248,6 @@ export class DishesService {
         this.router.navigate(['/404']);
 
       })
-  }
-
-  notifyClient(name_client: string) {
-    if (!("Notification" in window)) {
-      alert("This browser does not support desktop notification");
-    }
-
-    else if (Notification.permission === "granted") {
-      // If it's okay 
-      var notification = new Notification(name_client + "!", {
-        tag: "ache-mail",
-        body: "В корзине есть блюда, добавленные ранее...",
-        icon: "https://img.icons8.com/ios-glyphs/90/000000/pizza.png"
-      });
-    }
-
-    else if (Notification.permission !== "denied") {
-      Notification.requestPermission().then((permission) => {
-        if (permission === "granted") {
-          var notification = new Notification(name_client + "!", {
-            tag: "ache-mail",
-            body: "В корзине есть блюда, добавленные ранее...",
-            icon: "https://img.icons8.com/ios-glyphs/90/000000/pizza.png"
-          });
-        }
-      });
-    }
   }
 
 

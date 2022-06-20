@@ -98,9 +98,10 @@ export class RegistrationComponent implements OnInit {
           }
           
           else { 
+            sessionStorage.setItem('token', res.headers["token"]);
             this.clientService.registClient(JSON.parse(res.headers["client"]));
             this.router.navigate(['/']);
-            sessionStorage.setItem('token', res.headers["token"]);
+            
           }
         } 
       }

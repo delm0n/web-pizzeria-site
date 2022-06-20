@@ -18,14 +18,6 @@ namespace serverPart.Data
         public DbSet<Cart> Carts { get; set; }
         public DbSet<Order> Orders { get; set; }
 
-        /*
-        public DbSet<Order> Orders { get; set; }
-        public DbSet<Drink> Drinks { get; set; }
-        public DbSet<Dessert> Desserts { get; set; }
-        public DbSet<Salad> Salads { get; set; }
-        public DbSet<Snack> Snacks { get; set; }
-        */
-
         public ApplicationContext() : base(nameOrConnectionString: "PGConnectionString") { }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

@@ -7,13 +7,13 @@ namespace serverPart.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class updpizzaandpizzasize : IMigrationMetadata
+    public sealed partial class start : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(updpizzaandpizzasize));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(start));
         
         string IMigrationMetadata.Id
         {
-            get { return "202203221404091_updpizzaandpizzasize"; }
+            get { return "202206171133283_start"; }
         }
         
         string IMigrationMetadata.Source

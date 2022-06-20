@@ -47,8 +47,6 @@ import { Router } from '@angular/router';
 })
 export class DishesComponent implements OnInit {
 
-
-
   dish_component: DishesClass[] = [];
   dishes_InCartID: number[] = [];
 
@@ -72,8 +70,6 @@ export class DishesComponent implements OnInit {
 
     //махинации с прокруткой
     document.body.style.overflow = 'hidden';
-    
-
     this.dish_modal = this.dish_component.find(d => d.DishId == id)!
   }
 
@@ -107,73 +103,76 @@ export class DishesComponent implements OnInit {
   }
 
   constructor(private clientService: ClientService, private router: Router,
-    private dishesService: DishesService) {  
+    private dishesService: DishesService) {
+    this.getIdDishInCart();
+  }
+
+  getIdDishInCart() {
+    for (let i = 0; i < this.dishesService.dishesCart.length; i++) {
+      this.dishes_InCartID.push(this.dishesService.dishesCart[i].DishId);
+    }
+  }
+
+  addToCart(id: number) {
+
+    //при первом добавлении
+    if (this.dishesService.dishesCart.find(d => d.DishId == id) == undefined) {
+      let dish: DishesCartClass = {
+        DishId: id,
+        Name: this.dish_modal.Name,
+        UrlImg: this.dish_modal.UrlImg,
+        Price: this.dish_modal.Price,
+        Mass: this.dish_modal.Mass,
+        DishType: this.dish_modal.DishType,
+        Structure: this.dish_modal.Structure,
+        Count: this.countModal
+      }
+
+      this.dishesService.dishesCart.push(dish);
       this.getIdDishInCart();
-    }
 
-    getIdDishInCart() {
-      for (let i = 0; i<this.dishesService.dishesCart.length; i++) {
-        this.dishes_InCartID.push(this.dishesService.dishesCart[i].DishId);
-      }      
-    }
-
-    addToCart(id: number) {   
-
-      //при первом добавлении
-      if (this.dishesService.dishesCart.find(d => d.DishId == id) == undefined ) {
-        let dish: DishesCartClass = {
-          DishId: id,
-          Name: this.dish_modal.Name,
-          UrlImg: this.dish_modal.UrlImg,
-          Price: this.dish_modal.Price,
-          Mass: this.dish_modal.Mass,
-          DishType: this.dish_modal.DishType,
-          Structure: this.dish_modal.Structure,
-          Count: this.countModal
-        }
-    
-        this.dishesService.dishesCart.push(dish);
-        this.getIdDishInCart();
-
-        //при входе в аккаунт
-        if(this.clientService.autorizationFlug) {
-          this.dishesService.addDishInCartServer(this.clientService.client.clientId)
-        }
-  
+      //при входе в аккаунт
+      if (this.clientService.autorizationFlug) {
+        this.dishesService.addDishInCartServer(this.clientService.client.clientId)
       }
-      else { 
-        //иначе просто увеличиваем количество
-        this.dishesService.dishesCart.find(d => d.DishId == id)!.Count = this.countModal + this.dishesService.dishesCart.find(d => d.DishId == id)!.Count;
-  
-        if(this.clientService.autorizationFlug) {
-          this.dishesService.CounterDishInCartServer(this.clientService.client.clientId, id, this.dishesService.dishesCart.find(d => d.DishId == id)!.Count)
-        } 
-      }
-  
-  
-      // //при входе в аккаунт
-      // if(this.clientService.autorizationFlug) {
-      //   this.dishesService.addDishInCartServer(this.clientService.client.clientId)
-      // }
 
-      this.modalBtn_close();
+    }
+    else {
+      //иначе просто увеличиваем количество
+      this.dishesService.dishesCart.find(d => d.DishId == id)!.Count = this.countModal + this.dishesService.dishesCart.find(d => d.DishId == id)!.Count;
+
+      if (this.clientService.autorizationFlug) {
+        this.dishesService.CounterDishInCartServer(this.clientService.client.clientId, id, this.dishesService.dishesCart.find(d => d.DishId == id)!.Count)
+      }
     }
 
+
+    // //при входе в аккаунт
+    // if(this.clientService.autorizationFlug) {
+    //   this.dishesService.addDishInCartServer(this.clientService.client.clientId)
+    // }
+
+    this.modalBtn_close();
+  }
+
+  axiosBool: boolean = true;
   ngOnInit(): void {
 
-    setTimeout(() =>{
-      axios.get('http://localhost:1234/dishes/' + this.typesEnum)
-      .then((res) => { 
+    if (this.axiosBool) {
+      setTimeout(() => {
+        axios.get('http://localhost:1234/dishes/' + this.typesEnum)
+          .then((res) => {
 
-        this.dish_component = JSON.parse(res.headers['dishes']);  
-          
-      })
-      .catch((err: any) => {
-        console.log(err);
-        
-      });
-    }, 1000);
-    
+            this.dish_component = JSON.parse(res.headers['dishes']);
+            this.axiosBool = false;
+          })
+          .catch((err: any) => {
+            console.log(err);
+
+          });
+      }, 400);
+    }
+
   }
 
 }
