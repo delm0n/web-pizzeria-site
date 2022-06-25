@@ -103,8 +103,6 @@ namespace serverPart.RouterModule
 
                             }
 
-                            
-
 
                             List<PizzaCart> pizzasCart = new List<PizzaCart>();
 

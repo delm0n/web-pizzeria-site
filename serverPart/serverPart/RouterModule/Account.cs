@@ -103,8 +103,8 @@ namespace serverPart.RouterModule
                     if (await dbContext.Clients.Where(c => c.Telephone == tel).FirstOrDefaultAsync() != null)
                         return "Tel";
                     
-                    if (await dbContext.Clients.Where(c => c.Email == email).FirstOrDefaultAsync() != null)
-                        return "Em";
+                    //if (await dbContext.Clients.Where(c => c.Email == email).FirstOrDefaultAsync() != null)
+                    //    return "Em";
 
                     else
                     {  //если клиент с таким номером телефона и почтой не зарегистрирован

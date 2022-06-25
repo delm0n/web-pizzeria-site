@@ -64,7 +64,7 @@
                         </div>
                     </div>
                     <div class="text-lg font-medium">
-                        {{getIngredientsPrice(i) + pizza.Size.Price! * pizza.Count | number: '.0-2'}} ₽
+                        {{getIngredientsPrice(i) + pizza.Size.Price! * pizza.Count }} ₽
                     </div>
                 </div>
 
@@ -127,7 +127,7 @@
                         </div>
                     </div>
                     <div class="text-lg font-medium">
-                        {{dish.Price * dish.Count | number: '.0-2'}} ₽
+                        {{dish.Price * dish.Count }} ₽
                     </div>
                 </div>
 
@@ -143,7 +143,8 @@
         <div *ngIf="checkLenghtPizza() || checkLenghtDish()" class="max-w-xl mx-auto ">
             <div class="flex flex-row justify-between items-center">
                 <div class="font-medium text-lg text-gray-700">Заказ на сумму:</div>
-                <div class="font-semibold text-lg text-emerald-600">{{lastPrice | number: '.0-2'}} ₽</div>
+                <div class="font-semibold text-lg text-emerald-600">{{lastPrice}} ₽</div> 
+                <!--  | number: '.0-2' -->
             </div>
             <div class="flex justify-end">
                 <button type="button" (click)="toOrder()"

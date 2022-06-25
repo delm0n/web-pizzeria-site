@@ -203,7 +203,10 @@ export class ClientPageComponent implements OnInit {
         })
         .then((res) => {
           if (res.status == 200) {
-            this.clientService.enterClient(JSON.parse(res.headers["client"]));
+
+
+            
+            this.clientService.updateClient(JSON.parse(res.headers["client"]));
           }
 
           this.doneChange()

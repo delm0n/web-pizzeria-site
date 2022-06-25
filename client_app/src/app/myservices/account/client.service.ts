@@ -43,6 +43,17 @@ export class ClientService {
 
   }
 
+  updateClient(entity: any) {
+    //клиент входит
+    this.client.clientId = entity["ClientId"];
+    this.client.firstName = entity["FirstName"];
+    this.client.telephone = entity["Telephone"];
+    this.client.password = entity["Password"];
+    this.client.email = entity["Email"];
+    
+    this.autorizationFlug = true;
+  }
+
   registClient(entity: any) {
     this.client.clientId = entity["ClientId"];
     this.client.firstName = entity["FirstName"];
