@@ -4,16 +4,30 @@
 
 <img src="./markdown/login.jpg" >
 
-<img style="display: block; margin: 20px auto;" src="./markdown/signup.jpg" >
+<p align="center">
+    <img  src="./markdown/signup.jpg" >
+</p>
 
-<img style="display: block; margin: 20px auto;" src="./markdown/modal.jpg" >
+<p align="center">
+    <img  src="./markdown/modal.jpg" >
+</p>
 
-<img style="display: block; margin: 20px auto;" src="./markdown/modal-mobile.jpg" >
+<p align="center">
+    <img  src="./markdown/modal-mobile.jpg" >
+</p>
 
-<img style="display: block; margin: 20px auto;" src="./markdown/sort.jpg" >
+<p align="center">
+    <img  src="./markdown/sort.jpg" >
+</p>
 
-<img style="display: block; margin: 20px auto;" src="./markdown/cart.jpg" >
+<p align="center">
+    <img  src="./markdown/cart.jpg" >
+</p>
 
-<img style="display: block; margin: 20px auto;" src="./markdown/personal.jpg" >
+<p align="center">
+    <img  src="./markdown/personal.jpg" >
+</p>
 
-<img style="display: block; margin: 20px auto;" src="./markdown/history.jpg" >
+<p align="center">
+    <img  src="./markdown/history.jpg" >
+</p>
