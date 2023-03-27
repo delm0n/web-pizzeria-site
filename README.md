@@ -2,15 +2,6 @@
 
 Разработка клиент-серверного веб-приложения онлайн покупки пиццы с использованием фреймворка Angular и языка C#, Entity Framework, PostrgeSQL, NancyFX
 
-<style>
-    img {
-        display: block;
-        margin: 20px auto;
-        max-width: 768px;
-        width:100%;
-    }
-</style>
-
 <img src="./markdown/login.jpg" >
 
 <img src="./markdown/signup.jpg" >
@@ -26,3 +17,12 @@
 <img src="./markdown/personal.jpg" >
 
 <img src="./markdown/history.jpg" >
+
+<style>
+    img {
+        display: block;
+        margin: 20px auto;
+        max-width: 768px;
+        width:100%;
+    }
+</style>
