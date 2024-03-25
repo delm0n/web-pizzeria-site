@@ -8,6 +8,8 @@ export class PizzaClass {
     //countRate!: number;
     PizzaType!: TypesPizzaEnum;
     CountOrder!: number
+    IdClientRateJson? : string;
+    ClientRateJson? : string;
 }
 
 enum TypesPizzaEnum {

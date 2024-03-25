@@ -33,6 +33,65 @@ export class IngredientsComponent implements OnInit {
 
   have_been_received: boolean = false;
 
+  ingredsDict : IngredientClass[] = [
+    {
+        "IngredientId": 1,
+        "Name": "Ветчина",
+        "UrlImg": "/assets/img/bacon.png",
+        "Price": 50,
+        "Mass": 40
+    },
+    {
+        "IngredientId": 2,
+        "Name": "Шампиньоны",
+        "UrlImg": "/assets/img/champig.png",
+        "Price": 35,
+        "Mass": 40
+    },
+    {
+        "IngredientId": 3,
+        "Name": "Красный лук",
+        "UrlImg": "/assets/img/onion.png",
+        "Price": 30,
+        "Mass": 25
+    },
+    {
+        "IngredientId": 4,
+        "Name": "Помидоры",
+        "UrlImg": "/assets/img/tomato.png",
+        "Price": 35,
+        "Mass": 50
+    },
+    {
+        "IngredientId": 5,
+        "Name": "Ананасы",
+        "UrlImg": "/assets/img/pineapples.png",
+        "Price": 35,
+        "Mass": 50
+    },
+    {
+        "IngredientId": 6,
+        "Name": "Огурчик",
+        "UrlImg": "/assets/img/cucumber.png",
+        "Price": 35,
+        "Mass": 50
+    },
+    {
+        "IngredientId": 7,
+        "Name": "Чеддер и пармезан",
+        "UrlImg": "/assets/img/cheeses.png",
+        "Price": 40,
+        "Mass": 50
+    },
+    {
+        "IngredientId": 8,
+        "Name": "Пепперони",
+        "UrlImg": "/assets/img/pepperoni.png",
+        "Price": 50,
+        "Mass": 40
+    }
+]
+
   ngOnInit(): void {
 
     //if(this.have_been_received) {
@@ -45,12 +104,18 @@ export class IngredientsComponent implements OnInit {
       //заполняем представления
       this.boolArrayView = this.pizzaService.boolArrayServ;
       this.ingreds = this.pizzaService.ingredientArray;
-      
-      //this.have_been_received=true;
+
            
       })
       .catch((err: any) => {
-        console.log(err);
+
+        this.pizzaService.ingredientArray = this.ingredsDict;
+        this.pizzaService.setBoolFalseStartup();
+  
+
+        //заполняем представления
+        this.boolArrayView = this.pizzaService.boolArrayServ;
+        this.ingreds = this.pizzaService.ingredientArray;
       });
     //}
 

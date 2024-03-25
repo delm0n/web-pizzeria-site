@@ -1,17 +1,28 @@
 #modalNotMobile {
-    height: 610px;
+  height: 610px;
 }
 
 #modalMobile {
-    height: 95%;
+  height: 95%;
 }
 
 @media (min-width: 1024px) {
-    #modalMobile {
-        height: 85%;
-        /* max-height: auto; */
-    }
+  #modalMobile {
+    height: 85%;
+    /* max-height: auto; */
+  }
 }
+
+.my-class {
+  aspect-ratio: 1/1;
+  max-width: 310px;
+  width: 100%;
+}
+
+.my-class .my-img[src=""] {
+  visibility: hidden;
+}
+
 /* 
 #selectors :active {
     border: gray;

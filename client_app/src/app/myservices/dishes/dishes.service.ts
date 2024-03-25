@@ -35,7 +35,7 @@ export class DishesService {
 
       })
       .catch((err) => {
-        this.router.navigate(['/404']);
+        // this.router.navigate(['/404']);
       })
   }
 
@@ -183,7 +183,7 @@ export class DishesService {
 
       })
       .catch((err) => {
-        this.router.navigate(['/404']);
+        // this.router.navigate(['/404']);
 
       })
 
@@ -204,7 +204,7 @@ export class DishesService {
 
       })
       .catch((err) => {
-        this.router.navigate(['/404']);
+        // this.router.navigate(['/404']);
 
       })
   }
@@ -224,7 +224,7 @@ export class DishesService {
 
       })
       .catch((err) => {
-        this.router.navigate(['/404']);
+        // this.router.navigate(['/404']);
 
       })
   }

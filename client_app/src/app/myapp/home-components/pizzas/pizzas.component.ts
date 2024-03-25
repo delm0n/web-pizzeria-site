@@ -66,19 +66,19 @@ export class PizzasComponent implements OnInit {
     pizzaType: 0,
     sizes: [{
       PizzaSizeId: 0,
-      NameSize: "", //имя размера
+      NameSize: "Маленькая", //имя размера
       Price: 0,
       Mass: 0
     },
     {
       PizzaSizeId: 0,
-      NameSize: "", //имя размера
+      NameSize: "Средняя", //имя размера
       Price: 0,
       Mass: 0
     },
     {
       PizzaSizeId: 0,
-      NameSize: "", //имя размера
+      NameSize: "Большая", //имя размера
       Price: 0,
       Mass: 0
     }
@@ -114,23 +114,22 @@ export class PizzasComponent implements OnInit {
       pizzaType: 0,
       sizes: [{
         PizzaSizeId: 0,
-        NameSize: "", //имя размера
+        NameSize: "Маленькая", //имя размера
         Price: 0,
         Mass: 0
       },
       {
         PizzaSizeId: 0,
-        NameSize: "", //имя размера
+        NameSize: "Средняя", //имя размера
         Price: 0,
         Mass: 0
       },
       {
         PizzaSizeId: 0,
-        NameSize: "", //имя размера
+        NameSize: "Большая", //имя размера
         Price: 0,
         Mass: 0
-      }
-      ]
+      }]
     };
   }
 
@@ -138,17 +137,40 @@ export class PizzasComponent implements OnInit {
     axios.get('http://localhost:1234//sizeofasync/' + i)
       .then((res) => {
 
-        //this.pizzaService.setBooler_step();
-        this.plusIngrPrice = this.pizzaService.priceOfIngreds
 
+        this.modalPizzas.sizes = JSON.parse(res.headers['pizza']);
+      })
+      .catch((err: any) => {
+        
+        this.modalPizzas.sizes = [
+          {
+              "PizzaSizeId": 16,
+              "NameSize": "Маленькая",
+              "Price": 320,
+              "Mass": 365,
+          },
+          {
+              "PizzaSizeId": 17,
+              "NameSize": "Средняя",
+              "Price": 520,
+              "Mass": 660,
+          },
+          {
+              "PizzaSizeId": 18,
+              "NameSize": "Большая",
+              "Price": 670,
+              "Mass": 770,
+          }
+      ];
+
+      })
+      .finally(() => {
+        this.plusIngrPrice = this.pizzaService.priceOfIngreds;
         this.modalPizzas.pizzaId = i;
         this.modalPizzas.pizzaName = i_name;
         this.modalPizzas.urlImg = i_url;
         this.modalPizzas.structure = i_struct;
-        this.modalPizzas.sizes = JSON.parse(res.headers['pizza']);
-      })
-      .catch((err: any) => {
-        console.log(err);
+
       });
   }
 
@@ -303,14 +325,172 @@ export class PizzasComponent implements OnInit {
   filter_type_pizza: number = 0;
 
   getPizzasFilter() {
-    axios.get('http://localhost:1234/filter/' + this.filter_type_pizza + '&&' + this.sorted_status)
-      .then((res) => {
-        this.pizzas = JSON.parse(res.headers['pizzas']);
-      })
-      .catch((err: any) => {
-        this.router.navigate(['/404']);
-      });
+
+    let copy :PizzaClass[] = [];
+
+    Object.assign(copy, this.pizzasDict)
+
+    console.log(this.sorted_status);
+    
+    if (this.filter_type_pizza == 0) {
+     
+      if (this.sorted_status == 0) {
+         this.pizzas = this.pizzasDict;
+      }
+
+      else {
+        if (this.sorted_status == 1) {
+          this.pizzas = copy.sort((a, b) => b.Rating - a.Rating);
+        }
+        else {
+          this.pizzas = copy.sort((a, b) => b.CountOrder - a.CountOrder);
+        }
+        
+      }
+    }
+    else {
+
+      if (this.sorted_status == 0) {
+        this.pizzas = copy.filter(el => el.PizzaType == this.filter_type_pizza)
+     }
+     else {
+
+      if (this.sorted_status == 1) {
+        this.pizzas = copy.filter(el => el.PizzaType == this.filter_type_pizza).sort((a, b) => b.Rating - a.Rating)
+      }
+      else {
+        this.pizzas = copy.filter(el => el.PizzaType == this.filter_type_pizza).sort((a, b) => b.CountOrder - a.CountOrder)
+      }
+
+     
+
+     }
+
+      
+    }
+
   }
+
+
+  pizzasDict: PizzaClass[] = [
+    {
+        "PizzaId": 2,
+        "UrlImg": "/assets/img/margarita.jpg",
+        "PizzaName": "Маргарита",
+        "Structure": "Сыр моцарелла, ветчина, ананасы и фирменный соус",
+        "MinPrice": 289,
+        "Rating": 5,
+        "CountOrder": 3,
+        "IdClientRateJson": "",
+        "ClientRateJson": "",
+        
+        "PizzaType": 2
+    },
+    {
+        "PizzaId": 3,
+        "UrlImg": "/assets/img/hunting.jpg",
+        "PizzaName": "Ветчина / грибы",
+        "Structure": "Сыр моцарелла, ветчина, шампиньоны и фирменный соус",
+        "MinPrice": 300,
+        "Rating": 3.67,
+        "CountOrder": 5,
+        "IdClientRateJson": "[1,3]",
+        "ClientRateJson": "[2,4]",
+        
+        "PizzaType": 0
+    },
+    {
+        "PizzaId": 6,
+        "UrlImg": "/assets/img/onecheese.jpg",
+        "PizzaName": "Сырная",
+        "Structure": "Сыр моцарелла, желтый полутвердный сыр тильзитер, сыр брынза, фирменный соус и итальянские травы",
+        "MinPrice": 320,
+        "Rating": 4,
+        "CountOrder": 8,
+        "IdClientRateJson": "[1,5]",
+        "ClientRateJson": "[5,2]",
+        
+        "PizzaType": 2
+    },
+    {
+        "PizzaId": 4,
+        "UrlImg": "/assets/img/greek.jpg",
+        "PizzaName": "Греческая",
+        "Structure": "Сыр моцарелла, шампиньоны, болгарский перец, помидоры, маслины и фирменный соус",
+        "MinPrice": 340,
+        "Rating": 3.67,
+        "CountOrder": 5,
+        "IdClientRateJson": "[3,8]",
+        "ClientRateJson": "[3,3]",
+        
+        "PizzaType": 0
+    },
+    {
+        "PizzaId": 7,
+        "UrlImg": "/assets/img/caesar.jpg",
+        "PizzaName": "Цезарь",
+        "Structure": "Сыр моцарелла, нежное куриное филе, сочные томаты и соус цезарь",
+        "MinPrice": 379,
+        "Rating": 4,
+        "CountOrder": 2,
+        "IdClientRateJson": "[6]",
+        "ClientRateJson": "[3]",
+        
+        "PizzaType": 0
+    },
+    {
+        "PizzaId": 8,
+        "UrlImg": "/assets/img/texas.jpg",
+        "PizzaName": "Техас",
+        "Structure": "Сыр моцарелла, ароматная ветчина, копченые колбаски, свежие шампиньоны, горчичный соус и итальянские травы",
+        "MinPrice": 389,
+        "Rating": 4,
+        "CountOrder": 2,
+        "IdClientRateJson": "[1]",
+        "ClientRateJson": "[3]",
+        
+        "PizzaType": 0
+    },
+    {
+        "PizzaId": 1,
+        "UrlImg": "/assets/img/hawaiian.jpg",
+        "PizzaName": "Гавайская",
+        "Structure": "Сыр моцарелла, ветчина, ананасы и фирменный соус",
+        "MinPrice": 390,
+        "Rating": 4,
+        "CountOrder": 2,
+        "IdClientRateJson": "[3]",
+        "ClientRateJson": "[3]",
+        
+        "PizzaType": 0
+    },
+    {
+        "PizzaId": 5,
+        "UrlImg": "/assets/img/cheese.jpg",
+        "PizzaName": "4 сыра",
+        "Structure": "Сыр моцарелла, сыр тильзитер, сыр пармезан, сыр с голубой плесенью и сливочный соус",
+        "MinPrice": 410,
+        "Rating": 3.5,
+        "CountOrder": 2,
+        "IdClientRateJson": "[1]",
+        "ClientRateJson": "[2]",
+        
+        "PizzaType": 2
+    },
+    {
+        "PizzaId": 9,
+        "UrlImg": "/assets/img/diablo.jpg",
+        "PizzaName": "Дьябло",
+        "Structure": "Сыр моцарелла, пикантные пепперони, нежное куриное филе, болгарский перец, перец халапеньо и фирменный соус",
+        "MinPrice": 429,
+        "Rating": 4.5,
+        "CountOrder": 5,
+        "IdClientRateJson": "[3]",
+        "ClientRateJson": "[4]",
+        
+        "PizzaType": 1
+    }
+];
 
 
   //axiosBool: boolean = true;
@@ -319,10 +499,14 @@ export class PizzasComponent implements OnInit {
       axios.get('http://localhost:1234/pizza')
       .then((res) => {
         this.pizzas = JSON.parse(res.headers['pizzas']);
-        //this.axiosBool = false;
+        // this.axiosBool = false;
+        console.log(this.pizzas);
+        this.pizzasDict = this.pizzas
+        
       })
       .catch((err: any) => {
-        console.log(err);
+        // console.log(err);
+        this.pizzas = this.pizzasDict
         
         //this.router.navigate(['/404']);
       });
