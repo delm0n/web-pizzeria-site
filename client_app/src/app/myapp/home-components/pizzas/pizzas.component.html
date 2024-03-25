@@ -177,6 +177,10 @@
   </div>
 </div>
 
+<div *ngIf="load" class="loader-container">
+  <div class="loader">test</div>
+</div>
+
 <div
   class="grid sm:px-4 grid-cols-1 gap-0 lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-2"
 >
@@ -185,12 +189,12 @@
       <span
         *ngIf="pizza.PizzaType == 1"
         (click)="
-          modalBtn();
           openPizzaModal(
             pizza.PizzaId,
             pizza.PizzaName,
             pizza.UrlImg,
-            pizza.Structure
+            pizza.Structure,
+            pizza.MinPrice
           )
         "
         class="absolute cursor-pointer right-6 top-8 z-20 text-sm inline-block py-2 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-red-600 text-white rounded-full border-2 border-white"
@@ -200,12 +204,12 @@
       <span
         *ngIf="pizza.PizzaType == 2"
         (click)="
-          modalBtn();
           openPizzaModal(
             pizza.PizzaId,
             pizza.PizzaName,
             pizza.UrlImg,
-            pizza.Structure
+            pizza.Structure,
+            pizza.MinPrice
           )
         "
         class="absolute cursor-pointer right-6 top-8 z-20 text-sm inline-block py-2 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-red-600 text-white rounded-full border-2 border-white"
@@ -219,12 +223,12 @@
           <img
             [src]="pizza.UrlImg"
             (click)="
-              modalBtn();
               openPizzaModal(
                 pizza.PizzaId,
                 pizza.PizzaName,
                 pizza.UrlImg,
-                pizza.Structure
+                pizza.Structure,
+                pizza.MinPrice
               )
             "
             alt="Just a flower"
@@ -256,12 +260,12 @@
 
             <button
               (click)="
-                modalBtn();
                 openPizzaModal(
                   pizza.PizzaId,
                   pizza.PizzaName,
                   pizza.UrlImg,
-                  pizza.Structure
+                  pizza.Structure,
+                  pizza.MinPrice
                 )
               "
               class="mx-2 my-2 bg-emerald-500 shadow-md hover:bg-emerald-600 hover:shadow-lg active:bg-emerald-700 active:shadow-lg transition duration-150 ease-in-out rounded-md text-white text-base font-medium px-6 py-2"

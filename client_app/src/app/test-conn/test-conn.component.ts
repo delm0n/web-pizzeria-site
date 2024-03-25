@@ -37,7 +37,7 @@ export class TestConnComponent implements OnInit {
       var notification = new Notification("Андрей Чернышёв", {
         tag: "ache-mail",
         body: "Привет, высылаю материалы по проекту...",
-        //icon : "../../assets/img/icons8-italian-pizza-16.png"
+        //icon : "../..assets/img/icons8-italian-pizza-16.png"
       });
       console.log("Hi there!");
       //Notification.caller();

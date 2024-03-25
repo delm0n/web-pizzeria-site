@@ -55,6 +55,7 @@ import { Router } from '@angular/router';
 
 export class PizzasComponent implements OnInit {
 
+  load: Boolean = true;
 
   pizzas: PizzaClass[] = [];
 
@@ -133,11 +134,15 @@ export class PizzasComponent implements OnInit {
     };
   }
 
-  openPizzaModal(i: any, i_name: string, i_url: string, i_struct: string) {
+  openPizzaModal(i: any, i_name: string, i_url: string, i_struct: string, i_price: number) {
+
+    setTimeout(() => {
+      this.modalBtn();
+    }, 1100)
+   
+
     axios.get('http://localhost:1234//sizeofasync/' + i)
       .then((res) => {
-
-
         this.modalPizzas.sizes = JSON.parse(res.headers['pizza']);
       })
       .catch((err: any) => {
@@ -146,19 +151,19 @@ export class PizzasComponent implements OnInit {
           {
               "PizzaSizeId": 16,
               "NameSize": "Маленькая",
-              "Price": 320,
+              "Price": i_price,
               "Mass": 365,
           },
           {
               "PizzaSizeId": 17,
               "NameSize": "Средняя",
-              "Price": 520,
+              "Price": i_price + 120,
               "Mass": 660,
           },
           {
               "PizzaSizeId": 18,
               "NameSize": "Большая",
-              "Price": 670,
+              "Price": i_price + 298,
               "Mass": 770,
           }
       ];
@@ -170,7 +175,6 @@ export class PizzasComponent implements OnInit {
         this.modalPizzas.pizzaName = i_name;
         this.modalPizzas.urlImg = i_url;
         this.modalPizzas.structure = i_struct;
-
       });
   }
 
@@ -375,7 +379,7 @@ export class PizzasComponent implements OnInit {
   pizzasDict: PizzaClass[] = [
     {
         "PizzaId": 2,
-        "UrlImg": "/assets/img/margarita.jpg",
+        "UrlImg": "assets/img/margarita.jpg",
         "PizzaName": "Маргарита",
         "Structure": "Сыр моцарелла, ветчина, ананасы и фирменный соус",
         "MinPrice": 289,
@@ -388,7 +392,7 @@ export class PizzasComponent implements OnInit {
     },
     {
         "PizzaId": 3,
-        "UrlImg": "/assets/img/hunting.jpg",
+        "UrlImg": "assets/img/hunting.jpg",
         "PizzaName": "Ветчина / грибы",
         "Structure": "Сыр моцарелла, ветчина, шампиньоны и фирменный соус",
         "MinPrice": 300,
@@ -401,7 +405,7 @@ export class PizzasComponent implements OnInit {
     },
     {
         "PizzaId": 6,
-        "UrlImg": "/assets/img/onecheese.jpg",
+        "UrlImg": "assets/img/onecheese.jpg",
         "PizzaName": "Сырная",
         "Structure": "Сыр моцарелла, желтый полутвердный сыр тильзитер, сыр брынза, фирменный соус и итальянские травы",
         "MinPrice": 320,
@@ -414,7 +418,7 @@ export class PizzasComponent implements OnInit {
     },
     {
         "PizzaId": 4,
-        "UrlImg": "/assets/img/greek.jpg",
+        "UrlImg": "assets/img/greek.jpg",
         "PizzaName": "Греческая",
         "Structure": "Сыр моцарелла, шампиньоны, болгарский перец, помидоры, маслины и фирменный соус",
         "MinPrice": 340,
@@ -427,7 +431,7 @@ export class PizzasComponent implements OnInit {
     },
     {
         "PizzaId": 7,
-        "UrlImg": "/assets/img/caesar.jpg",
+        "UrlImg": "assets/img/caesar.jpg",
         "PizzaName": "Цезарь",
         "Structure": "Сыр моцарелла, нежное куриное филе, сочные томаты и соус цезарь",
         "MinPrice": 379,
@@ -440,7 +444,7 @@ export class PizzasComponent implements OnInit {
     },
     {
         "PizzaId": 8,
-        "UrlImg": "/assets/img/texas.jpg",
+        "UrlImg": "assets/img/texas.jpg",
         "PizzaName": "Техас",
         "Structure": "Сыр моцарелла, ароматная ветчина, копченые колбаски, свежие шампиньоны, горчичный соус и итальянские травы",
         "MinPrice": 389,
@@ -453,7 +457,7 @@ export class PizzasComponent implements OnInit {
     },
     {
         "PizzaId": 1,
-        "UrlImg": "/assets/img/hawaiian.jpg",
+        "UrlImg": "assets/img/hawaiian.jpg",
         "PizzaName": "Гавайская",
         "Structure": "Сыр моцарелла, ветчина, ананасы и фирменный соус",
         "MinPrice": 390,
@@ -466,7 +470,7 @@ export class PizzasComponent implements OnInit {
     },
     {
         "PizzaId": 5,
-        "UrlImg": "/assets/img/cheese.jpg",
+        "UrlImg": "assets/img/cheese.jpg",
         "PizzaName": "4 сыра",
         "Structure": "Сыр моцарелла, сыр тильзитер, сыр пармезан, сыр с голубой плесенью и сливочный соус",
         "MinPrice": 410,
@@ -479,7 +483,7 @@ export class PizzasComponent implements OnInit {
     },
     {
         "PizzaId": 9,
-        "UrlImg": "/assets/img/diablo.jpg",
+        "UrlImg": "assets/img/diablo.jpg",
         "PizzaName": "Дьябло",
         "Structure": "Сыр моцарелла, пикантные пепперони, нежное куриное филе, болгарский перец, перец халапеньо и фирменный соус",
         "MinPrice": 429,
@@ -509,6 +513,9 @@ export class PizzasComponent implements OnInit {
         this.pizzas = this.pizzasDict
         
         //this.router.navigate(['/404']);
+      })
+      .finally(() => {
+        this.load = false
       });
 
   }

@@ -1,58 +1,86 @@
 <div id="Head" class="min-h-screen bg-slate-50/50">
+  <div class="pt-24"></div>
 
-    <div class="pt-24"></div>
-   
-    <app-searh-block></app-searh-block>
+  <!-- <app-searh-block></app-searh-block> -->
 
-    <div class="container mx-auto">
-        <div class="max-w-xl mx-auto sm:p-4 ">
-            <div class="my-6">
-                <h1 id="Pizza" class="font-bold text-3xl text-gray-700">Пицца</h1>
-            </div>
-        </div>
+  <div class="container mx-auto">
+    <div class="max-w-xl mx-auto sm:p-4">
+      <div class="my-6">
+        <h1 id="Pizza" class="font-bold text-3xl text-gray-700">Пицца</h1>
+      </div>
     </div>
-    <app-pizzas></app-pizzas>
+  </div>
+  <app-pizzas></app-pizzas>
 
-    <app-dishes id="Snacks" [typesEnum] = Snacks [titleEnum] = SnacksTitle ></app-dishes>
+  <app-dishes
+    id="Snacks"
+    [typesEnum]="Snacks"
+    [titleEnum]="SnacksTitle"
+  ></app-dishes>
 
-    <app-dishes id="Rolls" [typesEnum] = Rolls [titleEnum] = RollsTitle ></app-dishes>
+  <app-dishes
+    id="Rolls"
+    [typesEnum]="Rolls"
+    [titleEnum]="RollsTitle"
+  ></app-dishes>
 
-    <app-dishes id="Desserts" [typesEnum] = Desserts [titleEnum] = DessertsTitle ></app-dishes>
+  <app-dishes
+    id="Desserts"
+    [typesEnum]="Desserts"
+    [titleEnum]="DessertsTitle"
+  ></app-dishes>
 
-    <app-dishes id="Drinks" [typesEnum] = Drinks [titleEnum] = DrinksTitle ></app-dishes>
+  <app-dishes
+    id="Drinks"
+    [typesEnum]="Drinks"
+    [titleEnum]="DrinksTitle"
+  ></app-dishes>
 
-    
-    <!-- Подвал -->
-    <div class="w-full mx-auto mt-20">
-        <footer class="p-4 bg-white shadow md:px-6 md:py-8 ">
-            <div class="sm:flex sm:items-center sm:justify-between max-w-2xl mx-auto">
-                <a href="#Head" class="flex items-center">
-                    <h1 class="text-emerald-500 text-2xl md:text-3xl font-bold
-            leading-tight tracking-tight text-shadow focus:outline-none cursor-pointer" [routerLink]="['/']">
-                        Pizzeria
-                    </h1>
-                </a>
-                <ul class="flex flex-wrap items-center mb-6 sm:mb-0">
-                    <li>
-                        <a href="#Head" class="mr-4 text-gray-400 hover:text-emerald-700 md:mr-6">О нас</a>
-                    </li>
-                    <li>
-                        <a href="#Head" class="mr-4 text-gray-400 hover:text-emerald-700 md:mr-6">
-                            Политика конфиденциальности
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://github.com/delm0n/web-pizzeria-2022" target="_blank" class="text-gray-400 hover:text-emerald-700">GitHub</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="max-w-2xl mx-auto">
-                <!-- <hr class="my-6 border-gray-200 sm:mx-auto lg:my-8" /> -->
-                <div style="height: 1px;" class="my-6 w-full bg-gray-100"></div>
-            </div>
-            <span class="block  sm:text-center text-gray-400 font-light">
-                © 2022 Зуев Артём. All Rights Reserved.
-            </span>
-        </footer>
-    </div>
+  <!-- Подвал -->
+  <div class="w-full mx-auto mt-20">
+    <footer class="p-4 bg-white shadow md:px-6 md:py-8">
+      <div class="sm:flex sm:items-center sm:justify-between max-w-2xl mx-auto">
+        <a href="#Head" class="flex items-center">
+          <h1
+            class="text-emerald-500 text-2xl md:text-3xl font-bold leading-tight tracking-tight text-shadow focus:outline-none cursor-pointer"
+            [routerLink]="['/']"
+          >
+            Pizzeria
+          </h1>
+        </a>
+        <ul class="flex flex-wrap items-center mb-6 sm:mb-0">
+          <li>
+            <a
+              href="#Head"
+              class="mr-4 text-gray-400 hover:text-emerald-700 md:mr-6"
+              >О нас</a
+            >
+          </li>
+          <li>
+            <a
+              href="#Head"
+              class="mr-4 text-gray-400 hover:text-emerald-700 md:mr-6"
+            >
+              Политика конфиденциальности
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://github.com/delm0n/web-pizzeria-2022"
+              target="_blank"
+              class="text-gray-400 hover:text-emerald-700"
+              >GitHub</a
+            >
+          </li>
+        </ul>
+      </div>
+      <div class="max-w-2xl mx-auto">
+        <!-- <hr class="my-6 border-gray-200 sm:mx-auto lg:my-8" /> -->
+        <div style="height: 1px" class="my-6 w-full bg-gray-100"></div>
+      </div>
+      <span class="block sm:text-center text-gray-400 font-light">
+        © 2022 Зуев Артём. All Rights Reserved.
+      </span>
+    </footer>
+  </div>
 </div>
